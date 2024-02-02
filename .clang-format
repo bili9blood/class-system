@@ -1,0 +1,4 @@
+BasedOnStyle: Google
+ColumnLimit: 0
+AlignAfterOpenBracket: BlockIndent
+AlignConsecutiveMacros: AcrossEmptyLines
