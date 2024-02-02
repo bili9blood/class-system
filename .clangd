@@ -1,0 +1,11 @@
+Diagnostics:
+  UnusedIncludes: Strict
+  ClangTidy:
+    Add:
+      - bugprone*
+      - readability*
+      - portability*
+      - modernize*
+      - performance*
+    Remove:
+      - "*magic-numbers"
