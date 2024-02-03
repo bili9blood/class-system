@@ -14,7 +14,7 @@ endif()
 LIST(APPEND PROTO_FLAGS -I${PROTO_INPUT_DIR})
 
 # 获取需要编译的proto文件
-file(GLOB MSG_PROTOS ${PROTO_INPUT_DIR}/*.proto)
+file(GLOB MSG_PROTOS CONFIGURE_DEPENDS ${PROTO_INPUT_DIR}/*.proto)
 set(PROTO_SRC "")
 set(PROTO_HDRS "")
 

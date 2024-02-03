@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package class_system;
+
+message SuccessfulResponse {
+
+}
