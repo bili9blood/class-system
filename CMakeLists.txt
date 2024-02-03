@@ -6,6 +6,9 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 project(class-system LANGUAGES CXX VERSION 1.0.0)
 
+find_package(protobuf CONFIG REQUIRED)
+include(./proto.cmake)
+
 add_subdirectory(./display/)
 add_subdirectory(./manage/)
 add_subdirectory(./server/)
