@@ -5,8 +5,4 @@
 class Server : public hv::TcpServer {
  public:
   Server(unsigned short port, int thread_num);
-
-  void start();
-
- private:
 };
