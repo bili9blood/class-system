@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package class_system;
+
+message DailyWeather {
+  string date    = 1;
+  int32  tempMin = 2;
+  int32  tempMax = 3;
+  string weather = 4;
+}

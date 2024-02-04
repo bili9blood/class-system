@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "ClassInfo.proto";
+import "Sentence.proto";
+import "DailyWeather.proto";
+
+package class_system;
+
+message Response {
+  optional ClassInfo    class_info = 1;
+  repeated Sentence     sentences  = 2;
+  repeated DailyWeather weather    = 3;
+  string                error_msg  = 4;
+}

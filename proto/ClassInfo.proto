@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package class_system;
+
+message ClassInfo {
+  message Student {
+    string name = 1;
+    int32  id   = 2;
+  }
+
+  message WeeklyLessons {
+    string mon     = 1;
+    string tue     = 2;
+    string wed     = 3;
+    string thu     = 4;
+    string fri     = 5;
+    string startTm = 6;
+    string endTm   = 7;
+  }
+
+  message WeekdayArrangement {
+    string         job             = 1;
+    repeated int32 mon_students_id = 2;
+    repeated int32 tue_students_id = 3;
+    repeated int32 wed_students_id = 4;
+    repeated int32 thu_students_id = 5;
+    repeated int32 fri_students_id = 6;
+  }
+
+  message RollOptions {
+    int32  startIdx        = 1;
+    string startDate       = 2;
+    int32  daysOneStep     = 3;  // 几天轮换一次
+    int32  studentsOneStep = 4;  // 一次轮几个
+  }
+
+  // 部分轮回（从指定的列表中轮学生）
+  message PartialArrangement {
+    string         job         = 1;
+    RollOptions    opts        = 2;
+    repeated int32 student_ids = 3;
+  }
+
+  // 完整轮回（按学号每个人都会轮到）
+  message CompleteArrangement {
+    string      job  = 1;
+    RollOptions opts = 2;
+  }
+
+  message DailyArrangement {
+    string job        = 1;
+    int32  student_id = 2;
+  }
+
+  message Notice {
+    string          title = 1;
+    string          text  = 2;
+    optional string date  = 3;
+  }
+
+  message Event {
+    string title     = 1;
+    string date      = 2;
+    bool   important = 3;
+  }
+
+  string                       name                  = 1;
+  repeated Student             students              = 2;
+  repeated WeeklyLessons       lessons               = 3;
+  repeated WeekdayArrangement  weekday_arrangements  = 4;
+  repeated PartialArrangement  partial_arrangements  = 5;
+  repeated CompleteArrangement complete_arrangements = 6;
+  repeated DailyArrangement    daily_arrangements    = 7;  // will be only filled when `request_daily_arrangement` is `true`
+  repeated Notice              notices               = 8;
+  repeated Event               events                = 9;
+}

@@ -1,8 +1,15 @@
 syntax = "proto3";
 
+import "ClassInfo.proto";
+
 package class_system;
 
 message Request {
-  string key = 1;
+  string key                           = 1;
+  bool   request_class_info            = 2;
+  bool   request_sentences_and_weather = 3;
+  bool   request_daily_arrangement     = 4;
 
+  // ClassInfo to be saved
+  optional ClassInfo modified_class_info = 5;
 }
