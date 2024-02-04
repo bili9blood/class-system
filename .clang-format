@@ -1,4 +1,7 @@
 BasedOnStyle: Google
 ColumnLimit: 0
 AlignAfterOpenBracket: BlockIndent
+AlignConsecutiveAssignments: AcrossEmptyLines
+AlignConsecutiveBitFields: AcrossEmptyLines
+AlignConsecutiveDeclarations: AcrossEmptyLines
 AlignConsecutiveMacros: AcrossEmptyLines
