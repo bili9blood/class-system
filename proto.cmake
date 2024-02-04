@@ -15,13 +15,13 @@ LIST(APPEND PROTO_FLAGS -I${PROTO_INPUT_DIR})
 
 # 获取需要编译的proto文件
 file(GLOB MSG_PROTOS CONFIGURE_DEPENDS ${PROTO_INPUT_DIR}/*.proto)
-set(PROTO_SRC "")
+set(_PROTO_SRC "")
 set(PROTO_HDRS "")
 
 foreach(msg ${MSG_PROTOS})
   get_filename_component(FIL_WE ${msg} NAME_WE)
 
-  list(APPEND PROTO_SRC "${PROTO_OUTPUT_DIR}/${FIL_WE}.pb.cc")
+  list(APPEND _PROTO_SRC "${PROTO_OUTPUT_DIR}/${FIL_WE}.pb.cc")
   list(APPEND PROTO_HDRS "${PROTO_OUTPUT_DIR}/${FIL_WE}.pb.h")
 
   # 使用自定义命令
@@ -39,11 +39,13 @@ foreach(msg ${MSG_PROTOS})
 endforeach()
 
 # 设置文件属性为 GENERATED
-set_source_files_properties(${PROTO_SRC} ${PROTO_HDR} PROPERTIES GENERATED TRUE)
+set_source_files_properties(${_PROTO_SRC} ${_PROTO_HDR} PROPERTIES GENERATED TRUE)
 
 # 添加自定义target
 add_custom_target(generate_message ALL
-  DEPENDS ${PROTO_SRC} ${PROTO_HDRS}
+  DEPENDS ${_PROTO_SRC} ${_PROTO_HDR}
   COMMENT "generate message target"
   VERBATIM
 )
+
+file(GLOB PROTO_SRC CONFIGURE_DEPENDS ${PROTO_OUTPUT_DIR}/*.pb.cc)
