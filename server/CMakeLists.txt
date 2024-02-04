@@ -9,4 +9,3 @@ add_executable(
 )
 
 target_link_libraries(class-system-server PRIVATE hv protobuf::libprotobuf)
-target_include_directories(class-system-server PRIVATE ${CMAKE_BINARY_DIR})

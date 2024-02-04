@@ -16,6 +16,8 @@ project(class-system LANGUAGES CXX VERSION 1.0.0)
 find_package(protobuf CONFIG REQUIRED)
 include(./proto.cmake)
 
+include_directories(${CMAKE_BINARY_DIR} include)
+
 add_subdirectory(./display/)
 add_subdirectory(./manage/)
 add_subdirectory(./server/)
