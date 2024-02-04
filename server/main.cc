@@ -1,8 +1,8 @@
 #include "server.h"
 
 auto main() -> int {
-  Server srv{8080, 4};
+  Server srv{8979, 4};
 
   srv.start();
-  while (true) _sleep(1);
+  while (true) hv_msleep(200);
 }
