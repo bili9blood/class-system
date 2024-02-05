@@ -1,4 +1,3 @@
-#include "database.h"
 #include "server.h"
 
 auto main() -> int {
