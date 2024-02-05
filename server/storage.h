@@ -90,7 +90,7 @@ struct WeekdayArrangement {
 
 // NOLINTNEXTLINE
 inline auto storage = sqlite_orm::make_storage(
-    "class_system.db",
+    "class_system-server.db",
 
     _D::make_index("idx_student_class_id", &type::Student::class_id),
     _D::make_index("idx_lesson_class_id", &type::WeeklyLesson::class_id),
