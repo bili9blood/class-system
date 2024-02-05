@@ -76,7 +76,6 @@ Diagnostics:
       - cppcoreguidelines-narrowing-conversions
       - cppcoreguidelines-no-malloc
       - cppcoreguidelines-prefer-member-initializer
-      - cppcoreguidelines-pro-bounds-pointer-arithmetic
       - cppcoreguidelines-pro-type-member-init
       - cppcoreguidelines-pro-type-static-cast-downcast
       - cppcoreguidelines-slicing
@@ -101,7 +100,6 @@ Diagnostics:
       - misc-throw-by-value-catch-by-reference
       - misc-unconventional-assign-operator
       - misc-uniqueptr-reset-release
-      - modernize-avoid-bind
       - modernize-concat-nested-namespaces
       - modernize-deprecated-headers
       - modernize-deprecated-ios-base-aliases
