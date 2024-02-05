@@ -28,10 +28,10 @@ message ClassInfo {
   }
 
   message RollOptions {
-    int32  startIdx        = 1;
-    string startDate       = 2;
-    int32  daysOneStep     = 3;  // 几天轮换一次
-    int32  studentsOneStep = 4;  // 一次轮几个
+    int32  start_idx         = 1;
+    string start_date        = 2;
+    int32  days_one_step     = 3;  // 几天轮换一次
+    int32  students_one_step = 4;  // 一次轮几个
   }
 
   // 部分轮回（从指定的列表中轮学生）
