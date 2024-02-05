@@ -1,7 +1,6 @@
 #include "server.h"
 
 #include <hv/hlog.h>
-#include <proto/Request.pb.h>
 
 #include "logic.h"
 
