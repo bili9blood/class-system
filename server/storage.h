@@ -1,9 +1,12 @@
 #include <sqlite_orm/sqlite_orm.h>
-using  //
-    sqlite_orm::make_table,
-    sqlite_orm::make_column,
-    sqlite_orm::make_index,
-    sqlite_orm::primary_key;
+
+namespace storage {
+
+namespace _D {
+using namespace sqlite_orm;
+}  // namespace _D
+
+namespace type {
 
 struct Student {
   int         student_id;
@@ -83,92 +86,96 @@ struct WeekdayArrangement {
   std::string fri_students_id;  // 逗号分隔
 };
 
+}  // namespace type
+
 // NOLINTNEXTLINE
 inline auto storage = sqlite_orm::make_storage(
     "class_system.db",
 
-    make_index("idx_student_class_id", &Student::class_id),
-    make_index("idx_lesson_class_id", &WeeklyLesson::class_id),
-    make_index("idx_notice_class_id", &Notice::class_id),
-    make_index("idx_event_class_id", &Event::class_id),
-    make_index("idx_partialarr_class_id", &PartialArrangement::class_id),
-    make_index("idx_completearr_class_id", &CompleteArrangement::class_id),
-    make_index("idx_weekdayarr_class_id", &WeekdayArrangement::class_id),
+    _D::make_index("idx_student_class_id", &type::Student::class_id),
+    _D::make_index("idx_lesson_class_id", &type::WeeklyLesson::class_id),
+    _D::make_index("idx_notice_class_id", &type::Notice::class_id),
+    _D::make_index("idx_event_class_id", &type::Event::class_id),
+    _D::make_index("idx_partialarr_class_id", &type::PartialArrangement::class_id),
+    _D::make_index("idx_completearr_class_id", &type::CompleteArrangement::class_id),
+    _D::make_index("idx_weekdayarr_class_id", &type::WeekdayArrangement::class_id),
 
-    make_table(
+    _D::make_table(
         "students",
-        make_column("student_id", &Student::student_id),
-        make_column("class_id", &Student::class_id),
-        make_column("name", &Student::name, primary_key())
+        _D::make_column("student_id", &type::Student::student_id),
+        _D::make_column("class_id", &type::Student::class_id),
+        _D::make_column("name", &type::Student::name, _D::primary_key())
     ),
-    make_table(
+    _D::make_table(
         "classes",
-        make_column(
-            "class_id", &Class::class_id,
-            primary_key().autoincrement()
+        _D::make_column(
+            "class_id", &type::Class::class_id,
+            _D::primary_key().autoincrement()
         ),
-        make_column("name", &Class::name, sqlite_orm::unique()),
-        make_column("key", &Class::key, sqlite_orm::unique())
+        _D::make_column("name", &type::Class::name, sqlite_orm::unique()),
+        _D::make_column("key", &type::Class::key, sqlite_orm::unique())
     ),
-    make_table(
+    _D::make_table(
         "weekly_lesson",
-        make_column("lesson_id", &WeeklyLesson::lesson_id, primary_key().autoincrement()),
-        make_column("class_id", &WeeklyLesson::class_id),
-        make_column("mon", &WeeklyLesson::mon),
-        make_column("tue", &WeeklyLesson::tue),
-        make_column("wed", &WeeklyLesson::wed),
-        make_column("thu", &WeeklyLesson::thu),
-        make_column("fri", &WeeklyLesson::fri)
+        _D::make_column("lesson_id", &type::WeeklyLesson::lesson_id, _D::primary_key().autoincrement()),
+        _D::make_column("class_id", &type::WeeklyLesson::class_id),
+        _D::make_column("mon", &type::WeeklyLesson::mon),
+        _D::make_column("tue", &type::WeeklyLesson::tue),
+        _D::make_column("wed", &type::WeeklyLesson::wed),
+        _D::make_column("thu", &type::WeeklyLesson::thu),
+        _D::make_column("fri", &type::WeeklyLesson::fri)
     ),
-    make_table(
+    _D::make_table(
         "notice",
-        make_column("notice_id", &Notice::notice_id, primary_key().autoincrement()),
-        make_column("class_id", &Notice::class_id),
-        make_column("title", &Notice::title),
-        make_column("text", &Notice::text),
-        make_column("date", &Notice::date)
+        _D::make_column("notice_id", &type::Notice::notice_id, _D::primary_key().autoincrement()),
+        _D::make_column("class_id", &type::Notice::class_id),
+        _D::make_column("title", &type::Notice::title),
+        _D::make_column("text", &type::Notice::text),
+        _D::make_column("date", &type::Notice::date)
     ),
-    make_table(
+    _D::make_table(
         "event",
-        make_column("event_id", &Event::event_id, primary_key().autoincrement()),
-        make_column("class_id", &Event::class_id),
-        make_column("title", &Event::title),
-        make_column("date", &Event::date),
-        make_column("important", &Event::important)
+        _D::make_column("event_id", &type::Event::event_id, _D::primary_key().autoincrement()),
+        _D::make_column("class_id", &type::Event::class_id),
+        _D::make_column("title", &type::Event::title),
+        _D::make_column("date", &type::Event::date),
+        _D::make_column("important", &type::Event::important)
     ),
-    make_table(
+    _D::make_table(
         "partialarr",
-        make_column("partialarr_id", &PartialArrangement::partialarr_id, primary_key().autoincrement()),
-        make_column("class_id", &PartialArrangement::class_id),
-        make_column("job", &PartialArrangement::job),
-        make_column("start_idx", &PartialArrangement::start_idx),
-        make_column("start_date", &PartialArrangement::start_date),
-        make_column("days_one_step", &PartialArrangement::days_one_step),
-        make_column("students_one_step", &PartialArrangement::students_one_step),
-        make_column("student_ids", &PartialArrangement::student_ids)
+        _D::make_column("partialarr_id", &type::PartialArrangement::partialarr_id, _D::primary_key().autoincrement()),
+        _D::make_column("class_id", &type::PartialArrangement::class_id),
+        _D::make_column("job", &type::PartialArrangement::job),
+        _D::make_column("start_idx", &type::PartialArrangement::start_idx),
+        _D::make_column("start_date", &type::PartialArrangement::start_date),
+        _D::make_column("days_one_step", &type::PartialArrangement::days_one_step),
+        _D::make_column("students_one_step", &type::PartialArrangement::students_one_step),
+        _D::make_column("student_ids", &type::PartialArrangement::student_ids)
     ),
-    make_table(
+    _D::make_table(
         "completearr",
-        make_column("completearr_id", &CompleteArrangement::completearr_id, primary_key().autoincrement()),
-        make_column("class_id", &CompleteArrangement::class_id),
-        make_column("job", &CompleteArrangement::job),
-        make_column("start_idx", &CompleteArrangement::start_idx),
-        make_column("start_date", &CompleteArrangement::start_date),
-        make_column("days_one_step", &CompleteArrangement::days_one_step),
-        make_column("students_one_step", &CompleteArrangement::students_one_step)
+        _D::make_column("completearr_id", &type::CompleteArrangement::completearr_id, _D::primary_key().autoincrement()),
+        _D::make_column("class_id", &type::CompleteArrangement::class_id),
+        _D::make_column("job", &type::CompleteArrangement::job),
+        _D::make_column("start_idx", &type::CompleteArrangement::start_idx),
+        _D::make_column("start_date", &type::CompleteArrangement::start_date),
+        _D::make_column("days_one_step", &type::CompleteArrangement::days_one_step),
+        _D::make_column("students_one_step", &type::CompleteArrangement::students_one_step)
     ),
-    make_table(
+    _D::make_table(
         "weekdayarr",
-        make_column("weekdayarr_id", &WeekdayArrangement::weekdayarr_id, primary_key().autoincrement()),
-        make_column("class_id", &WeekdayArrangement::class_id),
-        make_column("job", &WeekdayArrangement::job),
-        make_column("mon_students_id", &WeekdayArrangement::mon_students_id),
-        make_column("tue_students_id", &WeekdayArrangement::tue_students_id),
-        make_column("wed_students_id", &WeekdayArrangement::wed_students_id),
-        make_column("thu_students_id", &WeekdayArrangement::thu_students_id),
-        make_column("fri_students_id", &WeekdayArrangement::fri_students_id)
+        _D::make_column("weekdayarr_id", &type::WeekdayArrangement::weekdayarr_id, _D::primary_key().autoincrement()),
+        _D::make_column("class_id", &type::WeekdayArrangement::class_id),
+        _D::make_column("job", &type::WeekdayArrangement::job),
+        _D::make_column("mon_students_id", &type::WeekdayArrangement::mon_students_id),
+        _D::make_column("tue_students_id", &type::WeekdayArrangement::tue_students_id),
+        _D::make_column("wed_students_id", &type::WeekdayArrangement::wed_students_id),
+        _D::make_column("thu_students_id", &type::WeekdayArrangement::thu_students_id),
+        _D::make_column("fri_students_id", &type::WeekdayArrangement::fri_students_id)
     )
 );
+
+namespace _D {
 
 class _Storage_RAII {
  public:
@@ -177,3 +184,7 @@ class _Storage_RAII {
   }
   // NOLINTNEXTLINE
 } static __storage_raii;
+
+}  // namespace _D
+
+}  // namespace storage
