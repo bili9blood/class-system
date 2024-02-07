@@ -18,4 +18,6 @@ auto main() -> int {
 
   // main-thread loop
   while (true) hv_msleep(200);
+
+  return 0;
 }
