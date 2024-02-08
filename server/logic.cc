@@ -3,9 +3,9 @@
 #include <hv/hlog.h>
 #include <proto/Request.pb.h>
 #include <proto/Response.pb.h>
+#include <shared/util.h>
 
 #include "storage.h"
-#include "util.h"
 
 /**
  * @brief Create a Response protobuf message from `msg`

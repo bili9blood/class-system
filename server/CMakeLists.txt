@@ -1,10 +1,9 @@
-find_package(libhv CONFIG REQUIRED)
-
 file(GLOB_RECURSE SERVER_SRC ./*.h ./*.cc)
 
 add_executable(
   class-system-server
   ${SERVER_SRC}
+  ${SHARED_SRC}
   ${PROTO_SRC}
 )
 
