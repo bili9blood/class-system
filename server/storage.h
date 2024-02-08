@@ -97,7 +97,7 @@ struct Sentence {
 }  // namespace type
 
 // NOLINTNEXTLINE
-inline auto storage = sqlite_orm::make_storage(
+inline auto db = sqlite_orm::make_storage(
     "class_system-server.db",
 
     _D::make_index("idx_student_class_id", &type::Student::class_id),
@@ -204,7 +204,7 @@ namespace _D {
 class _Storage_RAII {
  public:
   _Storage_RAII() {
-    storage.sync_schema();
+    db.sync_schema();
   }
   // NOLINTNEXTLINE
 } static __storage_raii;
