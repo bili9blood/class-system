@@ -14,8 +14,8 @@ message ClassInfo {
     string wed     = 3;
     string thu     = 4;
     string fri     = 5;
-    string startTm = 6;
-    string endTm   = 7;
+    string start_tm = 6;
+    string end_tm   = 7;
   }
 
   message WeekdayArrangement {
