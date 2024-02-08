@@ -11,12 +11,13 @@ void HandleSignal(int) {
 auto main(int argc, char **argv) -> int {
   (void)signal(SIGINT, HandleSignal);
 
-  QApplication a{argc, argv};
+  QApplication app{argc, argv};
 
-  TcpClient    c;
-  c.Start();
-
-  QObject::connect(&c, &TcpClient::Disconnected, &a, &QApplication::quit);
+  TcpClient    tcp_client;
+  if (!tcp_client.Start()) {
+    QMessageBox::critical(nullptr, "错误", "无法创建套接字！");
+    return 1;
+  }
 
   return QApplication::exec();
 }
