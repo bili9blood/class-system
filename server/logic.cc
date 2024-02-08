@@ -1,5 +1,6 @@
 #include "logic.h"
 
+#include <hv/hlog.h>
 #include <proto/Request.pb.h>
 #include <proto/Response.pb.h>
 
@@ -25,10 +26,88 @@ static class_system::Response CreateErrorResp(const std::string& msg) {
  * @param daily_arrangement whether to calculate DailyArrangement
  * @return class_system::ClassInfo ClassInfo protobuf message
  */
-static class_system::ClassInfo FetchClassInfo(const int& class_id, const bool& daily_arrangement) {
-  auto class_info = class_system::ClassInfo{};
+static class_system::ClassInfo* FetchClassInfo(const int& class_id, const bool& daily_arrangement) {
+  using namespace sqlite_orm;
+  using namespace storage::type;
 
-  // TODO: fetch class info from storage
+  auto* class_info = new class_system::ClassInfo{};
+  try {
+    /* ---------------------------------------------------------------- */
+    /*                            Fetch Name                            */
+    /* ---------------------------------------------------------------- */
+
+    auto name = std::string{};
+    {
+      const auto fetched = storage::db.select(
+          columns(&Class::name),
+          where(c(&Class::class_id) == class_id)
+      );
+      if (!fetched.empty()) name = std::get<0>(fetched[0]);
+    }
+    class_info->set_name(name);
+
+    /* ---------------------------------------------------------------- */
+    /*                          Fetch Students                          */
+    /* ---------------------------------------------------------------- */
+
+    auto students = google::protobuf::RepeatedPtrField<class_system::ClassInfo::Student>{};
+    {
+      const auto fetched = storage::db.select(
+          columns(&Student::student_id, &Student::name),
+          where(c(&Student::class_id) == class_id),
+          order_by(&Student::student_id)
+      );
+      for (const auto& [id, name] : fetched) {
+        auto* const it = students.Add();
+        it->set_id(id);
+        it->set_name(name);
+      }
+    }
+    class_info->mutable_students()->Swap(&students);
+
+    /* ---------------------------------------------------------------- */
+    /*                           Fetch Lessons                          */
+    /* ---------------------------------------------------------------- */
+
+    auto lessons = google::protobuf::RepeatedPtrField<class_system::ClassInfo::WeeklyLessons>{};
+    {
+      const auto fetched = storage::db.select(
+          columns(
+              &WeeklyLesson::mon, &WeeklyLesson::tue, &WeeklyLesson::wed, &WeeklyLesson::thu, &WeeklyLesson::fri,
+              &WeeklyLesson::start_tm, &WeeklyLesson::end_tm
+          ),
+          where(c(&WeeklyLesson::class_id) == class_id),
+          order_by(&WeeklyLesson::lesson_number)
+      );
+      for (const auto& l : fetched) {
+        auto* const it = lessons.Add();
+        it->set_mon(std::get<0>(l));
+        it->set_tue(std::get<1>(l));
+        it->set_wed(std::get<2>(l));
+        it->set_thu(std::get<3>(l));
+        it->set_fri(std::get<4>(l));
+        it->set_start_tm(std::get<5>(l));
+        it->set_end_tm(std::get<6>(l));
+      }
+    }
+    class_info->mutable_lessons()->Swap(&lessons);
+
+    // TODO: Fetch WeekdayArrangement
+
+    // TODO: Fetch PartialArrangemant
+
+    // TODO: Fetch CompleteArrangement
+
+    // TODO: Fetch Notices
+
+    // TODO: Fetch Events
+
+    // TODO: Calc DailyArrangement
+
+  } catch (const std::exception& e) {
+    LOGE("Failed to fetch class info: %s", e.what());
+    return {};
+  }
   return class_info;
 }
 
@@ -61,9 +140,11 @@ hv::BufferPtr HandleRequest(hv::Buffer* req) {
   auto resp = class_system::Response{};
 
   if (request.request_class_info()) {
-    resp.mutable_class_info()->CopyFrom(
-        FetchClassInfo(class_id.value(), request.request_daily_arrangement())
-    );
+    auto* const fetched = FetchClassInfo(class_id.value(), request.request_daily_arrangement());
+    if (fetched)
+      resp.mutable_class_info()->Swap(fetched);
+    else
+      return util::MessageToBuf(CreateErrorResp("fetch class info failed"));
   }
 
   // TODO: sentences and daily weather
