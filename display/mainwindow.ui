@@ -6,46 +6,30 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1119</width>
-    <height>601</height>
+    <width>1250</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">color: white;</string>
+  </property>
   <widget class="QWidget" name="central_widget">
-   <layout class="QVBoxLayout" name="main_layout" stretch="0,0,0,0">
+   <layout class="QVBoxLayout" name="main_layout" stretch="3,0,12,0,2">
     <item>
-     <layout class="QGridLayout" name="header_layout" columnstretch="3,6,2">
+     <layout class="QGridLayout" name="header_layout" columnstretch="3,6,0,2">
       <property name="horizontalSpacing">
        <number>36</number>
       </property>
-      <item row="0" column="1">
-       <widget class="QLabel" name="sentence_text_label">
-        <property name="styleSheet">
-         <string notr="true">font-size: 14pt;
-font-weight: thin;
-font-family: Microsoft Yahei;
-color: white;</string>
-        </property>
-        <property name="text">
-         <string>不在沉默中爆发，就在沉默中灭亡。</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0">
        <widget class="QLabel" name="time_label">
         <property name="styleSheet">
          <string notr="true">font-size: 20pt;
 font-weight: bold;
 font-family: Fira Mono;
-color: white;</string>
+</string>
         </property>
         <property name="text">
          <string>00:00:00</string>
@@ -58,13 +42,30 @@ color: white;</string>
         </property>
        </widget>
       </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="sentence_text_label">
+        <property name="styleSheet">
+         <string notr="true">font-size: 14pt;
+font-family: Microsoft Yahei;
+</string>
+        </property>
+        <property name="text">
+         <string>不在沉默中爆发，就在沉默中灭亡。</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="1">
        <widget class="QLabel" name="sentence_author_label">
         <property name="styleSheet">
          <string notr="true">font-size: 14pt;
-font-weight: thin;
 font-family: Microsoft Yahei;
-color: white;</string>
+</string>
         </property>
         <property name="text">
          <string>——鲁迅</string>
@@ -78,9 +79,8 @@ color: white;</string>
        <widget class="QLabel" name="date_weekday_label">
         <property name="styleSheet">
          <string notr="true">font-size: 14pt;
-font-weight: thin;
 font-family: Microsoft Yahei;
-color: white;</string>
+</string>
         </property>
         <property name="text">
          <string>1月1日 星期一</string>
@@ -90,8 +90,21 @@ color: white;</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="2" rowspan="2">
+      <item row="0" column="3" rowspan="2">
        <widget class="TitleWidget" name="title_widget" native="true"/>
+      </item>
+      <item row="0" column="2" rowspan="2">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </item>
@@ -119,7 +132,7 @@ color: white;</string>
          <string notr="true">font-size: 18pt;
 font-weight: bold;
 font-family: Microsoft YaHei;
-color: white;</string>
+</string>
         </property>
         <property name="text">
          <string>课程</string>
@@ -135,7 +148,7 @@ color: white;</string>
          <string notr="true">font-size: 18pt;
 font-weight: bold;
 font-family: Microsoft YaHei;
-color: white;</string>
+</string>
         </property>
         <property name="text">
          <string>公告</string>
@@ -151,7 +164,7 @@ color: white;</string>
          <string notr="true">font-size: 18pt;
 font-weight: bold;
 font-family: Microsoft YaHei;
-color: white;</string>
+</string>
         </property>
         <property name="text">
          <string>安排</string>
@@ -168,7 +181,7 @@ color: white;</string>
           <property name="styleSheet">
            <string notr="true">font-size: 16pt;
 font-family: Microsoft YaHei;
-color: white;</string>
+</string>
           </property>
           <property name="text">
            <string>假期通知</string>
@@ -183,7 +196,7 @@ color: white;</string>
           <property name="styleSheet">
            <string notr="true">font-size: 15pt;
 font-family: Microsoft YaHei;
-color: white;</string>
+font-weight: 300;</string>
           </property>
           <property name="text">
            <string>至3月1日</string>
@@ -208,7 +221,7 @@ color: white;</string>
           <property name="styleSheet">
            <string notr="true">font-size: 14pt;
 font-family: Microsoft YaHei;
-color: white;
+
 background: transparent;</string>
           </property>
           <property name="frameShape">
@@ -284,6 +297,42 @@ p, li { white-space: pre-wrap; }
       </property>
      </widget>
     </item>
+    <item>
+     <layout class="QHBoxLayout" name="weather_layout">
+      <property name="spacing">
+       <number>4</number>
+      </property>
+      <item>
+       <widget class="WeatherWidget" name="weather_widget_1" native="true">
+        <property name="styleSheet">
+         <string notr="true">color: #ee8545;
+font-weight: bold;</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>weather-today</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="WeatherWidget" name="weather_widget_2" native="true"/>
+      </item>
+      <item>
+       <widget class="WeatherWidget" name="weather_widget_3" native="true"/>
+      </item>
+      <item>
+       <widget class="WeatherWidget" name="weather_widget_4" native="true"/>
+      </item>
+      <item>
+       <widget class="WeatherWidget" name="weather_widget_5" native="true"/>
+      </item>
+      <item>
+       <widget class="WeatherWidget" name="weather_widget_6" native="true"/>
+      </item>
+      <item>
+       <widget class="WeatherWidget" name="weather_widget_7" native="true"/>
+      </item>
+     </layout>
+    </item>
    </layout>
   </widget>
  </widget>
@@ -292,6 +341,12 @@ p, li { white-space: pre-wrap; }
    <class>TitleWidget</class>
    <extends>QWidget</extends>
    <header>titlewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WeatherWidget</class>
+   <extends>QWidget</extends>
+   <header>weatherwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
