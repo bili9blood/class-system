@@ -45,7 +45,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
   painter.setPen(Qt::NoPen);
   painter.setBrush(ling);
 
-  constexpr qreal kRadius{10.0};
+  constexpr qreal kRadius{20.0};
   painter.drawRoundedRect(rect(), kRadius, kRadius);
 }
 
