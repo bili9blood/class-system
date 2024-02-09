@@ -133,14 +133,64 @@ static void FetchClassInfo(const int& class_id, const bool& daily_arrangement, c
       }
     }
 
-    // TODO: Fetch CompleteArrangement
+    /* ---------------------------------------------------------------- */
+    /*                     Fetch CompleteArrangement                    */
+    /* ---------------------------------------------------------------- */
+    auto* const complete_arrangements = class_info->mutable_complete_arrangements();
+    {
+      const auto fetched = storage::db.select(
+          columns(
+              &CompleteArrangement::job,
+              &CompleteArrangement::start_idx, &CompleteArrangement::start_date,
+              &CompleteArrangement::days_one_step, &CompleteArrangement::students_one_step
+          ),
+          where(c(&CompleteArrangement::class_id) == class_id)
+      );
+      for (const auto& a : fetched) {
+        auto* const it = complete_arrangements->Add();
+        it->set_job(std::get<0>(a));
+        it->mutable_opts()->set_start_idx(std::get<1>(a));
+        it->mutable_opts()->set_start_date(std::get<2>(a));
+        it->mutable_opts()->set_days_one_step(std::get<3>(a));
+        it->mutable_opts()->set_students_one_step(std::get<4>(a));
+      }
+    }
 
-    // TODO: Fetch Notices
+    /* ---------------------------------------------------------------- */
+    /*                           Fetch Notices                          */
+    /* ---------------------------------------------------------------- */
+    {
+      auto* const notices = class_info->mutable_notices();
+      const auto  fetched = storage::db.select(
+          columns(&Notice::title, &Notice::date, &Notice::text),
+          where(c(&Notice::class_id) == class_id)
+      );
+      for (const auto& n : fetched) {
+        auto* const it = notices->Add();
+        it->set_title(std::get<0>(n));
+        it->set_date(std::get<1>(n));
+        it->set_text(std::get<2>(n));
+      }
+    }
 
-    // TODO: Fetch Events
+    /* ---------------------------------------------------------------- */
+    /*                           Fetch Events                           */
+    /* ---------------------------------------------------------------- */
+    {
+      auto* const events  = class_info->mutable_events();
+      const auto  fetched = storage::db.select(
+          columns(&Event::title, &Event::date, &Event::important),
+          where(c(&Event::class_id) == class_id)
+      );
+      for (const auto& e : fetched) {
+        auto* const it = events->Add();
+        it->set_title(std::get<0>(e));
+        it->set_date(std::get<1>(e));
+        it->set_important(std::get<2>(e));
+      }
+    }
 
     // TODO: Calc DailyArrangement
-
   } catch (const std::exception& e) {
     LOGE("Failed to fetch class info: %s", e.what());
     throw;
