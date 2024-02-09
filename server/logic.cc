@@ -20,14 +20,7 @@ static class_system::Response CreateErrorResp(const std::string& msg) {
   return resp;
 }
 
-/**
- * @brief fetch ClassInfo from storage and return
- *
- * @param class_id class_id
- * @param daily_arrangement whether to calculate DailyArrangement
- * @return class_system::ClassInfo ClassInfo protobuf message
- */
-static void FetchClassInfo(const int& class_id, const bool& daily_arrangement, class_system::ClassInfo* class_info) {
+static void FetchClassInfo(const int& class_id, class_system::ClassInfo* class_info) {
   using namespace sqlite_orm;
   using namespace storage::type;
 
@@ -197,18 +190,26 @@ static void FetchClassInfo(const int& class_id, const bool& daily_arrangement, c
 }
 
 static void FetchSentences(const int& class_id, google::protobuf::RepeatedPtrField<class_system::Sentence>* sentences) {
-  const auto fetched   = storage::db.select(
-      sqlite_orm::columns(&storage::type::Sentence::text, &storage::type::Sentence::author)
-  );
-  for (const auto& s : fetched) {
-    auto* const it = sentences->Add();
-    it->set_text(std::get<0>(s));
-    it->set_author(std::get<1>(s));
+  try {
+    const auto fetched = storage::db.select(
+        sqlite_orm::columns(&storage::type::Sentence::text, &storage::type::Sentence::author)
+    );
+    for (const auto& s : fetched) {
+      auto* const it = sentences->Add();
+      it->set_text(std::get<0>(s));
+      it->set_author(std::get<1>(s));
+    }
+  } catch (std::exception& e) {
+    LOGE("Failed to fetch sentences: %s", e.what());
+    throw e;
   }
 }
 
-namespace logic {
+static void CalcDailyArrangement(const int& class_id, class_system::ClassInfo* class_info) {
+  // TODO: calc daily arrangement
+}
 
+namespace logic {
 hv::BufferPtr HandleRequest(hv::Buffer* req) {
   class_system::Request request;
   if (!request.ParseFromArray((char*)req->data() + 4, (int)req->size() - 4)) {
@@ -237,14 +238,22 @@ hv::BufferPtr HandleRequest(hv::Buffer* req) {
 
   if (request.request_class_info()) {
     try {
-      FetchClassInfo(class_id.value(), request.request_daily_arrangement(), resp.mutable_class_info());
+      FetchClassInfo(class_id.value(), resp.mutable_class_info());
     } catch (const std::exception& e) {
       return util::MessageToBuf(CreateErrorResp(hv::asprintf("fetch class info failed: %s", e.what())));
     }
   }
 
   if (request.request_sentences()) {
-    FetchSentences(class_id.value(), resp.mutable_sentences());
+    try {
+      FetchSentences(class_id.value(), resp.mutable_sentences());
+    } catch (const std::exception& e) {
+      return util::MessageToBuf(CreateErrorResp(hv::asprintf("fetch sentences failed: %s", e.what())));
+    }
+  }
+
+  if (request.request_daily_arrangement()) {
+    CalcDailyArrangement(class_id.value(), resp.mutable_class_info());
   }
 
   return util::MessageToBuf(resp);
