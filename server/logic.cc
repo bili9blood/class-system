@@ -36,22 +36,22 @@ static class_system::ClassInfo* FetchClassInfo(const int& class_id, const bool& 
     /*                            Fetch Name                            */
     /* ---------------------------------------------------------------- */
 
-    auto name = std::string{};
     {
+      auto       name    = std::string{};
       const auto fetched = storage::db.select(
           columns(&Class::name),
           where(c(&Class::class_id) == class_id)
       );
       if (!fetched.empty()) name = std::get<0>(fetched[0]);
+      class_info->set_name(name);
     }
-    class_info->set_name(name);
 
     /* ---------------------------------------------------------------- */
     /*                          Fetch Students                          */
     /* ---------------------------------------------------------------- */
 
-    auto students = google::protobuf::RepeatedPtrField<class_system::ClassInfo::Student>{};
     {
+      auto       students = google::protobuf::RepeatedPtrField<class_system::ClassInfo::Student>{};
       const auto fetched = storage::db.select(
           columns(&Student::student_id, &Student::name),
           where(c(&Student::class_id) == class_id),
@@ -62,15 +62,15 @@ static class_system::ClassInfo* FetchClassInfo(const int& class_id, const bool& 
         it->set_id(id);
         it->set_name(name);
       }
-    }
     class_info->mutable_students()->Swap(&students);
+    }
 
     /* ---------------------------------------------------------------- */
     /*                           Fetch Lessons                          */
     /* ---------------------------------------------------------------- */
 
-    auto lessons = google::protobuf::RepeatedPtrField<class_system::ClassInfo::WeeklyLessons>{};
     {
+      auto       lessons = google::protobuf::RepeatedPtrField<class_system::ClassInfo::WeeklyLessons>{};
       const auto fetched = storage::db.select(
           columns(
               &WeeklyLesson::mon, &WeeklyLesson::tue, &WeeklyLesson::wed, &WeeklyLesson::thu, &WeeklyLesson::fri,
@@ -89,8 +89,8 @@ static class_system::ClassInfo* FetchClassInfo(const int& class_id, const bool& 
         it->set_start_tm(std::get<5>(l));
         it->set_end_tm(std::get<6>(l));
       }
-    }
     class_info->mutable_lessons()->Swap(&lessons);
+    }
 
     // TODO: Fetch WeekdayArrangement
 
