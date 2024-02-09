@@ -111,6 +111,19 @@ static class_system::ClassInfo* FetchClassInfo(const int& class_id, const bool& 
   return class_info;
 }
 
+static auto FetchSentences(const int& class_id) {
+  auto       sentences = google::protobuf::RepeatedPtrField<class_system::Sentence>{};
+  const auto fetched   = storage::db.select(
+      sqlite_orm::columns(&storage::type::Sentence::text, &storage::type::Sentence::author)
+  );
+  for (const auto& s : fetched) {
+    auto* const it = sentences.Add();
+    it->set_text(std::get<0>(s));
+    it->set_author(std::get<1>(s));
+  }
+  return sentences;
+}
+
 namespace logic {
 
 hv::BufferPtr HandleRequest(hv::Buffer* req) {
@@ -147,7 +160,10 @@ hv::BufferPtr HandleRequest(hv::Buffer* req) {
       return util::MessageToBuf(CreateErrorResp("fetch class info failed"));
   }
 
-  // TODO: sentences and daily weather
+  if (request.request_sentences()) {
+    auto sentences = FetchSentences(class_id.value());
+    resp.mutable_sentences()->Swap(&sentences);
+  }
 
   return util::MessageToBuf(resp);
 }
