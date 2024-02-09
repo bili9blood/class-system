@@ -20,11 +20,11 @@ message ClassInfo {
 
   message WeekdayArrangement {
     string         job             = 1;
-    repeated int32 mon_students_id = 2;
-    repeated int32 tue_students_id = 3;
-    repeated int32 wed_students_id = 4;
-    repeated int32 thu_students_id = 5;
-    repeated int32 fri_students_id = 6;
+    repeated int32 mon_student_ids = 2;
+    repeated int32 tue_student_ids = 3;
+    repeated int32 wed_student_ids = 4;
+    repeated int32 thu_student_ids = 5;
+    repeated int32 fri_student_ids = 6;
   }
 
   message RollOptions {
