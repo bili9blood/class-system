@@ -86,7 +86,29 @@ static auto* FetchClassInfo(const int& class_id, const bool& daily_arrangement) 
       }
     }
 
-    // TODO: Fetch WeekdayArrangement
+    /* ---------------------------------------------------------------- */
+    /*                     Fetch WeekdayArrangement                     */
+    /* ---------------------------------------------------------------- */
+    auto* const weekday_arrangements = class_info->mutable_weekday_arrangements();
+    {
+      const auto fetched = storage::db.select(
+          columns(
+              &WeekdayArrangement::mon_student_ids, &WeekdayArrangement::tue_student_ids,
+              &WeekdayArrangement::wed_student_ids, &WeekdayArrangement::thu_student_ids,
+              &WeekdayArrangement::fri_student_ids, &WeekdayArrangement::job
+          ),
+          where(c(&WeekdayArrangement::class_id) == class_id)
+      );
+      for (const auto& a : fetched) {
+        auto* const it = weekday_arrangements->Add();
+        it->mutable_mon_student_ids()->CopyFrom(util::VectorToRepeatedField(util::SplitIdsFromStr(std::get<0>(a))));
+        it->mutable_tue_student_ids()->CopyFrom(util::VectorToRepeatedField(util::SplitIdsFromStr(std::get<1>(a))));
+        it->mutable_wed_student_ids()->CopyFrom(util::VectorToRepeatedField(util::SplitIdsFromStr(std::get<2>(a))));
+        it->mutable_thu_student_ids()->CopyFrom(util::VectorToRepeatedField(util::SplitIdsFromStr(std::get<3>(a))));
+        it->mutable_fri_student_ids()->CopyFrom(util::VectorToRepeatedField(util::SplitIdsFromStr(std::get<4>(a))));
+        it->set_job(std::get<5>(a));
+      }
+    }
 
     // TODO: Fetch PartialArrangemant
 
@@ -100,7 +122,7 @@ static auto* FetchClassInfo(const int& class_id, const bool& daily_arrangement) 
 
   } catch (const std::exception& e) {
     LOGE("Failed to fetch class info: %s", e.what());
-    return (decltype(class_info)){};
+    return (decltype(class_info))nullptr;
   }
   return class_info;
 }
