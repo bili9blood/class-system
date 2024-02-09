@@ -9,11 +9,9 @@ qt5_wrap_ui(DISPLAY_FORM_SRC ${DISPLAY_UI_FILES})
 
 add_executable(
   class-system-display
-  ${DISPLAY_SRC} ${DISPLAY_FORM_SRC}
+  ${DISPLAY_SRC} ${DISPLAY_FORM_SRC} ../resources/display.qrc
   ${SHARED_SRC}
 )
-
-message("${DISPLAY_SRC}")
 
 target_link_libraries(
   class-system-display PRIVATE
