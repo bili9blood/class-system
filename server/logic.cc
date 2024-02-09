@@ -1,6 +1,7 @@
 #include "logic.h"
 
 #include <hv/hlog.h>
+#include <hv/hstring.h>
 #include <proto/Request.pb.h>
 #include <proto/Response.pb.h>
 #include <shared/util.h>
@@ -189,11 +190,9 @@ static void FetchClassInfo(const int& class_id, const bool& daily_arrangement, c
         it->set_important(std::get<2>(e));
       }
     }
-
-    // TODO: Calc DailyArrangement
   } catch (const std::exception& e) {
     LOGE("Failed to fetch class info: %s", e.what());
-    throw;
+    throw e;
   }
 }
 
@@ -239,8 +238,8 @@ hv::BufferPtr HandleRequest(hv::Buffer* req) {
   if (request.request_class_info()) {
     try {
       FetchClassInfo(class_id.value(), request.request_daily_arrangement(), resp.mutable_class_info());
-    } catch (...) {
-      return util::MessageToBuf(CreateErrorResp("fetch class info failed"));
+    } catch (const std::exception& e) {
+      return util::MessageToBuf(CreateErrorResp(hv::asprintf("fetch class info failed: %s", e.what())));
     }
   }
 
