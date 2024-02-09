@@ -35,42 +35,37 @@ static auto* FetchClassInfo(const int& class_id, const bool& daily_arrangement) 
     /* ---------------------------------------------------------------- */
     /*                            Fetch Name                            */
     /* ---------------------------------------------------------------- */
-
     {
-      auto       name    = std::string{};
+      auto* const name    = class_info->mutable_name();
       const auto fetched = storage::db.select(
           columns(&Class::name),
           where(c(&Class::class_id) == class_id)
       );
-      if (!fetched.empty()) name = std::get<0>(fetched[0]);
-      class_info->set_name(name);
+      if (!fetched.empty()) *name = std::get<0>(fetched[0]);
     }
 
     /* ---------------------------------------------------------------- */
     /*                          Fetch Students                          */
     /* ---------------------------------------------------------------- */
-
     {
-      auto       students = google::protobuf::RepeatedPtrField<class_system::ClassInfo::Student>{};
+      auto* const students = class_info->mutable_students();
       const auto fetched = storage::db.select(
           columns(&Student::student_id, &Student::name),
           where(c(&Student::class_id) == class_id),
           order_by(&Student::student_id)
       );
       for (const auto& [id, name] : fetched) {
-        auto* const it = students.Add();
+        auto* const it = students->Add();
         it->set_id(id);
         it->set_name(name);
       }
-    class_info->mutable_students()->Swap(&students);
     }
 
     /* ---------------------------------------------------------------- */
     /*                           Fetch Lessons                          */
     /* ---------------------------------------------------------------- */
-
     {
-      auto       lessons = google::protobuf::RepeatedPtrField<class_system::ClassInfo::WeeklyLessons>{};
+      auto* const lessons = class_info->mutable_lessons();
       const auto fetched = storage::db.select(
           columns(
               &WeeklyLesson::mon, &WeeklyLesson::tue, &WeeklyLesson::wed, &WeeklyLesson::thu, &WeeklyLesson::fri,
@@ -80,7 +75,7 @@ static auto* FetchClassInfo(const int& class_id, const bool& daily_arrangement) 
           order_by(&WeeklyLesson::lesson_number)
       );
       for (const auto& l : fetched) {
-        auto* const it = lessons.Add();
+        auto* const it = lessons->Add();
         it->set_mon(std::get<0>(l));
         it->set_tue(std::get<1>(l));
         it->set_wed(std::get<2>(l));
@@ -89,7 +84,6 @@ static auto* FetchClassInfo(const int& class_id, const bool& daily_arrangement) 
         it->set_start_tm(std::get<5>(l));
         it->set_end_tm(std::get<6>(l));
       }
-    class_info->mutable_lessons()->Swap(&lessons);
     }
 
     // TODO: Fetch WeekdayArrangement
