@@ -26,7 +26,7 @@ static class_system::Response CreateErrorResp(const std::string& msg) {
  * @param daily_arrangement whether to calculate DailyArrangement
  * @return class_system::ClassInfo ClassInfo protobuf message
  */
-static class_system::ClassInfo* FetchClassInfo(const int& class_id, const bool& daily_arrangement) {
+static auto* FetchClassInfo(const int& class_id, const bool& daily_arrangement) {
   using namespace sqlite_orm;
   using namespace storage::type;
 
@@ -106,7 +106,7 @@ static class_system::ClassInfo* FetchClassInfo(const int& class_id, const bool& 
 
   } catch (const std::exception& e) {
     LOGE("Failed to fetch class info: %s", e.what());
-    return {};
+    return (decltype(class_info)){};
   }
   return class_info;
 }
