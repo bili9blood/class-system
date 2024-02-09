@@ -1,7 +1,9 @@
 #include <qapplication.h>
+#include <qfontdatabase.h>
 
 #include <csignal>
 
+#include "mainwindow.h"
 #include "tcpclient.h"
 
 void HandleSignal(int) {
@@ -18,6 +20,12 @@ auto main(int argc, char **argv) -> int {
     QMessageBox::critical(nullptr, "错误", "无法创建套接字！");
     return 1;
   }
+
+  QFontDatabase::addApplicationFont(":/fonts/FiraMono-Bold.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/qweather-icons.ttf");
+
+  MainWindow w;
+  w.show();
 
   return QApplication::exec();
 }
