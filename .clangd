@@ -11,7 +11,6 @@ Diagnostics:
       - bugprone-dynamic-static-initializers
       - bugprone-exception-escape
       - bugprone-fold-init-type
-      - bugprone-forward-declaration-namespace
       - bugprone-forwarding-reference-overload
       - bugprone-implicit-widening-of-multiplication-result
       - bugprone-inaccurate-erase
