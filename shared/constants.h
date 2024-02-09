@@ -3,7 +3,7 @@
 namespace constants {
 
 // NOLINTNEXTLINE
-inline const auto unpack_setting = [] {
+inline const auto kUnpackSetting = [] {
   unpack_setting_t setting;
   setting.body_offset         = 4;
   setting.length_field_offset = 0;

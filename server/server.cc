@@ -8,7 +8,7 @@
 Server::Server(unsigned short _port, int thread_num) {
   port = _port;
 
-  setUnpack(&const_cast<unpack_setting_t&>(constants::unpack_setting));
+  setUnpack(&const_cast<unpack_setting_t&>(constants::kUnpackSetting));
   setThreadNum(thread_num);
 
   onConnection = std::bind(
@@ -30,7 +30,7 @@ void Server::OnConnection(const hv::SocketChannelPtr& chn) const {
 void Server::OnMessage(const hv::SocketChannelPtr& chn, hv::Buffer* buf) const {
   LOGI(
       "recv a message from %s, len=%llu",
-      chn->peeraddr().c_str(), buf->size() - constants::unpack_setting.body_offset
+      chn->peeraddr().c_str(), buf->size() - constants::kUnpackSetting.body_offset
   );
 
   const auto resp = logic::HandleRequest(buf);

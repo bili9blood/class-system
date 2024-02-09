@@ -4,7 +4,7 @@
 #include <shared/constants.h>
 
 TcpClient::TcpClient(QObject *parent) : QObject(parent) {
-  client_.setUnpack(&const_cast<unpack_setting_t &>(constants::unpack_setting));
+  client_.setUnpack(&const_cast<unpack_setting_t &>(constants::kUnpackSetting));
 
   client_.onMessage = [this](const hv::SocketChannelPtr &, hv::Buffer *buf) {
     const auto arr = QByteArray{(char *)buf->data(), (int)buf->size()};
