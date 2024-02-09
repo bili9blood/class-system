@@ -14,10 +14,5 @@ namespace util {
  */
 hv::BufferPtr MessageToBuf(const google::protobuf::MessageLite& msg);
 
-std::vector<int> SplitIdsFromStr(std::string_view str);
-
-template <class T, class U = google::protobuf::RepeatedField<T>>
-inline U VectorToRepeatedField(const std::vector<T>& vec) {
-  return {vec.begin(), vec.end()};
-}
+void          SplitIdsFromStr(std::string_view str, google::protobuf::RepeatedField<int>* ids);
 }

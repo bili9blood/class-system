@@ -23,14 +23,12 @@ hv::BufferPtr MessageToBuf(const google::protobuf::MessageLite& msg) {
   return std::make_shared<hv::Buffer>(byte_arr, std::max(1ull, str.size()));
 }
 
-std::vector<int> SplitIdsFromStr(std::string_view str) {
-  std::vector<int>  ids;
+void SplitIdsFromStr(std::string_view str, google::protobuf::RepeatedField<int>* ids) {
   std::stringstream ss{str.data()};
   std::string       item;
   while (std::getline(ss, item, ',')) {
-    ids.push_back(std::stoi(item));
+    ids->Add(std::stoi(item));
   }
-  return ids;
 }
 
 }  // namespace util
