@@ -16,3 +16,5 @@ target_compile_definitions(
   class-system-server PRIVATE
   _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 )
+
+add_dependencies(class-system-display generate_message)

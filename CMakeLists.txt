@@ -10,7 +10,7 @@ project(class-system LANGUAGES CXX VERSION 1.0.0)
 find_package(protobuf CONFIG REQUIRED)
 
 if(${BUILD_DISPLAY_AND_MANAGE})
-find_package(Qt5 COMPONENTS Core Widgets CONFIG REQUIRED)
+  find_package(Qt5 COMPONENTS Core Widgets CONFIG REQUIRED)
 endif()
 
 find_package(libhv CONFIG REQUIRED)
@@ -22,11 +22,8 @@ include_directories(${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/proto include ${CMAK
 file(GLOB_RECURSE SHARED_SRC shared/*.h shared/*.cc)
 
 if(${BUILD_DISPLAY_AND_MANAGE})
-add_subdirectory(./display/)
-add_subdirectory(./manage/)
+  add_subdirectory(./display/)
+  add_subdirectory(./manage/)
 endif()
 
 add_subdirectory(./server/)
-
-add_dependencies(class-system-display generate_message)
-add_dependencies(class-system-server generate_message)

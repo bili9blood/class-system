@@ -33,3 +33,5 @@ if(${WIN32} AND NOT ${CMAKE_BUILD_TYPE} STREQUAL Debug)
     WIN32_EXECUTABLE ON
   )
 endif()
+
+add_dependencies(class-system-display generate_message)
