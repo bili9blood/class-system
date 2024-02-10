@@ -20,7 +20,7 @@ hv::BufferPtr MessageToBuf(const google::protobuf::MessageLite& msg) {
     memcpy(byte_arr, str.c_str(), str.size());
   }
 
-  return std::make_shared<hv::Buffer>(byte_arr, std::max(1ull, str.size()));
+  return std::make_shared<hv::Buffer>(byte_arr, std::max<size_t>(1, str.size()));
 }
 
 void SplitIdsFromStr(std::string_view str, google::protobuf::RepeatedField<int>* ids) {
