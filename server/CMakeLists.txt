@@ -17,4 +17,4 @@ target_compile_definitions(
   _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 )
 
-add_dependencies(class-system-display generate_message)
+add_dependencies(class-system-server generate_message)
