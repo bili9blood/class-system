@@ -17,7 +17,7 @@ find_package(libhv CONFIG REQUIRED)
 
 include(./proto.cmake)
 
-include_directories(${CMAKE_BINARY_DIR} include .)
+include_directories(${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/proto include .)
 
 file(GLOB_RECURSE SHARED_SRC shared/*.h shared/*.cc)
 
