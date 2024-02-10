@@ -16,6 +16,10 @@ file(GLOB MSG_PROTOS CONFIGURE_DEPENDS ${PROTO_INPUT_DIR}/*.proto)
 set(_PROTO_SRC "")
 set(PROTO_HDRS "")
 
+if(${PROTOBUF_PROTOC_EXECUTABLE} STREQUAL "")
+  set(PROTOBUF_PROTOC_EXECUTABLE "protoc")
+endif()
+
 foreach(msg ${MSG_PROTOS})
   get_filename_component(FIL_WE ${msg} NAME_WE)
 
