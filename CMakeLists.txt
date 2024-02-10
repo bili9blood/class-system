@@ -27,3 +27,6 @@ add_subdirectory(./manage/)
 endif()
 
 add_subdirectory(./server/)
+
+add_dependencies(class-system-display generate_message)
+add_dependencies(class-system-server generate_message)
