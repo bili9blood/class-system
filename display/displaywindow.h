@@ -1,6 +1,7 @@
 #pragma once
 #include <proto/Response.pb.h>
 #include <qmainwindow.h>
+#include <qtimer.h>
 
 namespace Ui {
 class DisplayWindow;
@@ -25,4 +26,9 @@ class DisplayWindow : public QMainWindow {
  private:
   std::unique_ptr<Ui::DisplayWindow> ui_;
   QPoint                             mouse_start_pos_;
+
+  QTimer                             clock_timer_;
+
+ private slots:
+  void HandleClockTick();
 };

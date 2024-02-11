@@ -1,9 +1,11 @@
 #include "displaywindow.h"
 
+#include <qdatetime.h>
 #include <qevent.h>
 #include <qpainter.h>
 #include <qscreen.h>
 
+#include "constants.h"
 #include "native.h"
 #include "ui_displaywindow.h"
 
@@ -16,6 +18,9 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
 
   // NOLINTNEXTLINE
   ::SetParent((HWND)winId(), native::GetFrontDesktopHwnd());
+
+  clock_timer_.start(1000);
+  connect(&clock_timer_, &QTimer::timeout, this, &DisplayWindow::HandleClockTick);
 }
 
 DisplayWindow::~DisplayWindow() = default;
@@ -54,3 +59,8 @@ void DisplayWindow::paintEvent(QPaintEvent *event) {
 }
 
 void DisplayWindow::closeEvent(QCloseEvent *event) { QApplication::quit(); }
+
+void DisplayWindow::HandleClockTick() {
+  ui_->time_label->setText(QTime::currentTime().toString(constants::kTimeFormat));
+  ui_->date_weekday_label->setText(QDate::currentDate().toString(constants::kDateWeekdayFormat));
+}
