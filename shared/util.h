@@ -16,9 +16,7 @@ _T ToBigEndian(const _T& val) {
 
   if constexpr (std::is_same_v<T, unsigned short>)
     return htons(val);
-  else if constexpr (std::is_same_v<T, int>)
-    return htond(val);
-  else if constexpr (std::is_same_v<T, unsigned long>)
+  else if constexpr (std::is_same_v<T, unsigned long> || std::is_same_v<T, int>)
     return htonl(val);
   else if constexpr (std::is_same_v<T, unsigned long long>)
     return htonll(val);

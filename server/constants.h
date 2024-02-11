@@ -16,7 +16,7 @@ inline const std::string kBasePath = [] {
   const auto *const home_path = getenv("HOME");
   if (home_path) return std::string{home_path} + "/class-system";
   char cwd[1024];
-  return std::string{_getcwd(cwd, 1024) ? cwd : ""};
+  return std::string{getcwd(cwd, 1024) ? cwd : ""};
 }();
 
 }  // namespace constants
