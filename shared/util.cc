@@ -8,6 +8,15 @@
 
 namespace util {
 
+bool IsLittleEndian() {
+  union {
+    char c;
+    int  n;
+  } un{.n = 1};
+
+  return (bool)un.c;
+}
+
 hv::BufferPtr MessageToBuf(const google::protobuf::MessageLite& msg) {
   std::string str;
   msg.SerializeToString(&str);

@@ -6,6 +6,28 @@
 
 namespace util {
 
+bool IsLittleEndian();
+
+template <typename _T>
+_T ToBigEndian(const _T& val) {
+  if (IsLittleEndian()) return val;
+
+  using T = std::decay_t<_T>;
+
+  if constexpr (std::is_same_v<T, unsigned short>)
+    return htons(val);
+  else if constexpr (std::is_same_v<T, int>)
+    return htond(val);
+  else if constexpr (std::is_same_v<T, unsigned long>)
+    return htonl(val);
+  else if constexpr (std::is_same_v<T, unsigned long long>)
+    return htonll(val);
+  else if constexpr (std::is_same_v<T, float>)
+    return htonf(val);
+  else
+    return val;
+}
+
 /**
  * @brief Convert protobuf message to hv::BufferPtr (aka std::shared_ptr<hv::Buffer>)
  *
