@@ -92,7 +92,7 @@ void ConfigWindow::HideAllEdit() {
 
 void ConfigWindow::SaveConfig() {
   std::ofstream ofs{"config.dat"};
-  qDebug() << msg_->SerializeToOstream(&ofs);
+  msg_->SerializeToOstream(&ofs);
 }
 
 void ConfigWindow::closeEvent(QCloseEvent *event) {
