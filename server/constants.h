@@ -14,7 +14,7 @@ namespace constants {
 inline const std::string kBasePath = [] {
   // NOLINTNEXTLINE
   const auto *const home_path = getenv("HOME");
-  if (home_path) return std::string{home_path} + "/class-system";
+  if (home_path) return std::string{home_path};
   char cwd[1024];
   return std::string{getcwd(cwd, 1024) ? cwd : ""};
 }();
