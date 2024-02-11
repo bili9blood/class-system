@@ -2,6 +2,7 @@
 
 #include <hv/hlog.h>
 #include <shared/constants.h>
+#include <shared/util.h>
 
 #include "logic.h"
 
@@ -13,26 +14,33 @@ Server::Server(unsigned short _port, int thread_num) {
 
   onConnection = std::bind(
       &Server::OnConnection,
-      this, std::placeholders::_1
+      std::placeholders::_1
   );
   onMessage = std::bind(
       &Server::OnMessage,
-      this, std::placeholders::_1, std::placeholders::_2
+      std::placeholders::_1, std::placeholders::_2
   );
 }
 
-// NOLINTNEXTLINE
-void Server::OnConnection(const hv::SocketChannelPtr& chn) const {
+void Server::Write(const hv::SocketChannelPtr& chn, const hv::BufferPtr& data) {
+  if (data->size() == 0) return;
+
+  auto* buf            = new hv::Buffer(data->size() + constants::kUnpackSetting.body_offset);
+  *(int*)(buf->data()) = util::ToBigEndian((int)data->size());
+  memcpy((char*)buf->data() + constants::kUnpackSetting.body_offset, data->data(), data->size());
+  chn->write(buf);
+}
+
+void Server::OnConnection(const hv::SocketChannelPtr& chn) {
   LOGI("client %s %s", chn->peeraddr().c_str(), chn->isConnected() ? "connected" : "disconnected");
 }
 
-// NOLINTNEXTLINE
-void Server::OnMessage(const hv::SocketChannelPtr& chn, hv::Buffer* buf) const {
+void Server::OnMessage(const hv::SocketChannelPtr& chn, hv::Buffer* buf) {
   LOGI(
       "recv a message from %s, len=%llu",
       chn->peeraddr().c_str(), buf->size() - constants::kUnpackSetting.body_offset
   );
 
   const auto resp = logic::HandleRequest(buf);
-  chn->write(resp.get());
+  Server::Write(chn, resp);
 }

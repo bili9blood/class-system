@@ -6,7 +6,9 @@ class Server : public hv::TcpServer {
  public:
   Server(unsigned short port, int thread_num);
 
+  static void Write(const hv::SocketChannelPtr& chn, const hv::BufferPtr& data);
+
  protected:
-  void OnConnection(const hv::SocketChannelPtr& chn) const;
-  void OnMessage(const hv::SocketChannelPtr& chn, hv::Buffer* buf) const;
+  static void OnConnection(const hv::SocketChannelPtr& chn);
+  static void OnMessage(const hv::SocketChannelPtr& chn, hv::Buffer* buf);
 };
