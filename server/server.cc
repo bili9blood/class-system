@@ -26,7 +26,7 @@ void Server::Write(const hv::SocketChannelPtr& chn, const hv::BufferPtr& data) {
   if (data->size() == 0) return;
 
   auto* buf            = new hv::Buffer(data->size() + constants::kUnpackSetting.body_offset);
-  *(int*)(buf->data()) = htobe32(buf->size());
+  *(int*)(buf->data()) = htobe32(data->size());
   memcpy((char*)buf->data() + constants::kUnpackSetting.body_offset, data->data(), data->size());
   chn->write(buf);
 }
