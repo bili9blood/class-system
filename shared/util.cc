@@ -9,10 +9,12 @@
 namespace util {
 
 bool IsLittleEndian() {
+  // NOLINTNEXTLINE
   union {
     char c;
     int  n;
-  } un{.n = 1};
+  } un;
+  un.c = 1;
 
   return (bool)un.c;
 }
