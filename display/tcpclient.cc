@@ -1,7 +1,7 @@
 #include "tcpclient.h"
 
-#include <qendian.h>
 #include <shared/constants.h>
+#include <shared/util.h>
 
 TcpClient::TcpClient(QObject *parent) : QObject(parent) {
   client_.setUnpack(&const_cast<unpack_setting_t &>(constants::kUnpackSetting));
@@ -33,7 +33,7 @@ int TcpClient::Write(const QByteArray &data) {
 
   QByteArray arr;
   arr.resize(sizeof(int));
-  *(int *)(arr.data()) = qToBigEndian(data.size());
+  *(int *)(arr.data()) = util::ToBigEndian(data.size());
   arr.append(data);
 
   client_.send(new hv::Buffer{arr.data(), (size_t)arr.size()});
