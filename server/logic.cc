@@ -226,7 +226,7 @@ hv::BufferPtr HandleRequest(hv::Buffer* req) {
     }
   }
 
-  if (!class_id.has_value()) {
+  if (!class_id) {
     return util::MessageToBuf(CreateErrorResp("invaild key"));
   }
 
