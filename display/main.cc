@@ -3,6 +3,7 @@
 
 #include <csignal>
 
+#include "config.h"
 #include "mainwindow.h"
 #include "tcpclient.h"
 
@@ -27,5 +28,7 @@ auto main(int argc, char **argv) -> int {
   MainWindow w;
   w.show();
 
-  return QApplication::exec();
+  int code = QApplication::exec();
+  config::Save();
+  return code;
 }
