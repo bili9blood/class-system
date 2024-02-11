@@ -1,8 +1,8 @@
 #include "server.h"
 
+#include <hv/hendian.h>
 #include <hv/hlog.h>
 #include <shared/constants.h>
-#include <shared/util.h>
 
 #include "logic.h"
 
@@ -26,7 +26,7 @@ void Server::Write(const hv::SocketChannelPtr& chn, const hv::BufferPtr& data) {
   if (data->size() == 0) return;
 
   auto* buf            = new hv::Buffer(data->size() + constants::kUnpackSetting.body_offset);
-  *(int*)(buf->data()) = util::ToBigEndian((int)data->size());
+  *(int*)(buf->data()) = htobe32(buf->size());
   memcpy((char*)buf->data() + constants::kUnpackSetting.body_offset, data->data(), data->size());
   chn->write(buf);
 }
