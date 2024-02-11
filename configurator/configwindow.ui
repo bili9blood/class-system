@@ -6,18 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>580</width>
+    <width>590</width>
     <height>198</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ClassSystem 配置器</string>
   </property>
   <property name="styleSheet">
    <string notr="true">font-family: Microsoft YaHei;
 font-size: 12pt;</string>
   </property>
-  <layout class="QFormLayout" name="formLayout">
+  <layout class="QFormLayout" name="main_layout">
    <item row="0" column="0">
     <widget class="QLabel" name="field_label">
      <property name="text">
@@ -45,24 +45,14 @@ font-size: 12pt;</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QSpinBox" name="int_val_edit">
-     <property name="buttonSymbols">
-      <enum>QAbstractSpinBox::NoButtons</enum>
-     </property>
-     <property name="maximum">
-      <number>99999</number>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="1">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="tip_label">
      <property name="styleSheet">
       <string notr="true">font-size: 10pt;
 font-style: italic;</string>
      </property>
      <property name="text">
-      <string>当前编辑的是 %1 的配置，更改即时生效。</string>
+      <string>当前编辑的是 %1 的配置，关闭窗口即时生效。</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
@@ -72,8 +62,76 @@ font-style: italic;</string>
      </property>
     </widget>
    </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="int_val_edit"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="edited_label">
+     <property name="styleSheet">
+      <string notr="true">font-size: 10pt;
+color: #41CD52;
+font-weight: bold;</string>
+     </property>
+     <property name="text">
+      <string>已编辑</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>field_combo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>ConfigWindow</receiver>
+   <slot>HandleFieldChange()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>508</x>
+     <y>30</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1120</x>
+     <y>39</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>string_val_edit</sender>
+   <signal>textEdited(QString)</signal>
+   <receiver>ConfigWindow</receiver>
+   <slot>HandleValueChange()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>557</x>
+     <y>77</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1090</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>int_val_edit</sender>
+   <signal>textEdited(QString)</signal>
+   <receiver>ConfigWindow</receiver>
+   <slot>HandleValueChange()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>532</x>
+     <y>131</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>940</x>
+     <y>136</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>HandleFieldChange()</slot>
+  <slot>HandleValueChange()</slot>
+ </slots>
 </ui>
