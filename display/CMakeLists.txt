@@ -11,6 +11,7 @@ add_executable(
   class-system-display
   ${DISPLAY_SRC} ${DISPLAY_FORM_SRC} ../resources/display.qrc
   ${SHARED_SRC}
+  ${PROTO_SRC}
 )
 
 target_link_libraries(
