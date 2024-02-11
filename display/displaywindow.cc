@@ -19,13 +19,24 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
   // NOLINTNEXTLINE
   ::SetParent((HWND)winId(), native::GetFrontDesktopHwnd());
 
-  clock_timer_.start(1000);
+  clock_timer_.setInterval(1'000);
   connect(&clock_timer_, &QTimer::timeout, this, &DisplayWindow::HandleClockTick);
+  clock_timer_.start();
+
+  sentences_notices_switch_timer_.setInterval(30'000);
+  connect(&sentences_notices_switch_timer_, &QTimer::timeout, this, &DisplayWindow::HandleSwitchSentencesAndNotices);
+  sentences_notices_switch_timer_.start();
 }
 
 DisplayWindow::~DisplayWindow() = default;
 
 void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
+  class_info_ = resp.class_info();
+  sentences_  = {resp.sentences().cbegin(), resp.sentences().cend()};
+
+  HandleSwitchSentencesAndNotices();
+  sentences_notices_switch_timer_.start();
+
   show();
 }
 
@@ -63,4 +74,17 @@ void DisplayWindow::closeEvent(QCloseEvent *event) { QApplication::quit(); }
 void DisplayWindow::HandleClockTick() {
   ui_->time_label->setText(QTime::currentTime().toString(constants::kTimeFormat));
   ui_->date_weekday_label->setText(QDate::currentDate().toString(constants::kDateWeekdayFormat));
+}
+
+void DisplayWindow::HandleSwitchSentencesAndNotices() {
+  if (!sentences_.empty()) {
+    ui_->sentence_text_label->setText(QString::fromStdString(sentences_[0].text()));
+    ui_->sentence_author_label->setText(
+        QString{constants::kSentenceAuthorFormat}
+            .arg(QString::fromStdString(sentences_[0].author()))
+    );
+
+    sentences_.push_back(sentences_[0]);
+    sentences_.pop_front();
+  }
 }

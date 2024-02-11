@@ -4,5 +4,6 @@ constexpr std::pair<unsigned short, const char*> kQweatherIconMap[] = {{100, u8"
 
 constexpr const char                             kTimeFormat[]        = "HH:mm:ss";
 constexpr const char                             kDateWeekdayFormat[] = "MM月dd日 dddd";
+constexpr const char                             kSentenceAuthorFormat[] = "——%1";
 
 }  // namespace constants

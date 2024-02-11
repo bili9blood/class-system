@@ -27,8 +27,13 @@ class DisplayWindow : public QMainWindow {
   std::unique_ptr<Ui::DisplayWindow> ui_;
   QPoint                             mouse_start_pos_;
 
+  class_system::ClassInfo                    class_info_;
+  QList<class_system::Sentence>              sentences_;
+
   QTimer                             clock_timer_;
+  QTimer                             sentences_notices_switch_timer_;
 
  private slots:
   void HandleClockTick();
+  void HandleSwitchSentencesAndNotices();
 };
