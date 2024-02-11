@@ -10,7 +10,7 @@ TcpClient::TcpClient(QObject *parent) : QObject(parent) {
   client_.setUnpack(&const_cast<unpack_setting_t &>(constants::kUnpackSetting));
 
   client_.onMessage = [this](const hv::SocketChannelPtr &, hv::Buffer *buf) {
-    const auto arr = QByteArray{(char *)buf->data(), (int)buf->size()};
+    const auto arr = QByteArray{(char *)buf->data() + 4, (int)buf->size() - 4};
     Q_EMIT MessageReceived(arr);
   };
 
@@ -44,4 +44,8 @@ int TcpClient::Write(const QByteArray &data) {
 
   client_.send(new hv::Buffer{arr.data(), (size_t)arr.size()});
   return data.size();
+}
+
+int TcpClient::Write(const hv::BufferPtr &data) {
+  return Write(QByteArray{(char *)data->data(), (int)data->size()});
 }
