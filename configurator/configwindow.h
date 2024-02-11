@@ -18,7 +18,6 @@ class ConfigWindow : public QWidget {
   explicit ConfigWindow(const ConfigApp& app, QWidget* parent = nullptr);
   ~ConfigWindow() override;
 
-  // NOLINTNEXTLINE
  public slots:
   void HandleFieldChange();
   void HandleValueChange();
@@ -30,7 +29,6 @@ class ConfigWindow : public QWidget {
   std::shared_ptr<google::protobuf::Message> msg_;
   QTimer                                     hide_edited_timer_;
 
-  // NOLINTNEXTLINE
  private slots:
   void HideAllEdit();
   void SaveConfig();
