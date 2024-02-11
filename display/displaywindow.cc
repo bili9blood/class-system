@@ -1,13 +1,13 @@
-#include "mainwindow.h"
+#include "displaywindow.h"
 
 #include <qevent.h>
 #include <qpainter.h>
 #include <qscreen.h>
 
 #include "native.h"
-#include "ui_mainwindow.h"
+#include "ui_displaywindow.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui::MainWindow} {
+DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui::DisplayWindow} {
   ui_->setupUi(this);
   centralWidget()->setAttribute(Qt::WA_TransparentForMouseEvents);
 
@@ -18,24 +18,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui::MainW
   ::SetParent((HWND)winId(), native::GetFrontDesktopHwnd());
 }
 
-MainWindow::~MainWindow() = default;
+DisplayWindow::~DisplayWindow() = default;
 
-void MainWindow::mousePressEvent(QMouseEvent *event) {
+void DisplayWindow::mousePressEvent(QMouseEvent *event) {
   mouse_start_pos_ = event->pos();
 }
 
-void MainWindow::mouseMoveEvent(QMouseEvent *event) {
+void DisplayWindow::mouseMoveEvent(QMouseEvent *event) {
   move(event->globalPos() - mouse_start_pos_);
 }
 
-void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
+void DisplayWindow::mouseReleaseEvent(QMouseEvent *event) {
   move(
       qBound(0, x(), QApplication::primaryScreen()->availableGeometry().width() - width()),
       qBound(0, y(), QApplication::primaryScreen()->availableGeometry().height() - height())
   );
 }
 
-void MainWindow::paintEvent(QPaintEvent *event) {
+void DisplayWindow::paintEvent(QPaintEvent *event) {
   QPainter        painter{this};
 
   QLinearGradient ling{{0, 0}, rect().bottomRight()};
@@ -49,4 +49,4 @@ void MainWindow::paintEvent(QPaintEvent *event) {
   painter.drawRoundedRect(rect(), kRadius, kRadius);
 }
 
-void MainWindow::closeEvent(QCloseEvent *event) { QApplication::quit(); }
+void DisplayWindow::closeEvent(QCloseEvent *event) { QApplication::quit(); }

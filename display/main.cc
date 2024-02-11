@@ -4,7 +4,7 @@
 #include <csignal>
 
 #include "config.h"
-#include "mainwindow.h"
+#include "displaywindow.h"
 #include "tcpclient.h"
 
 void HandleSignal(int) {
@@ -16,17 +16,17 @@ auto main(int argc, char **argv) -> int {
 
   QApplication app{argc, argv};
 
+  QFontDatabase::addApplicationFont(":/fonts/FiraMono-Bold.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/qweather-icons.ttf");
+
   TcpClient    tcp_client;
   if (!tcp_client.Start()) {
     QMessageBox::critical(nullptr, "错误", "无法创建套接字！");
     return 1;
   }
+  QFont().defaultFamily();  // load fonts
 
-  QFontDatabase::addApplicationFont(":/fonts/FiraMono-Bold.ttf");
-  QFontDatabase::addApplicationFont(":/fonts/qweather-icons.ttf");
-
-  MainWindow w;
-  w.show();
+  DisplayWindow w;
 
   int code = QApplication::exec();
   config::Save();

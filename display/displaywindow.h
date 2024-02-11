@@ -2,14 +2,14 @@
 #include <qmainwindow.h>
 
 namespace Ui {
-class MainWindow;
+class DisplayWindow;
 }
 
-class MainWindow : public QMainWindow {
+class DisplayWindow : public QMainWindow {
   Q_OBJECT
  public:
-  explicit MainWindow(QWidget *parent = nullptr);
-  ~MainWindow() override;
+  explicit DisplayWindow(QWidget *parent = nullptr);
+  ~DisplayWindow() override;
 
  protected:
   void mousePressEvent(QMouseEvent *event) override;
@@ -19,6 +19,6 @@ class MainWindow : public QMainWindow {
   void closeEvent(QCloseEvent *event) override;
 
  private:
-  std::unique_ptr<Ui::MainWindow> ui_;
-  QPoint                          mouse_start_pos_;
+  std::unique_ptr<Ui::DisplayWindow> ui_;
+  QPoint                             mouse_start_pos_;
 };

@@ -1,7 +1,10 @@
 #include "tcpclient.h"
 
 #include <qendian.h>
+#include <qurl.h>
 #include <shared/constants.h>
+
+#include "config.h"
 
 TcpClient::TcpClient(QObject *parent) : QObject(parent) {
   client_.setUnpack(&const_cast<unpack_setting_t &>(constants::kUnpackSetting));
@@ -22,7 +25,10 @@ TcpClient::TcpClient(QObject *parent) : QObject(parent) {
 TcpClient::~TcpClient() = default;
 
 bool TcpClient::Start() {
-  if (client_.createsocket(7989, "localhost") < 0) return false;
+  const auto cfg        = config::Get();
+  const auto server_url = QUrl{QString::fromStdString(cfg.server_url())};
+  if (!server_url.isValid() || server_url.scheme() != "tcp") return false;
+  if (client_.createsocket(server_url.port(7989), server_url.host().toUtf8()) < 0) return false;
   client_.start();
   return true;
 }
