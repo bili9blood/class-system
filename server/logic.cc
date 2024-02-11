@@ -205,10 +205,6 @@ static void FetchSentences(const int& class_id, google::protobuf::RepeatedPtrFie
   }
 }
 
-static void CalcDailyArrangement(const int& class_id, class_system::ClassInfo* class_info) {
-  // TODO: calc daily arrangement
-}
-
 namespace logic {
 hv::BufferPtr HandleRequest(hv::Buffer* req) {
   class_system::Request request;
@@ -250,10 +246,6 @@ hv::BufferPtr HandleRequest(hv::Buffer* req) {
     } catch (const std::exception& e) {
       return util::MessageToBuf(CreateErrorResp(hv::asprintf("fetch sentences failed: %s", e.what())));
     }
-  }
-
-  if (request.request_daily_arrangement()) {
-    CalcDailyArrangement(class_id.value(), resp.mutable_class_info());
   }
 
   return util::MessageToBuf(resp);
