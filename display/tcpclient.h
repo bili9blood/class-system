@@ -24,6 +24,9 @@ class TcpClient : public QObject {
    */
   int Write(const QByteArray &data);
 
+  //! overload
+  int Write(const hv::BufferPtr &data);
+
  signals:
   void MessageReceived(const QByteArray &msg);
   void Connected();

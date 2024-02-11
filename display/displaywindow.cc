@@ -20,6 +20,10 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
 
 DisplayWindow::~DisplayWindow() = default;
 
+void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
+  show();
+}
+
 void DisplayWindow::mousePressEvent(QMouseEvent *event) {
   mouse_start_pos_ = event->pos();
 }

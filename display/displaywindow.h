@@ -1,4 +1,5 @@
 #pragma once
+#include <proto/Response.pb.h>
 #include <qmainwindow.h>
 
 namespace Ui {
@@ -10,6 +11,9 @@ class DisplayWindow : public QMainWindow {
  public:
   explicit DisplayWindow(QWidget *parent = nullptr);
   ~DisplayWindow() override;
+
+ public slots:
+  void HandleSucceesfulResp(const class_system::Response &resp);
 
  protected:
   void mousePressEvent(QMouseEvent *event) override;
