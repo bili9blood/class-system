@@ -1,4 +1,5 @@
 #include <qdatetime.h>
+#include <qrandom.h>
 #include <shared/constants.h>
 
 #include "constants.h"
@@ -7,7 +8,12 @@
 
 void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
   class_info_ = resp.class_info();
-  for (const auto &s : resp.sentences()) sentences_.push(s);
+  // simply make the first sentence different every time
+  {
+    const auto idx = QRandomGenerator::global()->bounded(resp.sentences_size());
+    for (auto i{idx}; i < (int)resp.sentences_size(); ++i) sentences_.push(resp.sentences(i));
+    for (auto i{0}; i < idx; ++i) sentences_.push(resp.sentences(i));
+  }
 
   HandleSwitchSentences();
   HandleSwitchNotices();
