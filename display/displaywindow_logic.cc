@@ -63,6 +63,7 @@ void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
   auto old_lesson_labels = ui_->lessons_widget->findChildren<QLabel *>();
   for (const auto &l : old_lesson_labels) l->deleteLater();
 
+  // add new lesson labels
   for (const auto &l : class_info_.lessons()) {
     auto *const lbl = new QLabel{
         QString{constants::kLessonFormat}
@@ -73,8 +74,6 @@ void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
     };
     ui_->lessons_layout->addWidget(lbl);
   }
-
-  // TODO: add new lesson labels
 
   show();
 }
