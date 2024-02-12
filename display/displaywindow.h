@@ -35,7 +35,7 @@ class DisplayWindow : public QMainWindow {
   QTimer                                     clock_timer_;
   QTimer                                     sentences_notices_switch_timer_;
 
-  void                                       UpdateLessonsClass();
+  void                                       UpdateLessonsStatus();
 
  private slots:
   void HandleClockTick();

@@ -24,7 +24,7 @@ static QString GetLessonToday(const class_system::ClassInfo::WeeklyLessons &less
   }
 }
 
-void DisplayWindow::UpdateLessonsClass() {
+void DisplayWindow::UpdateLessonsStatus() {
   auto lbls = ui_->lessons_widget->findChildren<QLabel *>();
   if (lbls.size() != class_info_.lessons().size()) return;
   const auto lessons_cnt  = lbls.size();
@@ -82,7 +82,7 @@ void DisplayWindow::HandleClockTick() {
   ui_->time_label->setText(QTime::currentTime().toString(constants::kTimeFormat));
   ui_->date_weekday_label->setText(QDate::currentDate().toString(constants::kDateWeekdayFormat));
 
-  UpdateLessonsClass();
+  UpdateLessonsStatus();
 }
 
 void DisplayWindow::HandleSwitchSentences() {
