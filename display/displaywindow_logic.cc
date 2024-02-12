@@ -21,18 +21,18 @@ void DisplayWindow::HandleClockTick() {
 }
 
 void DisplayWindow::HandleSwitchSentences() {
-  if (!sentences_.empty()) {
-    const auto cur_sentence = sentences_.front();
-    sentences_.pop();
+  if (sentences_.empty()) return;
 
-    ui_->sentence_text_label->setText(QString::fromStdString(cur_sentence.text()));
-    ui_->sentence_author_label->setText(
-        QString{constants::kSentenceAuthorFormat}
-            .arg(QString::fromStdString(cur_sentence.author()))
-    );
+  const auto cur_sentence = sentences_.front();
+  sentences_.pop();
 
-    sentences_.push(cur_sentence);
-  }
+  ui_->sentence_text_label->setText(QString::fromStdString(cur_sentence.text()));
+  ui_->sentence_author_label->setText(
+      QString{constants::kSentenceAuthorFormat}
+          .arg(QString::fromStdString(cur_sentence.author()))
+  );
+
+  sentences_.push(cur_sentence);
 }
 
 void DisplayWindow::HandleSwitchNotices() {
