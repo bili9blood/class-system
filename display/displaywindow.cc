@@ -32,7 +32,7 @@ DisplayWindow::~DisplayWindow() = default;
 
 void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
   class_info_ = resp.class_info();
-  sentences_  = {resp.sentences().cbegin(), resp.sentences().cend()};
+  for (const auto &s : resp.sentences()) sentences_.push(s);
 
   HandleSwitchSentencesAndNotices();
   sentences_notices_switch_timer_.start();
@@ -78,13 +78,15 @@ void DisplayWindow::HandleClockTick() {
 
 void DisplayWindow::HandleSwitchSentencesAndNotices() {
   if (!sentences_.empty()) {
-    ui_->sentence_text_label->setText(QString::fromStdString(sentences_[0].text()));
+    const auto cur_sentence = sentences_.front();
+    sentences_.pop();
+
+    ui_->sentence_text_label->setText(QString::fromStdString(cur_sentence.text()));
     ui_->sentence_author_label->setText(
         QString{constants::kSentenceAuthorFormat}
-            .arg(QString::fromStdString(sentences_[0].author()))
+            .arg(QString::fromStdString(cur_sentence.author()))
     );
 
-    sentences_.push_back(sentences_[0]);
-    sentences_.pop_front();
+    sentences_.push(cur_sentence);
   }
 }

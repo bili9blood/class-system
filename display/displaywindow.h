@@ -3,6 +3,8 @@
 #include <qmainwindow.h>
 #include <qtimer.h>
 
+#include <queue>
+
 namespace Ui {
 class DisplayWindow;
 }
@@ -28,7 +30,7 @@ class DisplayWindow : public QMainWindow {
   QPoint                             mouse_start_pos_;
 
   class_system::ClassInfo                    class_info_;
-  QList<class_system::Sentence>              sentences_;
+  std::queue<class_system::Sentence>         sentences_;
 
   QTimer                             clock_timer_;
   QTimer                             sentences_notices_switch_timer_;
