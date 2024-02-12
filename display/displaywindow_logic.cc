@@ -7,22 +7,23 @@
 #include "displaywindow.h"
 #include "ui_displaywindow.h"
 
-static QString GetLessonToday(const class_system::ClassInfo::WeeklyLessons &lessons) {
-  switch (QDate::currentDate().dayOfWeek()) {
-    case Qt::Monday:
-      return QString::fromStdString(lessons.mon());
-    case Qt::Tuesday:
-      return QString::fromStdString(lessons.tue());
-    case Qt::Wednesday:
-      return QString::fromStdString(lessons.wed());
-    case Qt::Thursday:
-      return QString::fromStdString(lessons.thu());
-    case Qt::Friday:
-      return QString::fromStdString(lessons.fri());
-    default:
-      return {};
-  }
-}
+#define GET_WEEKDAY_TODAY(x, c, d)              \
+  [c] {                                         \
+    switch (QDate::currentDate().dayOfWeek()) { \
+      case Qt::Monday:                          \
+        return x(mon);                          \
+      case Qt::Tuesday:                         \
+        return x(tue);                          \
+      case Qt::Wednesday:                       \
+        return x(wed);                          \
+      case Qt::Thursday:                        \
+        return x(thu);                          \
+      case Qt::Friday:                          \
+        return x(fri);                          \
+      default:                                  \
+        d                                       \
+    }                                           \
+  }()
 
 void DisplayWindow::InitSentences(const google::protobuf::RepeatedPtrField<class_system::Sentence> &sentences) {
   // simply make the first sentence different every time
@@ -31,7 +32,47 @@ void DisplayWindow::InitSentences(const google::protobuf::RepeatedPtrField<class
   for (auto i{0}; i < idx; ++i) sentences_.push(sentences[i]);
 }
 
+QList<DisplayWindow::DailyArrangement> DisplayWindow::GetDailyArrangement() {
+  static const auto FromPartial =
+      [](const class_system::ClassInfo::PartialArrangement &arr) -> DisplayWindow::DailyArrangement {
+    const auto &opts             = arr.opts();
+    const auto  start_date       = QDate::fromString(QString::fromStdString(opts.start_date()), constants::kProtobufDateFormat);
+    const auto  days_since_start = (int)start_date.daysTo(QDate::currentDate());
+    const auto  cur_idx =
+        ((days_since_start / opts.days_one_step()) * opts.students_one_step() + opts.start_idx()) %
+        arr.student_ids_size();
+    QList<int> student_ids_today;
+    for (auto i{0}; i < opts.students_one_step(); ++i)
+      student_ids_today.push_back(arr.student_ids((cur_idx + i) % arr.student_ids_size()));
+    return {QString::fromStdString(arr.job()), student_ids_today};
+  };
+
+  static const auto FromComplete =
+      [this](const class_system::ClassInfo::CompleteArrangement &arr) -> DisplayWindow::DailyArrangement {
+    class_system::ClassInfo::PartialArrangement partial;
+    partial.CopyFrom(arr);
+    for (const auto &s : class_info_.students()) partial.mutable_student_ids()->Add(s.id());
+    return FromPartial(partial);
+  };
+
+  static const auto FromWeekday =
+      [](const class_system::ClassInfo::WeekdayArrangement &arr) -> DisplayWindow::DailyArrangement {
+#define _X_(w) arr.w##_student_ids()
+    const auto student_ids_today = GET_WEEKDAY_TODAY(_X_, arr, return google::protobuf::RepeatedField<int>{};);
+#undef _X_
+
+    return {QString::fromStdString(arr.job()), {student_ids_today.cbegin(), student_ids_today.cend()}};
+  };
+
+  QList<DisplayWindow::DailyArrangement> res_list;
+  for (const auto &arr : class_info_.partial_arrangements()) res_list << FromPartial(arr);
+  for (const auto &arr : class_info_.complete_arrangements()) res_list << FromComplete(arr);
+  for (const auto &arr : class_info_.weekday_arrangements()) res_list << FromWeekday(arr);
+  return res_list;
+}
+
 void DisplayWindow::DisplayArrangement() {
+  const auto daily_arrangement = GetDailyArrangement();
 }
 
 void DisplayWindow::DisplayLessons() {
@@ -41,9 +82,13 @@ void DisplayWindow::DisplayLessons() {
 
   // add new lesson labels
   for (const auto &l : class_info_.lessons()) {
+#define _X_(w) QString::fromStdString(l.w())
+    const auto lesson_today = GET_WEEKDAY_TODAY(_X_, l, return QString{};);
+#undef _X_
+
     auto *const lbl = new QLabel{
         QString{constants::kLessonFormat}
-            .arg(GetLessonToday(l))
+            .arg(lesson_today)
             .arg(QTime::fromString(QString::fromStdString(l.start_tm()), constants::kProtobufTimeFormat).toString("HH:mm"))
             .arg(QTime::fromString(QString::fromStdString(l.end_tm()), constants::kProtobufTimeFormat).toString("HH:mm")),
         ui_->lessons_widget

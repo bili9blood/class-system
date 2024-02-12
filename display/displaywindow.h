@@ -11,6 +11,12 @@ class DisplayWindow;
 
 class DisplayWindow : public QMainWindow {
   Q_OBJECT
+
+  struct DailyArrangement {
+    QString    job;
+    QList<int> student_ids;
+  };
+
  public:
   explicit DisplayWindow(QWidget *parent = nullptr);
   ~DisplayWindow() override;
@@ -36,6 +42,7 @@ class DisplayWindow : public QMainWindow {
   QTimer                                     sentences_notices_switch_timer_;
 
   void                                       InitSentences(const google::protobuf::RepeatedPtrField<class_system::Sentence> &sentences);
+  QList<DailyArrangement>                    GetDailyArrangement();
   void                                       DisplayArrangement();
   void                                       DisplayLessons();
   void                                       UpdateLessonsStatus();
