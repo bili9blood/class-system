@@ -6,6 +6,9 @@
 #include "displaywindow.h"
 #include "ui_displaywindow.h"
 
+void DisplayWindow::UpdateLessons() {
+}
+
 void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
   class_info_ = resp.class_info();
   // simply make the first sentence different every time
@@ -19,12 +22,20 @@ void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
   HandleSwitchNotices();
   sentences_notices_switch_timer_.start();
 
+  // remove old lesson labels
+  auto old_lesson_labels = ui_->lessons_layout->findChildren<QLabel *>();
+  std::for_each(old_lesson_labels.begin(), old_lesson_labels.end(), &QLabel::deleteLater);
+
+  // TODO: add new lesson labels
+
   show();
 }
 
 void DisplayWindow::HandleClockTick() {
   ui_->time_label->setText(QTime::currentTime().toString(constants::kTimeFormat));
   ui_->date_weekday_label->setText(QDate::currentDate().toString(constants::kDateWeekdayFormat));
+
+  UpdateLessons();
 }
 
 void DisplayWindow::HandleSwitchSentences() {

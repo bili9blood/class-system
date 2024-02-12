@@ -26,14 +26,16 @@ class DisplayWindow : public QMainWindow {
   void closeEvent(QCloseEvent *event) override;
 
  private:
-  std::unique_ptr<Ui::DisplayWindow> ui_;
-  QPoint                             mouse_start_pos_;
+  std::unique_ptr<Ui::DisplayWindow>         ui_;
+  QPoint                                     mouse_start_pos_;
 
   class_system::ClassInfo                    class_info_;
   std::queue<class_system::Sentence>         sentences_;
 
-  QTimer                             clock_timer_;
-  QTimer                             sentences_notices_switch_timer_;
+  QTimer                                     clock_timer_;
+  QTimer                                     sentences_notices_switch_timer_;
+
+  void                                       UpdateLessons();
 
  private slots:
   void HandleClockTick();
