@@ -7,6 +7,23 @@
 #include "displaywindow.h"
 #include "ui_displaywindow.h"
 
+static QString GetLessonToday(const class_system::ClassInfo::WeeklyLessons &lessons) {
+  switch (QDate::currentDate().dayOfWeek()) {
+    case Qt::Monday:
+      return QString::fromStdString(lessons.mon());
+    case Qt::Tuesday:
+      return QString::fromStdString(lessons.tue());
+    case Qt::Wednesday:
+      return QString::fromStdString(lessons.wed());
+    case Qt::Thursday:
+      return QString::fromStdString(lessons.thu());
+    case Qt::Friday:
+      return QString::fromStdString(lessons.fri());
+    default:
+      return {};
+  }
+}
+
 void DisplayWindow::UpdateLessonsClass() {
   auto lbls = ui_->lessons_widget->findChildren<QLabel *>();
   if (lbls.size() != class_info_.lessons().size()) return;
@@ -26,23 +43,6 @@ void DisplayWindow::UpdateLessonsClass() {
       lbl->setProperty("class", "");
     lbl->style()->unpolish(lbl);
     lbl->style()->polish(lbl);
-  }
-}
-
-static QString GetLessonToday(const class_system::ClassInfo::WeeklyLessons &lessons) {
-  switch (QDate::currentDate().dayOfWeek()) {
-    case Qt::Monday:
-      return QString::fromStdString(lessons.mon());
-    case Qt::Tuesday:
-      return QString::fromStdString(lessons.tue());
-    case Qt::Wednesday:
-      return QString::fromStdString(lessons.wed());
-    case Qt::Thursday:
-      return QString::fromStdString(lessons.thu());
-    case Qt::Friday:
-      return QString::fromStdString(lessons.fri());
-    default:
-      return {};
   }
 }
 
