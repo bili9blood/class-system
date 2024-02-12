@@ -1,4 +1,5 @@
 #include <qdatetime.h>
+#include <shared/constants.h>
 
 #include "constants.h"
 #include "displaywindow.h"
@@ -36,4 +37,25 @@ void DisplayWindow::HandleSwitchSentences() {
 }
 
 void DisplayWindow::HandleSwitchNotices() {
+  if (class_info_.notices().empty()) {
+    ui_->notices_data_title_label->setText("无公告");
+    ui_->notices_date_label->setText("");
+    ui_->notices_text_browser->setText("");
+    return;
+  }
+
+  static int cur_notice_index{};
+  if (cur_notice_index >= class_info_.notices_size()) cur_notice_index = 0;
+  const auto &cur_notice = class_info_.notices(cur_notice_index);
+  ui_->notices_data_title_label->setText(QString::fromStdString(cur_notice.title()));
+  ui_->notices_text_browser->setText(QString::fromStdString(cur_notice.text()));
+  const auto date_str = cur_notice.date() == "FOREVER"
+                            ? ""
+                            : QDate::fromString(
+                                  QString::fromStdString(cur_notice.date()), constants::kProtobufDateFormat
+                              )
+                                  .toString(constants::kNoticeDateFormat);
+  ui_->notices_date_label->setText(date_str);
+
+  ++cur_notice_index;
 }

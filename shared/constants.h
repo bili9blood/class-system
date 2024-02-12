@@ -11,4 +11,7 @@ inline const auto kUnpackSetting = [] {
   return setting;
 }();
 
+constexpr const char kProtobufDateFormat[] = "yyMMdd";
+constexpr const char kProtobufTimeFormat[] = "HHmm";
+
 }  // namespace constants

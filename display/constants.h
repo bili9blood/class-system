@@ -5,6 +5,7 @@ constexpr std::pair<unsigned short, const char*> kQweatherIconMap[]             
 constexpr const char                             kTimeFormat[]                          = "HH:mm:ss";
 constexpr const char                             kDateWeekdayFormat[]                   = "M月d日 dddd";
 constexpr const char                             kSentenceAuthorFormat[]                = "——%1";
+constexpr const char                             kNoticeDateFormat[]                    = "至M月d日";
 
 constexpr int                                    kClockTimerIntervalMs                  = 1'000;
 constexpr int                                    kSentencesNoticesSwitchTimerIntervalMs = 30'000;
