@@ -27,6 +27,8 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
   sentences_notices_switch_timer_.start();
 
   connect(GlobalStore::Get(), &GlobalStore::SucceededHandleResp, this, &DisplayWindow::HandleSucceesfulResp);
+
+  SwitchWindowLayer(true);
 }
 
 DisplayWindow::~DisplayWindow() = default;
