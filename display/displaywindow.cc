@@ -92,3 +92,11 @@ void DisplayWindow::paintEvent(QPaintEvent *event) {
 }
 
 void DisplayWindow::closeEvent(QCloseEvent *event) { QApplication::quit(); }
+
+void DisplayWindow::MoveCenter() {
+  const auto screen_size = QApplication::primaryScreen()->size();
+  move(
+      (screen_size.width() - width()) / 2,
+      (screen_size.height() - height()) / 2
+  );
+}
