@@ -92,6 +92,7 @@ void DisplayWindow::DisplayArrangement() {
     title_label->setProperty("class", "title");
 
     auto *flow_layout = new FlowLayout{};
+    flow_layout->setContentsMargins(9, 9, 12, 9);
     for (const auto &student_id : arr.student_ids) {
       auto *const stu_label = new QLabel{
           QString{constants::kStudentNameFormat}
@@ -101,7 +102,6 @@ void DisplayWindow::DisplayArrangement() {
               )),
           ui_->arrangement_widget
       };
-
       flow_layout->addWidget(stu_label);
     }
     ui_->arrangement_layout->addRow(title_label, flow_layout);
