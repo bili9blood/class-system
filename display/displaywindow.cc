@@ -5,6 +5,7 @@
 #include <qscreen.h>
 
 #include "constants.h"
+#include "globalstore.h"
 #include "native.h"
 #include "ui_displaywindow.h"
 
@@ -26,6 +27,8 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
   connect(&sentences_notices_switch_timer_, &QTimer::timeout, this, &DisplayWindow::HandleSwitchSentences);
   connect(&sentences_notices_switch_timer_, &QTimer::timeout, this, &DisplayWindow::HandleSwitchNotices);
   sentences_notices_switch_timer_.start();
+
+  connect(GlobalStore::Get(), &GlobalStore::SucceededHandleResp, this, &DisplayWindow::HandleSucceesfulResp);
 }
 
 DisplayWindow::~DisplayWindow() = default;

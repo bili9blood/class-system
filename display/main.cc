@@ -7,7 +7,7 @@
 
 #include "config.h"
 #include "displaywindow.h"
-#include "resphandler.h"
+#include "globalstore.h"
 #include "tcpclient.h"
 
 void HandleSignal(int) {
@@ -28,12 +28,10 @@ auto main(int argc, char **argv) -> int {
     return 1;
   }
 
-  RespHandler   resp_handler;
   DisplayWindow display_window;
 
-  QObject::connect(&tcp_client, &TcpClient::MessageReceived, &resp_handler, &RespHandler::HandleResponse);
-  QObject::connect(&resp_handler, &RespHandler::Succeeded, &display_window, &DisplayWindow::HandleSucceesfulResp);
-  QObject::connect(&resp_handler, &RespHandler::Failed, [](const QString &error_msg) {
+  QObject::connect(&tcp_client, &TcpClient::MessageReceived, GlobalStore::Get(), &GlobalStore::HandleResponse);
+  QObject::connect(GlobalStore::Get(), &GlobalStore::FailedHandleResp, [](const QString &error_msg) {
     QMessageBox::critical(nullptr, "错误", "服务器数据响应错误：" + error_msg);
     QApplication::quit();
   });
