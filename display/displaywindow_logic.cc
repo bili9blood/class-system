@@ -150,6 +150,29 @@ void DisplayWindow::UpdateLessonsStatus() {
   }
 }
 
+void DisplayWindow::UpdateWindowStatus() {
+  static bool   is_front = true;
+  static QPoint old_pos;
+
+  const auto    during_lesson = std::any_of(
+      class_info_.lessons().cbegin(), class_info_.lessons().cend(),
+      [](const auto &l) {
+        const auto cur_time_str = QTime::currentTime().toString(constants::kProtobufTimeFormat).toStdString();
+        return cur_time_str >= l.start_tm() && cur_time_str < l.end_tm();
+      }
+  );
+  if (is_front && during_lesson) {
+    SwitchWindowLayer(is_front = false);
+    old_pos = pos();
+    MoveCenter();
+    setWindowOpacity(0.8);
+  } else if (!is_front && !during_lesson) {
+    SwitchWindowLayer(is_front = true);
+    move(old_pos);
+    setWindowOpacity(1.0);
+  }
+}
+
 void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
   class_info_ = resp.class_info();
 
@@ -170,6 +193,7 @@ void DisplayWindow::HandleClockTick() {
   ui_->date_weekday_label->setText(QDate::currentDate().toString(constants::kDateWeekdayFormat));
 
   UpdateLessonsStatus();
+  UpdateWindowStatus();
 }
 
 void DisplayWindow::HandleSwitchSentences() {

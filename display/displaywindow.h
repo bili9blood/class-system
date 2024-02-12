@@ -47,6 +47,7 @@ class DisplayWindow : public QMainWindow {
   void                                       DisplayArrangement();
   void                                       DisplayLessons();
   void                                       UpdateLessonsStatus();
+  void                                       UpdateWindowStatus();
   void                                       MoveCenter();
   void                                       SwitchWindowLayer(const bool &front);
 
