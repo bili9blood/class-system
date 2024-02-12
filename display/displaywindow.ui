@@ -281,15 +281,16 @@ font-family: Microsoft YaHei;
         <property name="styleSheet">
          <string notr="true">QLabel {
   font-size: 16pt;
-  font-family: Microsoft YaHei;
+  font-family: Fira Mono,Microsoft YaHei;
 }
 QLabel.current {
   color: #ee8545;
   font-weight: bold;
+  font-size: 17pt;
 }
 QLabel.past{
   color: #AAA;
-  font-size: 15.5pt;
+  font-size: 13.75pt;
 }</string>
         </property>
         <layout class="QVBoxLayout" name="lessons_layout"/>

@@ -6,6 +6,7 @@ constexpr const char                             kTimeFormat[]                  
 constexpr const char                             kDateWeekdayFormat[]                   = "M月d日 dddd";
 constexpr const char                             kSentenceAuthorFormat[]                = "——%1";
 constexpr const char                             kNoticeDateFormat[]                    = "至M月d日";
+constexpr const char                             kLessonFormat[]                        = "%1 (%2~%3)";
 
 constexpr int                                    kClockTimerIntervalMs                  = 1'000;
 constexpr int                                    kSentencesNoticesSwitchTimerIntervalMs = 30'000;

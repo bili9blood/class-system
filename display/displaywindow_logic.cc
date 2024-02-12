@@ -1,12 +1,49 @@
 #include <qdatetime.h>
 #include <qrandom.h>
+#include <qstyle.h>
 #include <shared/constants.h>
 
 #include "constants.h"
 #include "displaywindow.h"
 #include "ui_displaywindow.h"
 
-void DisplayWindow::UpdateLessons() {
+void DisplayWindow::UpdateLessonsClass() {
+  auto lbls = ui_->lessons_widget->findChildren<QLabel *>();
+  if (lbls.size() != class_info_.lessons().size()) return;
+  const auto lessons_cnt  = lbls.size();
+  const auto cur_time_str = QTime::currentTime().toString(constants::kProtobufTimeFormat).toStdString();
+
+  for (auto i{0}; i < lessons_cnt; ++i) {
+    auto &lbl = lbls[i];
+    if (
+        (i > 0 && cur_time_str >= class_info_.lessons(i - 1).end_tm() && cur_time_str < class_info_.lessons(i).end_tm()) ||
+        (i == 0 && cur_time_str < class_info_.lessons(i).end_tm())
+    )
+      lbl->setProperty("class", "current");
+    else if (cur_time_str > class_info_.lessons(i).start_tm())
+      lbl->setProperty("class", "past");
+    else
+      lbl->setProperty("class", "");
+    lbl->style()->unpolish(lbl);
+    lbl->style()->polish(lbl);
+  }
+}
+
+static QString GetLessonToday(const class_system::ClassInfo::WeeklyLessons &lessons) {
+  switch (QDate::currentDate().dayOfWeek()) {
+    case Qt::Monday:
+      return QString::fromStdString(lessons.mon());
+    case Qt::Tuesday:
+      return QString::fromStdString(lessons.tue());
+    case Qt::Wednesday:
+      return QString::fromStdString(lessons.wed());
+    case Qt::Thursday:
+      return QString::fromStdString(lessons.thu());
+    case Qt::Friday:
+      return QString::fromStdString(lessons.fri());
+    default:
+      return {};
+  }
 }
 
 void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
@@ -23,8 +60,19 @@ void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
   sentences_notices_switch_timer_.start();
 
   // remove old lesson labels
-  auto old_lesson_labels = ui_->lessons_layout->findChildren<QLabel *>();
-  std::for_each(old_lesson_labels.begin(), old_lesson_labels.end(), &QLabel::deleteLater);
+  auto old_lesson_labels = ui_->lessons_widget->findChildren<QLabel *>();
+  for (const auto &l : old_lesson_labels) l->deleteLater();
+
+  for (const auto &l : class_info_.lessons()) {
+    auto *const lbl = new QLabel{
+        QString{constants::kLessonFormat}
+            .arg(GetLessonToday(l))
+            .arg(QTime::fromString(QString::fromStdString(l.start_tm()), constants::kProtobufTimeFormat).toString("HH:mm"))
+            .arg(QTime::fromString(QString::fromStdString(l.end_tm()), constants::kProtobufTimeFormat).toString("HH:mm")),
+        ui_->lessons_widget
+    };
+    ui_->lessons_layout->addWidget(lbl);
+  }
 
   // TODO: add new lesson labels
 
@@ -35,7 +83,7 @@ void DisplayWindow::HandleClockTick() {
   ui_->time_label->setText(QTime::currentTime().toString(constants::kTimeFormat));
   ui_->date_weekday_label->setText(QDate::currentDate().toString(constants::kDateWeekdayFormat));
 
-  UpdateLessons();
+  UpdateLessonsClass();
 }
 
 void DisplayWindow::HandleSwitchSentences() {
