@@ -103,4 +103,6 @@ void DisplayWindow::MoveCenter() {
 void DisplayWindow::SwitchWindowLayer(const bool &front) {
   // NOLINTNEXTLINE
   ::SetParent((HWND)winId(), front ? native::GetFrontDesktopHwnd() : native::GetBackDesktopHwnd());
+  hide();
+  show();
 }
