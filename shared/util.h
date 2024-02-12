@@ -3,6 +3,7 @@
 #include <google/protobuf/message_lite.h>
 #include <google/protobuf/repeated_field.h>
 #include <hv/Buffer.h>
+#include <proto/ClassInfo.pb.h>
 
 namespace util {
 
@@ -15,4 +16,6 @@ namespace util {
 hv::BufferPtr MessageToBuf(const google::protobuf::MessageLite& msg);
 
 void          SplitIdsFromStr(std::string_view str, google::protobuf::RepeatedField<int>* ids);
+
+std::string   GetStudentNameById(const google::protobuf::RepeatedPtrField<class_system::ClassInfo::Student>& students, const int& id);
 }

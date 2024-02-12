@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1250</width>
-    <height>800</height>
+    <width>1479</width>
+    <height>1000</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -285,7 +285,23 @@ QLabel.title {
   font-weight: bold;
 }</string>
         </property>
-        <layout class="QFormLayout" name="formLayout"/>
+        <layout class="QFormLayout" name="arrangement_layout">
+         <property name="verticalSpacing">
+          <number>12</number>
+         </property>
+         <property name="leftMargin">
+          <number>8</number>
+         </property>
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <property name="rightMargin">
+          <number>8</number>
+         </property>
+         <property name="bottomMargin">
+          <number>4</number>
+         </property>
+        </layout>
        </widget>
       </item>
       <item row="1" column="4">
@@ -305,7 +321,20 @@ QLabel.past{
   font-size: 13.75pt;
 }</string>
         </property>
-        <layout class="QVBoxLayout" name="lessons_layout"/>
+        <layout class="QVBoxLayout" name="lessons_layout">
+         <property name="leftMargin">
+          <number>8</number>
+         </property>
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <property name="rightMargin">
+          <number>8</number>
+         </property>
+         <property name="bottomMargin">
+          <number>4</number>
+         </property>
+        </layout>
        </widget>
       </item>
      </layout>

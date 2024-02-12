@@ -2,9 +2,11 @@
 #include <qrandom.h>
 #include <qstyle.h>
 #include <shared/constants.h>
+#include <shared/util.h>
 
 #include "constants.h"
 #include "displaywindow.h"
+#include "flowlayout.h"
 #include "ui_displaywindow.h"
 
 #define GET_WEEKDAY_TODAY(x, c, d)              \
@@ -24,6 +26,14 @@
         d                                       \
     }                                           \
   }()
+
+static void ClearLayout(QLayout *layout) {
+  if (!layout->count()) return;
+  while (QLayoutItem *item = layout->takeAt(0)) {
+    if (QWidget *child = item->widget()) child->deleteLater();
+    delete item;
+  }
+}
 
 void DisplayWindow::InitSentences(const google::protobuf::RepeatedPtrField<class_system::Sentence> &sentences) {
   // simply make the first sentence different every time
@@ -73,12 +83,33 @@ QList<DisplayWindow::DailyArrangement> DisplayWindow::GetDailyArrangement() {
 
 void DisplayWindow::DisplayArrangement() {
   const auto daily_arrangement = GetDailyArrangement();
+
+  ClearLayout(ui_->arrangement_layout);
+
+  // add new arrangement labels & layouts
+  for (const auto &arr : daily_arrangement) {
+    auto *const title_label = new QLabel(arr.job, ui_->arrangement_widget);
+    title_label->setProperty("class", "title");
+
+    auto *flow_layout = new FlowLayout{};
+    for (const auto &student_id : arr.student_ids) {
+      auto *const stu_label = new QLabel{
+          QString{constants::kStudentNameFormat}
+              .arg(student_id)
+              .arg(QString::fromStdString(
+                  util::GetStudentNameById(class_info_.students(), student_id)
+              )),
+          ui_->arrangement_widget
+      };
+
+      flow_layout->addWidget(stu_label);
+    }
+    ui_->arrangement_layout->addRow(title_label, flow_layout);
+  }
 }
 
 void DisplayWindow::DisplayLessons() {
-  // remove old lesson labels
-  auto old_lesson_labels = ui_->lessons_widget->findChildren<QLabel *>();
-  for (const auto &l : old_lesson_labels) l->deleteLater();
+  ClearLayout(ui_->lessons_layout);
 
   // add new lesson labels
   for (const auto &l : class_info_.lessons()) {
