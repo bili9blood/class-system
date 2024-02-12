@@ -17,9 +17,6 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
   setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
   setAttribute(Qt::WA_TranslucentBackground);
 
-  // NOLINTNEXTLINE
-  ::SetParent((HWND)winId(), native::GetFrontDesktopHwnd());
-
   clock_timer_.setInterval(constants::kClockTimerIntervalMs);
   connect(&clock_timer_, &QTimer::timeout, this, &DisplayWindow::HandleClockTick);
   clock_timer_.start();
@@ -99,4 +96,9 @@ void DisplayWindow::MoveCenter() {
       (screen_size.width() - width()) / 2,
       (screen_size.height() - height()) / 2
   );
+}
+
+void DisplayWindow::SwitchWindowLayer(const bool &front) {
+  // NOLINTNEXTLINE
+  ::SetParent((HWND)winId(), front ? native::GetFrontDesktopHwnd() : native::GetBackDesktopHwnd());
 }

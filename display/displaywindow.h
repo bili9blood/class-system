@@ -48,6 +48,7 @@ class DisplayWindow : public QMainWindow {
   void                                       DisplayLessons();
   void                                       UpdateLessonsStatus();
   void                                       MoveCenter();
+  void                                       SwitchWindowLayer(const bool &front);
 
  private slots:
   void HandleClockTick();
