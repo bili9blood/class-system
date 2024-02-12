@@ -3,6 +3,7 @@
 #include <qevent.h>
 #include <qpainter.h>
 #include <qscreen.h>
+#include <windowsx.h>
 
 #include "constants.h"
 #include "globalstore.h"
@@ -46,6 +47,33 @@ void DisplayWindow::mouseReleaseEvent(QMouseEvent *event) {
       qBound(0, x(), QApplication::primaryScreen()->availableGeometry().width() - width()),
       qBound(0, y(), QApplication::primaryScreen()->availableGeometry().height() - height())
   );
+}
+
+bool DisplayWindow::nativeEvent(const QByteArray &event_type, void *message, long *result) {
+#ifdef WIN32
+  const auto *msg = static_cast<MSG *>(message);
+  if (msg->message == WM_NCHITTEST) {
+    *result                = 0;
+    constexpr int kPadding = 8;
+    // NOLINTNEXTLINE
+    long       x    = GET_X_LPARAM(msg->lParam);
+    long       y    = GET_Y_LPARAM(msg->lParam);
+    const auto geom = frameGeometry();
+    // clang-format off
+    if (y < geom.top() + kPadding) *result = HTTOP;
+    else if (y > geom.bottom() - kPadding) *result = HTBOTTOM;
+    else if (x < geom.left() + kPadding) *result = HTLEFT;
+    else if (x > geom.right() - kPadding) *result = HTRIGHT;
+    else if (y < geom.top() + kPadding && x < geom.left() + kPadding) *result = HTTOPLEFT;
+    else if (y < geom.top() + kPadding && x > geom.right() - kPadding) *result = HTTOPRIGHT;
+    else if (y > geom.bottom() - kPadding && x < geom.left() + kPadding) *result = HTBOTTOMLEFT;
+    else if (y > geom.bottom() - kPadding && x > geom.right() - kPadding) *result = HTBOTTOMRIGHT;
+    else return false;
+    // clang-format on
+    return true;
+  }
+#endif
+  return QMainWindow::nativeEvent(event_type, message, result);
 }
 
 void DisplayWindow::paintEvent(QPaintEvent *event) {
