@@ -37,5 +37,6 @@ class DisplayWindow : public QMainWindow {
 
  private slots:
   void HandleClockTick();
-  void HandleSwitchSentencesAndNotices();
+  void HandleSwitchSentences();
+  void HandleSwitchNotices();
 };

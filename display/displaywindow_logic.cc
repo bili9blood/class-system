@@ -8,7 +8,8 @@ void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
   class_info_ = resp.class_info();
   for (const auto &s : resp.sentences()) sentences_.push(s);
 
-  HandleSwitchSentencesAndNotices();
+  HandleSwitchSentences();
+  HandleSwitchNotices();
   sentences_notices_switch_timer_.start();
 
   show();
@@ -19,7 +20,7 @@ void DisplayWindow::HandleClockTick() {
   ui_->date_weekday_label->setText(QDate::currentDate().toString(constants::kDateWeekdayFormat));
 }
 
-void DisplayWindow::HandleSwitchSentencesAndNotices() {
+void DisplayWindow::HandleSwitchSentences() {
   if (!sentences_.empty()) {
     const auto cur_sentence = sentences_.front();
     sentences_.pop();
@@ -32,4 +33,7 @@ void DisplayWindow::HandleSwitchSentencesAndNotices() {
 
     sentences_.push(cur_sentence);
   }
+}
+
+void DisplayWindow::HandleSwitchNotices() {
 }

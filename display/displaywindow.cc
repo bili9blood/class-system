@@ -23,7 +23,8 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
   clock_timer_.start();
 
   sentences_notices_switch_timer_.setInterval(constants::kSentencesNoticesSwitchTimerIntervalMs);
-  connect(&sentences_notices_switch_timer_, &QTimer::timeout, this, &DisplayWindow::HandleSwitchSentencesAndNotices);
+  connect(&sentences_notices_switch_timer_, &QTimer::timeout, this, &DisplayWindow::HandleSwitchSentences);
+  connect(&sentences_notices_switch_timer_, &QTimer::timeout, this, &DisplayWindow::HandleSwitchNotices);
   sentences_notices_switch_timer_.start();
 }
 
