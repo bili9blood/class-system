@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1479</width>
-    <height>1000</height>
+    <width>1235</width>
+    <height>781</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <string notr="true">color: white;</string>
   </property>
   <widget class="QWidget" name="central_widget">
-   <layout class="QVBoxLayout" name="main_layout" stretch="3,0,12,0,2">
+   <layout class="QVBoxLayout" name="main_layout" stretch="1,0,6,0,1">
     <item>
      <layout class="QGridLayout" name="header_layout" columnstretch="3,6,0,2">
       <property name="horizontalSpacing">
@@ -283,12 +283,10 @@ font-family: Microsoft YaHei;
 QLabel.title {
   font-size: 16.75pt;
   font-weight: bold;
-}</string>
+}
+</string>
         </property>
         <layout class="QFormLayout" name="arrangement_layout">
-         <property name="verticalSpacing">
-          <number>12</number>
-         </property>
          <property name="leftMargin">
           <number>8</number>
          </property>
