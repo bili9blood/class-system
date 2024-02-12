@@ -35,6 +35,9 @@ class DisplayWindow : public QMainWindow {
   QTimer                                     clock_timer_;
   QTimer                                     sentences_notices_switch_timer_;
 
+  void                                       InitSentences(const google::protobuf::RepeatedPtrField<class_system::Sentence> &sentences);
+  void                                       DisplayArrangement();
+  void                                       DisplayLessons();
   void                                       UpdateLessonsStatus();
 
  private slots:

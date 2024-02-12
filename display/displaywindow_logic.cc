@@ -24,6 +24,34 @@ static QString GetLessonToday(const class_system::ClassInfo::WeeklyLessons &less
   }
 }
 
+void DisplayWindow::InitSentences(const google::protobuf::RepeatedPtrField<class_system::Sentence> &sentences) {
+  // simply make the first sentence different every time
+  const auto idx = QRandomGenerator::global()->bounded(sentences.size());
+  for (auto i{idx}; i < sentences.size(); ++i) sentences_.push(sentences[i]);
+  for (auto i{0}; i < idx; ++i) sentences_.push(sentences[i]);
+}
+
+void DisplayWindow::DisplayArrangement() {
+}
+
+void DisplayWindow::DisplayLessons() {
+  // remove old lesson labels
+  auto old_lesson_labels = ui_->lessons_widget->findChildren<QLabel *>();
+  for (const auto &l : old_lesson_labels) l->deleteLater();
+
+  // add new lesson labels
+  for (const auto &l : class_info_.lessons()) {
+    auto *const lbl = new QLabel{
+        QString{constants::kLessonFormat}
+            .arg(GetLessonToday(l))
+            .arg(QTime::fromString(QString::fromStdString(l.start_tm()), constants::kProtobufTimeFormat).toString("HH:mm"))
+            .arg(QTime::fromString(QString::fromStdString(l.end_tm()), constants::kProtobufTimeFormat).toString("HH:mm")),
+        ui_->lessons_widget
+    };
+    ui_->lessons_layout->addWidget(lbl);
+  }
+}
+
 void DisplayWindow::UpdateLessonsStatus() {
   auto lbls = ui_->lessons_widget->findChildren<QLabel *>();
   if (lbls.size() != class_info_.lessons().size()) return;
@@ -48,32 +76,15 @@ void DisplayWindow::UpdateLessonsStatus() {
 
 void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
   class_info_ = resp.class_info();
-  // simply make the first sentence different every time
-  {
-    const auto idx = QRandomGenerator::global()->bounded(resp.sentences_size());
-    for (auto i{idx}; i < (int)resp.sentences_size(); ++i) sentences_.push(resp.sentences(i));
-    for (auto i{0}; i < idx; ++i) sentences_.push(resp.sentences(i));
-  }
+
+  InitSentences(resp.sentences());
+  DisplayArrangement();
 
   HandleSwitchSentences();
   HandleSwitchNotices();
   sentences_notices_switch_timer_.start();
 
-  // remove old lesson labels
-  auto old_lesson_labels = ui_->lessons_widget->findChildren<QLabel *>();
-  for (const auto &l : old_lesson_labels) l->deleteLater();
-
-  // add new lesson labels
-  for (const auto &l : class_info_.lessons()) {
-    auto *const lbl = new QLabel{
-        QString{constants::kLessonFormat}
-            .arg(GetLessonToday(l))
-            .arg(QTime::fromString(QString::fromStdString(l.start_tm()), constants::kProtobufTimeFormat).toString("HH:mm"))
-            .arg(QTime::fromString(QString::fromStdString(l.end_tm()), constants::kProtobufTimeFormat).toString("HH:mm")),
-        ui_->lessons_widget
-    };
-    ui_->lessons_layout->addWidget(lbl);
-  }
+  DisplayLessons();
 
   show();
 }
