@@ -67,7 +67,6 @@ bool DisplayWindow::nativeEvent(const QByteArray &event_type, void *message, lon
     else if (y > geom.bottom() - kPadding) *result = HTBOTTOM;
     else if (x < geom.left() + kPadding) *result = HTLEFT;
     else if (x > geom.right() - kPadding) *result = HTRIGHT;
-
     else return false;
     // clang-format on
     return true;
