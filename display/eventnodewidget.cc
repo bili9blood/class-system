@@ -19,6 +19,10 @@ EventNodeWidget::EventNodeWidget(const class_system::ClassInfo::Event &event, QW
     ui_->icon_label->setProperty("class", "important");
     ui_->icon_label->style()->unpolish(ui_->icon_label);
     ui_->icon_label->style()->polish(ui_->icon_label);
+
+    ui_->icon_label->setText(u8"\uf005");
+  } else {
+    ui_->icon_label->setText(u8"\uf111");
   }
 }
 
