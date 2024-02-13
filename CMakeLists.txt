@@ -26,7 +26,6 @@ file(GLOB_RECURSE SHARED_SRC shared/*.h shared/*.cc)
 if(${BUILD_GUI})
   add_subdirectory(./display/)
   add_subdirectory(./manage/)
-  add_subdirectory(./configurator)
 endif()
 
 add_subdirectory(./server/)
