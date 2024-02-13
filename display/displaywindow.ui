@@ -17,7 +17,7 @@
    <string notr="true">color: white;</string>
   </property>
   <widget class="QWidget" name="central_widget">
-   <layout class="QVBoxLayout" name="main_layout" stretch="1,0,6,0,1">
+   <layout class="QVBoxLayout" name="main_layout" stretch="0,0,6,0,0">
     <item>
      <layout class="QGridLayout" name="header_layout" columnstretch="3,6,0,2">
       <property name="horizontalSpacing">
@@ -75,6 +75,9 @@ font-family: Microsoft Yahei;
         </property>
        </widget>
       </item>
+      <item row="0" column="3" rowspan="2">
+       <widget class="TitleWidget" name="title_widget" native="true"/>
+      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="date_weekday_label">
         <property name="styleSheet">
@@ -89,9 +92,6 @@ font-family: Microsoft Yahei;
          <set>Qt::AlignHCenter|Qt::AlignTop</set>
         </property>
        </widget>
-      </item>
-      <item row="0" column="3" rowspan="2">
-       <widget class="TitleWidget" name="title_widget" native="true"/>
       </item>
       <item row="0" column="2" rowspan="2">
        <spacer name="horizontalSpacer">
@@ -125,8 +125,53 @@ font-family: Microsoft Yahei;
      </widget>
     </item>
     <item>
-     <layout class="QGridLayout" name="body_layout" rowstretch="0,1" columnstretch="2,0,3,0,2">
-      <item row="1" column="0">
+     <layout class="QGridLayout" name="body_layout" rowstretch="0,1,0,0,3" columnstretch="2,0,3,0,2">
+      <item row="0" column="3" rowspan="5">
+       <widget class="Line" name="arrangement_lessons_line">
+        <property name="styleSheet">
+         <string notr="true">color: rgba(164, 172, 187, 80);</string>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth">
+         <number>2</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QWidget" name="arrangement_widget" native="true">
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+  font-family: Microsoft Yahei;
+  font-size: 15.5pt;
+}
+QLabel.title {
+  font-size: 16.75pt;
+  font-weight: bold;
+}
+</string>
+        </property>
+        <layout class="QFormLayout" name="arrangement_layout">
+         <property name="leftMargin">
+          <number>8</number>
+         </property>
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <property name="rightMargin">
+          <number>8</number>
+         </property>
+         <property name="bottomMargin">
+          <number>4</number>
+         </property>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="0" rowspan="4">
        <layout class="QVBoxLayout" name="notices_layout" stretch="0,0,0,1">
         <item>
          <widget class="QLabel" name="notices_data_title_label">
@@ -156,7 +201,7 @@ font-weight: 300;</string>
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacer">
+         <spacer name="notice_spacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -193,7 +238,7 @@ p, li { white-space: pre-wrap; }
         </item>
        </layout>
       </item>
-      <item row="0" column="1" rowspan="2">
+      <item row="0" column="1" rowspan="5">
        <widget class="Line" name="notices_arrangement_line">
         <property name="styleSheet">
          <string notr="true">color: rgba(164, 172, 187, 80);</string>
@@ -209,100 +254,7 @@ p, li { white-space: pre-wrap; }
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="arrangement_title_label">
-        <property name="styleSheet">
-         <string notr="true">font-size: 18pt;
-font-weight: bold;
-font-family: Microsoft YaHei;
-</string>
-        </property>
-        <property name="text">
-         <string>安排</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="lessons_title_label">
-        <property name="styleSheet">
-         <string notr="true">font-size: 18pt;
-font-weight: bold;
-font-family: Microsoft YaHei;
-</string>
-        </property>
-        <property name="text">
-         <string>课程</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="notices_title_label">
-        <property name="styleSheet">
-         <string notr="true">font-size: 18pt;
-font-weight: bold;
-font-family: Microsoft YaHei;
-</string>
-        </property>
-        <property name="text">
-         <string>公告</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3" rowspan="2">
-       <widget class="Line" name="arrangement_lessons_line">
-        <property name="styleSheet">
-         <string notr="true">color: rgba(164, 172, 187, 80);</string>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
-        </property>
-        <property name="lineWidth">
-         <number>2</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QWidget" name="arrangement_widget" native="true">
-        <property name="styleSheet">
-         <string notr="true">QLabel {
-  font-family: Microsoft Yahei;
-  font-size: 15.5pt;
-}
-QLabel.title {
-  font-size: 16.75pt;
-  font-weight: bold;
-}
-</string>
-        </property>
-        <layout class="QFormLayout" name="arrangement_layout">
-         <property name="leftMargin">
-          <number>8</number>
-         </property>
-         <property name="topMargin">
-          <number>4</number>
-         </property>
-         <property name="rightMargin">
-          <number>8</number>
-         </property>
-         <property name="bottomMargin">
-          <number>4</number>
-         </property>
-        </layout>
-       </widget>
-      </item>
-      <item row="1" column="4">
+      <item row="1" column="4" rowspan="4">
        <widget class="QWidget" name="lessons_widget" native="true">
         <property name="styleSheet">
          <string notr="true">QLabel {
@@ -334,6 +286,89 @@ QLabel.past{
          </property>
         </layout>
        </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="events_title_label">
+        <property name="styleSheet">
+         <string notr="true">font-size: 18pt;
+font-weight: bold;
+font-family: Microsoft YaHei;
+</string>
+        </property>
+        <property name="text">
+         <string>事件</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="arrangement_title_label">
+        <property name="styleSheet">
+         <string notr="true">font-size: 18pt;
+font-weight: bold;
+font-family: Microsoft YaHei;
+</string>
+        </property>
+        <property name="text">
+         <string>安排</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="lessons_title_label">
+        <property name="styleSheet">
+         <string notr="true">font-size: 18pt;
+font-weight: bold;
+font-family: Microsoft YaHei;
+</string>
+        </property>
+        <property name="text">
+         <string>课程</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="notices_title_label">
+        <property name="styleSheet">
+         <string notr="true">font-size: 18pt;
+font-weight: bold;
+font-family: Microsoft YaHei;
+</string>
+        </property>
+        <property name="text">
+         <string>公告</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="Line" name="events_arrangement_line">
+        <property name="styleSheet">
+         <string notr="true">color: rgba(164, 172, 187, 80);</string>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth">
+         <number>2</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QWidget" name="events_widget" native="true"/>
       </item>
      </layout>
     </item>
