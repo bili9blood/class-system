@@ -10,8 +10,8 @@
 #include "flowlayout.h"
 #include "ui_displaywindow.h"
 
-#ifdef max
-#undef max
+#ifdef min
+#undef min
 #endif
 
 #define GET_WEEKDAY_TODAY(x, c, d)              \
@@ -88,7 +88,7 @@ QList<DisplayWindow::DailyArrangement> DisplayWindow::GetDailyArrangement() {
 
 void DisplayWindow::DisplayEvents() {
   ClearLayout(ui_->events_widget->layout());
-  for (auto i{0}; i < std::max(4, class_info_.events_size()); ++i) {
+  for (auto i{0}; i < std::min(4, class_info_.events_size()); ++i) {
     auto *const event_widget = new EventNodeWidget{class_info_.events(i), ui_->events_widget};
     ui_->events_widget->layout()->addWidget(event_widget);
   }
