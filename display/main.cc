@@ -10,12 +10,8 @@
 #include "globalstore.h"
 #include "tcpclient.h"
 
-void HandleSignal(int) {
-  QApplication::quit();
-}
-
 auto main(int argc, char **argv) -> int {
-  (void)signal(SIGINT, HandleSignal);
+  (void)signal(SIGINT, [](int) { QApplication::quit(); });
 
   QApplication app{argc, argv};
 
