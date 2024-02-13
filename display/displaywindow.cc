@@ -59,14 +59,15 @@ bool DisplayWindow::nativeEvent(const QByteArray &event_type, void *message, lon
     long       y    = GET_Y_LPARAM(msg->lParam);
     const auto geom = frameGeometry();
     // clang-format off
-    if (y < geom.top() + kPadding) *result = HTTOP;
-    else if (y > geom.bottom() - kPadding) *result = HTBOTTOM;
-    else if (x < geom.left() + kPadding) *result = HTLEFT;
-    else if (x > geom.right() - kPadding) *result = HTRIGHT;
-    else if (y < geom.top() + kPadding && x < geom.left() + kPadding) *result = HTTOPLEFT;
+    if (y < geom.top() + kPadding && x < geom.left() + kPadding) *result = HTTOPLEFT;
     else if (y < geom.top() + kPadding && x > geom.right() - kPadding) *result = HTTOPRIGHT;
     else if (y > geom.bottom() - kPadding && x < geom.left() + kPadding) *result = HTBOTTOMLEFT;
     else if (y > geom.bottom() - kPadding && x > geom.right() - kPadding) *result = HTBOTTOMRIGHT;
+    else if (y < geom.top() + kPadding) *result = HTTOP;
+    else if (y > geom.bottom() - kPadding) *result = HTBOTTOM;
+    else if (x < geom.left() + kPadding) *result = HTLEFT;
+    else if (x > geom.right() - kPadding) *result = HTRIGHT;
+
     else return false;
     // clang-format on
     return true;
