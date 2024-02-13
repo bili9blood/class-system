@@ -49,6 +49,7 @@ class DisplayWindow : public QMainWindow {
   void                                       DisplayEvents();
   void                                       DisplayArrangement();
   void                                       DisplayLessons();
+  void                                       DisplayWeather();
   void                                       UpdateLessonsStatus();
   void                                       UpdateWindowStatus();
   void                                       MoveCenter();

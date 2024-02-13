@@ -1,9 +1,14 @@
+#include <hv/hssl.h>
+#include <hv/requests.h>
 #include <qdatetime.h>
 #include <qrandom.h>
 #include <qstyle.h>
 #include <shared/constants.h>
 #include <shared/util.h>
 
+#include <gzip/decompress.hpp>
+
+#include "config.h"
 #include "constants.h"
 #include "display/eventnodewidget.h"
 #include "displaywindow.h"
@@ -138,6 +143,22 @@ void DisplayWindow::DisplayLessons() {
         ui_->lessons_widget
     };
     ui_->lessons_layout->addWidget(lbl);
+  }
+}
+
+void DisplayWindow::DisplayWeather() {
+  const auto weather_widgets = centralWidget()->findChildren<WeatherWidget *>();
+  if (weather_widgets.size() != 7) return;
+
+  const auto *const key      = config::Get()["Secret"]["qweather"]["key"].value_or("");
+  const auto *const location = config::Get()["Secret"]["qweather"]["location"].value_or("");
+
+  const auto        res      = requests::get(QString{constants::kQweatherApiUrl}.arg(key).arg(location).toUtf8());
+  const auto        res_json = nlohmann::json::parse(gzip::decompress(res->body.c_str(), res->body.size()));
+
+  for (auto i{0}; i < 7; ++i) {
+    auto *const w = weather_widgets[i];
+    // TODO: display weather
   }
 }
 

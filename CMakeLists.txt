@@ -10,6 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(class-system LANGUAGES CXX VERSION 1.0.0)
 
 find_package(protobuf CONFIG REQUIRED)
+find_package(ZLIB REQUIRED)
 
 if(${BUILD_GUI})
   find_package(Qt5 COMPONENTS Core Widgets CONFIG REQUIRED)

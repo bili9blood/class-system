@@ -31,6 +31,8 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
   connect(&sentences_notices_switch_timer_, &QTimer::timeout, this, &DisplayWindow::HandleSwitchNotices);
   sentences_notices_switch_timer_.start();
 
+  DisplayWeather();
+
   connect(GlobalStore::Get(), &GlobalStore::SucceededHandleResp, this, &DisplayWindow::HandleSucceesfulResp);
 
   if (!config::Get().contains("DisplayWindow")) config::Get().insert("DisplayWindow", toml::table{});

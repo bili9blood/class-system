@@ -17,7 +17,7 @@ add_executable(
 target_link_libraries(
   class-system-display PRIVATE
   Qt5::Core Qt5::Widgets
-  hv protobuf::libprotobuf
+  hv protobuf::libprotobuf ZLIB::ZLIB
 )
 
 target_include_directories(
