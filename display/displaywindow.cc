@@ -5,11 +5,14 @@
 #include <qscreen.h>
 #include <windowsx.h>
 
+#include "config.h"
 #include "constants.h"
 #include "flowlayout.h"
 #include "globalstore.h"
 #include "native.h"
 #include "ui_displaywindow.h"
+
+static auto initilized = false;
 
 DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui::DisplayWindow} {
   ui_->setupUi(this);
@@ -29,6 +32,8 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
   sentences_notices_switch_timer_.start();
 
   connect(GlobalStore::Get(), &GlobalStore::SucceededHandleResp, this, &DisplayWindow::HandleSucceesfulResp);
+
+  if (!config::Get().contains("DisplayWindow")) config::Get().insert("DisplayWindow", toml::table{});
 
   SwitchWindowLayer(true);
 }
@@ -90,6 +95,27 @@ void DisplayWindow::paintEvent(QPaintEvent *event) {
 
   constexpr qreal kRadius{20.0};
   painter.drawRoundedRect(rect(), kRadius, kRadius);
+
+  if (!initilized) {
+    initilized = true;
+
+    move(config::Get()["DisplayWindow"]["x"].value_or(x()), config::Get()["DisplayWindow"]["y"].value_or(y()));
+    resize(config::Get()["DisplayWindow"]["w"].value_or(width()), config::Get()["DisplayWindow"]["h"].value_or(height()));
+  }
+}
+
+void DisplayWindow::moveEvent(QMoveEvent *event) {
+  if (initilized) {
+    config::Get()["DisplayWindow"].as_table()->insert_or_assign("x", x());
+    config::Get()["DisplayWindow"].as_table()->insert_or_assign("y", y());
+  }
+}
+
+void DisplayWindow::resizeEvent(QResizeEvent *event) {
+  if (initilized) {
+    config::Get()["DisplayWindow"].as_table()->insert_or_assign("w", width());
+    config::Get()["DisplayWindow"].as_table()->insert_or_assign("h", height());
+  }
 }
 
 void DisplayWindow::closeEvent(QCloseEvent *event) { QApplication::quit(); }

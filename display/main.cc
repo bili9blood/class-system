@@ -33,9 +33,8 @@ auto main(int argc, char **argv) -> int {
     QApplication::quit();
   });
 
-  auto &cfg = config::Get();
   auto  req = class_system::Request{};
-  req.set_key(cfg.key());
+  req.set_key(config::Get()["Server"]["key"].value_or(""));
   req.set_request_class_info(true);
   req.set_request_sentences(true);
   tcp_client.Write(util::MessageToBuf(req));

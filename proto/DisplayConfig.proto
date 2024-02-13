@@ -5,10 +5,10 @@ package class_system;
 message DisplayConfig {
   string server_url    = 1;
   string key           = 2;
-  int32  mainwindow_x  = 3;
-  int32  mainwindow_y  = 4;
-  int32  mainwindow_w  = 5;
-  int32  mainwindow_h  = 6;
+  int32  displaywindow_x = 3;
+  int32  displaywindow_y = 4;
+  int32  displaywindow_w = 5;
+  int32  displaywindow_h = 6;
   int32  iconwindow_x  = 7;
   int32  iconwindow_y  = 8;
   int32  iconwindow_w  = 9;

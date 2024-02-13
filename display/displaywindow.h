@@ -30,6 +30,8 @@ class DisplayWindow : public QMainWindow {
   void mouseReleaseEvent(QMouseEvent *event) override;
   bool nativeEvent(const QByteArray &event_type, void *message, long *result) override;
   void paintEvent(QPaintEvent *event) override;
+  void moveEvent(QMoveEvent *event) override;
+  void resizeEvent(QResizeEvent *event) override;
   void closeEvent(QCloseEvent *event) override;
 
  private:

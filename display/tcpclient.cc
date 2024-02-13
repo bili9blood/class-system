@@ -25,8 +25,7 @@ TcpClient::TcpClient(QObject *parent) : QObject(parent) {
 TcpClient::~TcpClient() = default;
 
 bool TcpClient::Start() {
-  const auto cfg        = config::Get();
-  const auto server_url = QUrl{QString::fromStdString(cfg.server_url())};
+  const auto server_url = QUrl{config::Get()["Server"]["url"].value_or("")};
   if (!server_url.isValid() || server_url.scheme() != "tcp") return false;
   if (client_.createsocket(server_url.port(7989), server_url.host().toUtf8()) < 0) return false;
   client_.start();

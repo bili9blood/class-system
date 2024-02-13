@@ -1,8 +1,22 @@
 #pragma once
+#include <qapplication.h>
 
-#include <proto/DisplayConfig.pb.h>
+#include <toml.hpp>
 
 namespace config {
-class_system::DisplayConfig& Get();
-void                         Save();
+
+namespace _D {
+inline std::optional<toml::table> cfg;
+}
+
+inline auto& Get() {
+  if (!_D::cfg) _D::cfg = toml::parse_file(QApplication::applicationDirPath().toStdString() + "/config.toml");
+  return *_D::cfg;
+}
+
+inline void Save() {
+  if (!_D::cfg) return;
+  std::ofstream cfg_ofs{QApplication::applicationDirPath().toStdString() + "/config.toml"};
+  cfg_ofs << toml::toml_formatter{*_D::cfg};
+}
 }  // namespace config
