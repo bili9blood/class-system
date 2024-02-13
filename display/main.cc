@@ -21,8 +21,9 @@ auto main(int argc, char **argv) -> int {
 
   QFontDatabase::addApplicationFont(":/fonts/FiraMono-Bold.ttf");
   QFontDatabase::addApplicationFont(":/fonts/qweather-icons.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/SymbolsNerdFont-Regular.ttf");
 
-  TcpClient    tcp_client;
+  TcpClient tcp_client;
   if (!tcp_client.Start()) {
     QMessageBox::critical(nullptr, "错误", "无法创建套接字！");
     return 1;
