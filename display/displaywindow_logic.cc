@@ -5,9 +5,14 @@
 #include <shared/util.h>
 
 #include "constants.h"
+#include "display/eventnodewidget.h"
 #include "displaywindow.h"
 #include "flowlayout.h"
 #include "ui_displaywindow.h"
+
+#ifdef max
+#undef max
+#endif
 
 #define GET_WEEKDAY_TODAY(x, c, d)              \
   [c] {                                         \
@@ -79,6 +84,14 @@ QList<DisplayWindow::DailyArrangement> DisplayWindow::GetDailyArrangement() {
   for (const auto &arr : class_info_.complete_arrangements()) res_list << FromComplete(arr);
   for (const auto &arr : class_info_.weekday_arrangements()) res_list << FromWeekday(arr);
   return res_list;
+}
+
+void DisplayWindow::DisplayEvents() {
+  ClearLayout(ui_->events_widget->layout());
+  for (auto i{0}; i < std::max(4, class_info_.events_size()); ++i) {
+    auto *const event_widget = new EventNodeWidget{class_info_.events(i), ui_->events_widget};
+    ui_->events_widget->layout()->addWidget(event_widget);
+  }
 }
 
 void DisplayWindow::DisplayArrangement() {
@@ -177,6 +190,7 @@ void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
   class_info_ = resp.class_info();
 
   InitSentences(resp.sentences());
+  DisplayEvents();
   DisplayArrangement();
 
   HandleSwitchSentences();

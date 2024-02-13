@@ -6,6 +6,7 @@
 #include <windowsx.h>
 
 #include "constants.h"
+#include "flowlayout.h"
 #include "globalstore.h"
 #include "native.h"
 #include "ui_displaywindow.h"
@@ -13,6 +14,7 @@
 DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui::DisplayWindow} {
   ui_->setupUi(this);
   centralWidget()->setAttribute(Qt::WA_TransparentForMouseEvents);
+  ui_->events_widget->setLayout(new FlowLayout{});
 
   setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
   setAttribute(Qt::WA_TranslucentBackground);

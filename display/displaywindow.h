@@ -44,6 +44,7 @@ class DisplayWindow : public QMainWindow {
 
   void                                       InitSentences(const google::protobuf::RepeatedPtrField<class_system::Sentence> &sentences);
   QList<DailyArrangement>                    GetDailyArrangement();
+  void                                       DisplayEvents();
   void                                       DisplayArrangement();
   void                                       DisplayLessons();
   void                                       UpdateLessonsStatus();
