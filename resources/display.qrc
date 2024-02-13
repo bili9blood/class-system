@@ -3,6 +3,7 @@
 <qresource>
   <file>fonts/FiraMono-Bold.ttf</file>
   <file>fonts/qweather-icons.ttf</file>
+  <file>fonts/SymbolsNerdFont-Regular.ttf</file>
   <file>images/icon.ico</file>
 </qresource>
 </RCC>
