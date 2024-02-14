@@ -11,6 +11,7 @@ constexpr const char                             kSentenceAuthorFormat[]        
 constexpr const char                             kNoticeDateFormat[]                    = "至M月d日";
 constexpr const char                             kLessonFormat[]                        = "%1 (%2~%3)";
 constexpr const char                             kStudentNameFormat[]                   = "%1号%2";
+constexpr const char                             kTemptureFormat[]                      = "%1℃~%2℃";
 
 constexpr int                                    kClockTimerIntervalMs                  = 1'000;
 constexpr int                                    kSentencesNoticesSwitchTimerIntervalMs = 30'000;

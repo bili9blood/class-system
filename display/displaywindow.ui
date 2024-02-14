@@ -393,35 +393,6 @@ font-family: Microsoft YaHei;
       <property name="spacing">
        <number>4</number>
       </property>
-      <item>
-       <widget class="WeatherWidget" name="weather_widget_1" native="true">
-        <property name="styleSheet">
-         <string notr="true">color: #ee8545;
-font-weight: bold;</string>
-        </property>
-        <property name="class" stdset="0">
-         <string>weather-today</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="WeatherWidget" name="weather_widget_2" native="true"/>
-      </item>
-      <item>
-       <widget class="WeatherWidget" name="weather_widget_3" native="true"/>
-      </item>
-      <item>
-       <widget class="WeatherWidget" name="weather_widget_4" native="true"/>
-      </item>
-      <item>
-       <widget class="WeatherWidget" name="weather_widget_5" native="true"/>
-      </item>
-      <item>
-       <widget class="WeatherWidget" name="weather_widget_6" native="true"/>
-      </item>
-      <item>
-       <widget class="WeatherWidget" name="weather_widget_7" native="true"/>
-      </item>
      </layout>
     </item>
    </layout>
@@ -432,12 +403,6 @@ font-weight: bold;</string>
    <class>TitleWidget</class>
    <extends>QWidget</extends>
    <header>titlewidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>WeatherWidget</class>
-   <extends>QWidget</extends>
-   <header>weatherwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

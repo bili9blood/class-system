@@ -37,8 +37,13 @@
      <item>
       <widget class="QLabel" name="icon_label">
        <property name="styleSheet">
-        <string notr="true">font-family: qweather-icons;
-font-size: 14pt;</string>
+        <string notr="true">* {
+  font-family: qweather-icons;
+  font-size: 14pt;
+}
+.weather-today QLabel {
+  color: #ee8545;
+}</string>
        </property>
        <property name="text">
         <string></string>
@@ -51,8 +56,14 @@ font-size: 14pt;</string>
      <item>
       <widget class="QLabel" name="temp_label">
        <property name="styleSheet">
-        <string notr="true">font-family: Microsoft YaHei;
-font-size: 12.5pt;</string>
+        <string notr="true">* {
+  font-family: Microsoft YaHei;
+  font-size: 12.5pt;
+}
+.weather-today QLabel {
+  font-weight: bold;
+  color: #ee8545;
+}</string>
        </property>
        <property name="text">
         <string>10℃~20℃</string>
@@ -74,6 +85,7 @@ font-size: 12.5pt;</string>
 }
 .weather-today QLabel{
   font-weight: bold;
+  color: #ee8545;
 }</string>
      </property>
      <property name="text">

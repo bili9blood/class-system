@@ -7,7 +7,11 @@ class WeatherWidget;
 class WeatherWidget : public QWidget {
   Q_OBJECT
  public:
-  explicit WeatherWidget(QWidget* parent = nullptr);
+  explicit WeatherWidget(
+      const int& icon_day, const int& temp_min, const int& temp_max,
+      const QDate& date,
+      QWidget*     parent = nullptr
+  );
   ~WeatherWidget() override;
 
  private:

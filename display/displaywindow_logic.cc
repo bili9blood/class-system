@@ -14,6 +14,7 @@
 #include "displaywindow.h"
 #include "flowlayout.h"
 #include "ui_displaywindow.h"
+#include "weatherwidget.h"
 
 #ifdef min
 #undef min
@@ -147,18 +148,24 @@ void DisplayWindow::DisplayLessons() {
 }
 
 void DisplayWindow::DisplayWeather() {
-  const auto weather_widgets = centralWidget()->findChildren<WeatherWidget *>();
-  if (weather_widgets.size() != 7) return;
+  ClearLayout(ui_->weather_layout);
 
-  const auto *const key      = config::Get()["Secret"]["qweather"]["key"].value_or("");
-  const auto *const location = config::Get()["Secret"]["qweather"]["location"].value_or("");
+  const auto *const key      = config::Get()["QWeather"]["key"].value_or("");
+  const auto *const location = config::Get()["QWeather"]["location"].value_or("");
 
   const auto        res      = requests::get(QString{constants::kQweatherApiUrl}.arg(key).arg(location).toUtf8());
   const auto        res_json = nlohmann::json::parse(gzip::decompress(res->body.c_str(), res->body.size()));
 
-  for (auto i{0}; i < 7; ++i) {
-    auto *const w = weather_widgets[i];
-    // TODO: display weather
+  for (auto i{0}; i < (int)res_json["daily"].size(); ++i) {
+    auto *const wgt = new WeatherWidget{
+        std::stoi((std::string)res_json["daily"][i]["iconDay"]),
+        std::stoi((std::string)res_json["daily"][i]["tempMin"]),
+        std::stoi((std::string)res_json["daily"][i]["tempMax"]),
+
+        QDate::currentDate().addDays(i),
+        centralWidget()
+    };
+    ui_->weather_layout->addWidget(wgt);
   }
 }
 
