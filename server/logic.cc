@@ -7,6 +7,7 @@
 #include <shared/util.h>
 
 #include "storage.h"
+#include "util.h"
 
 /**
  * @brief Create a Response protobuf message from `msg`
@@ -156,10 +157,14 @@ static void FetchClassInfo(const int& class_id, class_system::ClassInfo* class_i
     {
       auto* const notices = class_info->mutable_notices();
       const auto  fetched = storage::db.select(
-          columns(&Notice::title, &Notice::date, &Notice::text),
+          columns(&Notice::title, &Notice::date, &Notice::text, &Notice::notice_id),
           where(c(&Notice::class_id) == class_id)
       );
       for (const auto& n : fetched) {
+        if (std::get<1>(n) != "FOREVER" && std::get<1>(n) < util::GetCurrentDate()) {
+          storage::db.remove<Notice>(std::get<3>(n));
+          continue;
+        }
         auto* const it = notices->Add();
         it->set_title(std::get<0>(n));
         it->set_date(std::get<1>(n));
@@ -173,10 +178,14 @@ static void FetchClassInfo(const int& class_id, class_system::ClassInfo* class_i
     {
       auto* const events  = class_info->mutable_events();
       const auto  fetched = storage::db.select(
-          columns(&Event::title, &Event::date, &Event::important),
+          columns(&Event::title, &Event::date, &Event::important, &Event::event_id),
           where(c(&Event::class_id) == class_id)
       );
       for (const auto& e : fetched) {
+        if (std::get<1>(e) < util::GetCurrentDate()) {
+          storage::db.remove<Event>(std::get<3>(e));
+          continue;
+        }
         auto* const it = events->Add();
         it->set_title(std::get<0>(e));
         it->set_date(std::get<1>(e));
