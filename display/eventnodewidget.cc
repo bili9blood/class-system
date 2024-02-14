@@ -12,8 +12,12 @@ EventNodeWidget::EventNodeWidget(const class_system::ClassInfo::Event &event, QW
 
   const auto date = QDate::fromString(QString::fromStdString(event.date()), constants::kProtobufDateFormat);
 
+  if (date != QDate::currentDate())
+    ui_->days_left_label->setText(ui_->days_left_label->text().arg(QDate::currentDate().daysTo(date)));
+  else
+    ui_->days_left_label->setText("今天");
+
   ui_->date_label->setText(date.toString(ui_->date_label->text()));
-  ui_->days_left_label->setText(ui_->days_left_label->text().arg(QDate::currentDate().daysTo(date)));
   ui_->name_label->setText(QString::fromStdString(event.title()));
   if (event.important()) {
     ui_->icon_label->setProperty("class", "important");
