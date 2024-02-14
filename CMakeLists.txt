@@ -22,7 +22,7 @@ include(./proto.cmake)
 
 include_directories(${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/proto include ${CMAKE_SOURCE_DIR})
 
-file(GLOB_RECURSE SHARED_SRC shared/*.h shared/*.cc)
+file(GLOB_RECURSE SHARED_SRC CONFIGURE_DEPENDS shared/*.h shared/*.cc)
 
 if(${BUILD_GUI})
   add_subdirectory(./display/)

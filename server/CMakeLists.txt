@@ -1,4 +1,4 @@
-file(GLOB_RECURSE SERVER_SRC ./*.h ./*.cc)
+file(GLOB_RECURSE SERVER_SRC CONFIGURE_DEPENDS ./*.h ./*.cc)
 
 add_executable(
   class-system-server
