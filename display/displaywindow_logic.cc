@@ -1,6 +1,7 @@
 #include <hv/hssl.h>
 #include <hv/requests.h>
 #include <qdatetime.h>
+#include <qlayoutitem.h>
 #include <qrandom.h>
 #include <qstyle.h>
 #include <shared/constants.h>
@@ -101,17 +102,17 @@ void DisplayWindow::DisplayEvents() {
 }
 
 void DisplayWindow::DisplayArrangement() {
-  const auto daily_arrangement = GetDailyArrangement();
-
   ClearLayout(ui_->arrangement_layout);
+
+  const auto daily_arrangement = GetDailyArrangement();
 
   // add new arrangement labels & layouts
   for (const auto &arr : daily_arrangement) {
     auto *const title_label = new QLabel(arr.job, ui_->arrangement_widget);
+    title_label->setAlignment(Qt::AlignCenter);
     title_label->setProperty("class", "title");
 
     auto *flow_layout = new FlowLayout{};
-    flow_layout->setContentsMargins(9, 9, 12, 9);
     for (const auto &student_id : arr.student_ids) {
       auto *const stu_label = new QLabel{
           QString{constants::kStudentNameFormat}
@@ -121,9 +122,12 @@ void DisplayWindow::DisplayArrangement() {
               )),
           ui_->arrangement_widget
       };
+      stu_label->setAlignment(Qt::AlignCenter);
       flow_layout->addWidget(stu_label);
     }
     ui_->arrangement_layout->addRow(title_label, flow_layout);
+    auto *const spacer = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    ui_->arrangement_layout->addItem(spacer);
   }
 }
 

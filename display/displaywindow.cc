@@ -61,21 +61,24 @@ bool DisplayWindow::nativeEvent(const QByteArray &event_type, void *message, lon
 #ifdef WIN32
   const auto *msg = static_cast<MSG *>(message);
   if (msg->message == WM_NCHITTEST) {
-    *result                = 0;
-    constexpr int kPadding = 8;
+    *result                = 0l;
+    constexpr int kPadding = 14;
+    const auto    x        = GET_X_LPARAM(msg->lParam);
+    const auto    y        = GET_Y_LPARAM(msg->lParam);
+    RECT          rect     = {};
+
     // NOLINTNEXTLINE
-    long       x    = GET_X_LPARAM(msg->lParam);
-    long       y    = GET_Y_LPARAM(msg->lParam);
-    const auto geom = frameGeometry();
+    ::GetWindowRect((HWND)winId(), &rect);
+
     // clang-format off
-    if (y < geom.top() + kPadding && x < geom.left() + kPadding) *result = HTTOPLEFT;
-    else if (y < geom.top() + kPadding && x > geom.right() - kPadding) *result = HTTOPRIGHT;
-    else if (y > geom.bottom() - kPadding && x < geom.left() + kPadding) *result = HTBOTTOMLEFT;
-    else if (y > geom.bottom() - kPadding && x > geom.right() - kPadding) *result = HTBOTTOMRIGHT;
-    else if (y < geom.top() + kPadding) *result = HTTOP;
-    else if (y > geom.bottom() - kPadding) *result = HTBOTTOM;
-    else if (x < geom.left() + kPadding) *result = HTLEFT;
-    else if (x > geom.right() - kPadding) *result = HTRIGHT;
+    if (y < rect.top + kPadding && x < rect.left + kPadding) *result = HTTOPLEFT;
+    else if (y < rect.top + kPadding && x > rect.right - kPadding) *result = HTTOPRIGHT;
+    else if (y > rect.bottom - kPadding && x < rect.left + kPadding) *result = HTBOTTOMLEFT;
+    else if (y > rect.bottom - kPadding && x > rect.right - kPadding) *result = HTBOTTOMRIGHT;
+    else if (y < rect.top + kPadding) *result = HTTOP;
+    else if (y > rect.bottom - kPadding) *result = HTBOTTOM;
+    else if (x < rect.left + kPadding) *result = HTLEFT;
+    else if (x > rect.right - kPadding) *result = HTRIGHT;
     else return false;
     // clang-format on
     return true;

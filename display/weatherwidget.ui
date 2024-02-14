@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>WeatherWidget</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="main_layout">
    <property name="spacing">
     <number>4</number>
    </property>
@@ -30,16 +30,29 @@
     <number>4</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="icon_temp_layout" stretch="0,1">
+    <layout class="QHBoxLayout" name="icon_temp_layout" stretch="0,0,1,0">
      <property name="spacing">
       <number>2</number>
      </property>
+     <item>
+      <spacer name="spacer_left">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
      <item>
       <widget class="QLabel" name="icon_label">
        <property name="styleSheet">
         <string notr="true">* {
   font-family: qweather-icons;
-  font-size: 14pt;
+  font-size: 19px;
 }
 .weather-today QLabel {
   color: #ee8545;
@@ -58,7 +71,7 @@
        <property name="styleSheet">
         <string notr="true">* {
   font-family: Microsoft YaHei;
-  font-size: 12.5pt;
+  font-size: 16px;
 }
 .weather-today QLabel {
   font-weight: bold;
@@ -73,6 +86,19 @@
        </property>
       </widget>
      </item>
+     <item>
+      <spacer name="spacer_right">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
    </item>
    <item>
@@ -81,7 +107,7 @@
       <string notr="true">* {
   font-weight: 300;
   font-family: Microsoft YaHei;
-  font-size: 12pt;
+  font-size: 16px;
 }
 .weather-today QLabel{
   font-weight: bold;

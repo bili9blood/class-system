@@ -57,7 +57,7 @@
    <item>
     <widget class="QLabel" name="title_label">
      <property name="styleSheet">
-      <string notr="true">font-size: 13pt;
+      <string notr="true">font-size: 18px;
 font-weight: bold;
 font-family: Microsoft Yahei;
 color: white;</string>
