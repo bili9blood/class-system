@@ -287,8 +287,8 @@ QLabel.past{
        <widget class="QLabel" name="events_title_label">
         <property name="styleSheet">
          <string notr="true">font-size: 21px;
+font-family: 江西拙楷;
 font-weight: bold;
-font-family: Microsoft YaHei;
 </string>
         </property>
         <property name="text">
@@ -303,8 +303,8 @@ font-family: Microsoft YaHei;
        <widget class="QLabel" name="arrangement_title_label">
         <property name="styleSheet">
          <string notr="true">font-size: 21px;
+font-family: 江西拙楷;
 font-weight: bold;
-font-family: Microsoft YaHei;
 </string>
         </property>
         <property name="text">
@@ -319,8 +319,8 @@ font-family: Microsoft YaHei;
        <widget class="QLabel" name="lessons_title_label">
         <property name="styleSheet">
          <string notr="true">font-size: 21px;
+font-family: 江西拙楷;
 font-weight: bold;
-font-family: Microsoft YaHei;
 </string>
         </property>
         <property name="text">
@@ -335,8 +335,8 @@ font-family: Microsoft YaHei;
        <widget class="QLabel" name="notices_title_label">
         <property name="styleSheet">
          <string notr="true">font-size: 21px;
+font-family: 江西拙楷;
 font-weight: bold;
-font-family: Microsoft YaHei;
 </string>
         </property>
         <property name="text">

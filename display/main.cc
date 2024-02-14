@@ -24,6 +24,7 @@ auto main(int argc, char **argv) -> int {
   QApplication::setFont(font);
 
   QFontDatabase::addApplicationFont(":/fonts/FiraMono-Bold.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/JiangxiZhuoKai.ttf");
   QFontDatabase::addApplicationFont(":/fonts/qweather-icons.ttf");
   QFontDatabase::addApplicationFont(":/fonts/SymbolsNerdFont-Regular.ttf");
 
