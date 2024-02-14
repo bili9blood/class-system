@@ -1,7 +1,6 @@
 #include "weatherwidget.h"
 
 #include <qdatetime.h>
-#include <qstyle.h>
 
 #include "constants.h"
 #include "ui_weatherwidget.h"
@@ -11,6 +10,9 @@ WeatherWidget::WeatherWidget(
     const QDate& date,
     QWidget*     parent
 ) : QWidget{parent}, ui_{new Ui::WeatherWidget} {
+  // set class before setup ui
+  if (date == QDate::currentDate()) setProperty("class", "weather-today");
+
   ui_->setupUi(this);
 
   const auto* const it = std::find_if(
@@ -24,15 +26,6 @@ WeatherWidget::WeatherWidget(
   ui_->temp_label->setText(QString{constants::kTemptureFormat}.arg(temp_min).arg(temp_max));
 
   ui_->date_weekday_label->setText(date.toString(constants::kDateWeekdayFormat));
-  if (date == QDate::currentDate()) {
-    setProperty("class", "weather-today");
-    style()->unpolish(this);
-    style()->polish(this);
-    for (auto* child : findChildren<QLabel*>()) {
-      child->style()->unpolish(child);
-      child->style()->polish(child);
-    }
-  }
 }
 
 WeatherWidget::~WeatherWidget() = default;
