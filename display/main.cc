@@ -14,9 +14,7 @@ auto main(int argc, char **argv) -> int {
   (void)signal(SIGINT, [](int) { QApplication::quit(); });
 
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
-  // 2. 适配非整数倍缩放
   QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
-  // 3. 适配字体渲染 hinting
 
   QApplication app{argc, argv};
 
