@@ -80,7 +80,7 @@ QList<DisplayWindow::DailyArrangement> DisplayWindow::GetDailyArrangement() {
   static const auto FromWeekday =
       [](const class_system::ClassInfo::WeekdayArrangement &arr) -> DisplayWindow::DailyArrangement {
 #define _X_(w) arr.w##_student_ids()
-    const auto student_ids_today = GET_WEEKDAY_TODAY(_X_, arr, return google::protobuf::RepeatedField<int>{};);
+    const auto student_ids_today = GET_WEEKDAY_TODAY(_X_, arr, return _X_(mon););
 #undef _X_
 
     return {QString::fromStdString(arr.job()), {student_ids_today.cbegin(), student_ids_today.cend()}};
@@ -137,7 +137,7 @@ void DisplayWindow::DisplayLessons() {
   // add new lesson labels
   for (const auto &l : class_info_.lessons()) {
 #define _X_(w) QString::fromStdString(l.w())
-    const auto lesson_today = GET_WEEKDAY_TODAY(_X_, l, return QString{};);
+    const auto lesson_today = GET_WEEKDAY_TODAY(_X_, l, return _X_(mon););
 #undef _X_
 
     auto *const lbl = new QLabel{
