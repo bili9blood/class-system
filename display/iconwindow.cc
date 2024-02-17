@@ -15,7 +15,11 @@ IconWindow::IconWindow(QWidget* parent)
 
   setAttribute(Qt::WA_TranslucentBackground);
   setFixedSize(QApplication::primaryScreen()->availableSize().width(), ui_->left_label->height());
-  move(0, config::Get()["IconWindow"]["y"].value_or(0));
+  move(
+      0, config::Get()["IconWindow"]["y"].value_or(
+             QApplication::primaryScreen()->availableSize().height() - height()
+         )
+  );
 
   ui_->left_label->installEventFilter(this);
   ui_->right_label->installEventFilter(this);
