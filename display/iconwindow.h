@@ -20,4 +20,5 @@ class IconWindow final : public QWidget {
   int                             prev_y_{};
 
   bool                            eventFilter(QObject* object, QEvent* event) final;
+  void                            moveEvent(QMoveEvent* event) final;
 };

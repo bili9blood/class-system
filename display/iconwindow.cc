@@ -4,17 +4,18 @@
 #include <qevent.h>
 #include <qscreen.h>
 
+#include "config.h"
 #include "extrawindow.h"
 #include "ui_iconwindow.h"
 
 IconWindow::IconWindow(QWidget* parent)
-    : QWidget{parent, Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint}, ui_{new Ui::IconWindow} {
+    : QWidget{parent, Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool}, ui_{new Ui::IconWindow} {
   extra_window_ = std::make_unique<ExtraWindow>();
   ui_->setupUi(this);
 
   setAttribute(Qt::WA_TranslucentBackground);
   setFixedSize(QApplication::primaryScreen()->availableSize().width(), ui_->left_label->height());
-  move(0, 0);
+  move(0, config::Get()["IconWindow"]["y"].value_or(0));
 
   ui_->left_label->installEventFilter(this);
   ui_->right_label->installEventFilter(this);
@@ -52,4 +53,8 @@ bool IconWindow::eventFilter(QObject* object, QEvent* event) {
   }
 
   return out || QWidget::eventFilter(object, event);
+}
+
+void IconWindow::moveEvent(QMoveEvent* event) {
+  config::Get()["IconWindow"].as_table()->insert_or_assign("y", y());
 }
