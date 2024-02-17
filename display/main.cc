@@ -11,15 +11,8 @@
 #include "iconwindow.h"
 #include "tcpclient.h"
 
-auto main(int argc, char **argv) -> int {
-  (void)signal(SIGINT, [](int) { QApplication::quit(); });
-
-  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
-  QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
-
-  QApplication app{argc, argv};
-
-  QFont        font;
+void InitFonts() {
+  QFont font;
   font.setStyleStrategy(QFont::PreferAntialias);
   font.setHintingPreference(QFont::PreferFullHinting);
   QApplication::setFont(font);
@@ -28,6 +21,17 @@ auto main(int argc, char **argv) -> int {
   QFontDatabase::addApplicationFont(":/fonts/JiangxiZhuoKai.ttf");
   QFontDatabase::addApplicationFont(":/fonts/qweather-icons.ttf");
   QFontDatabase::addApplicationFont(":/fonts/SymbolsNerdFont-Regular.ttf");
+}
+
+auto main(int argc, char **argv) -> int {
+  (void)signal(SIGINT, [](int) { QApplication::quit(); });
+
+  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+  QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+
+  QApplication app{argc, argv};
+
+  InitFonts();
 
   TcpClient     tcp_client;
   DisplayWindow display_window;
@@ -45,7 +49,7 @@ auto main(int argc, char **argv) -> int {
     return 1;
   }
 
-  auto  req = class_system::Request{};
+  auto req = class_system::Request{};
   req.set_key(config::Get()["Server"]["key"].value_or(""));
   req.set_request_class_info(true);
   req.set_request_sentences(true);
