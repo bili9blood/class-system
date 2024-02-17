@@ -4,7 +4,7 @@ namespace Ui {
 class WeatherWidget;
 }
 
-class WeatherWidget : public QWidget {
+class WeatherWidget final : public QWidget {
   Q_OBJECT
  public:
   explicit WeatherWidget(
@@ -12,7 +12,7 @@ class WeatherWidget : public QWidget {
       const QDate& date,
       QWidget*     parent = nullptr
   );
-  ~WeatherWidget() override;
+  ~WeatherWidget() final;
 
  private:
   std::unique_ptr<Ui::WeatherWidget> ui_;

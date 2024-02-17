@@ -2,14 +2,14 @@
 
 #include <proto/Response.pb.h>
 
-class GlobalStore : public QObject {
+class GlobalStore final : public QObject {
   Q_OBJECT
  public:
   static GlobalStore *Get() {
     static GlobalStore store;
     return &store;
   }
-  ~GlobalStore() override;
+  ~GlobalStore() final;
 
  public slots:
   void HandleResponse(const QByteArray &resp);

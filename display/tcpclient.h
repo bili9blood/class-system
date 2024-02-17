@@ -2,11 +2,11 @@
 
 #include "hv/TcpClient.h"
 
-class TcpClient : public QObject {
+class TcpClient final : public QObject {
   Q_OBJECT
  public:
   explicit TcpClient(QObject *parent = nullptr);
-  ~TcpClient() override;
+  ~TcpClient() final;
 
   /**
    * @brief start tcp client

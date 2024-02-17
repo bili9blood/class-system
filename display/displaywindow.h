@@ -9,7 +9,7 @@ namespace Ui {
 class DisplayWindow;
 }
 
-class DisplayWindow : public QMainWindow {
+class DisplayWindow final : public QMainWindow {
   Q_OBJECT
 
   struct DailyArrangement {
@@ -19,20 +19,10 @@ class DisplayWindow : public QMainWindow {
 
  public:
   explicit DisplayWindow(QWidget *parent = nullptr);
-  ~DisplayWindow() override;
+  ~DisplayWindow() final;
 
  public slots:
   void HandleSucceesfulResp(const class_system::Response &resp);
-
- protected:
-  void mousePressEvent(QMouseEvent *event) override;
-  void mouseMoveEvent(QMouseEvent *event) override;
-  void mouseReleaseEvent(QMouseEvent *event) override;
-  bool nativeEvent(const QByteArray &event_type, void *message, long *result) override;
-  void paintEvent(QPaintEvent *event) override;
-  void moveEvent(QMoveEvent *event) override;
-  void resizeEvent(QResizeEvent *event) override;
-  void closeEvent(QCloseEvent *event) override;
 
  private:
   std::unique_ptr<Ui::DisplayWindow>         ui_;
@@ -54,6 +44,15 @@ class DisplayWindow : public QMainWindow {
   void                                       UpdateWindowStatus();
   void                                       MoveCenter();
   void                                       SwitchWindowLayer(const bool &front);
+
+  void                                       mousePressEvent(QMouseEvent *event) final;
+  void                                       mouseMoveEvent(QMouseEvent *event) final;
+  void                                       mouseReleaseEvent(QMouseEvent *event) final;
+  bool                                       nativeEvent(const QByteArray &event_type, void *message, long *result) final;
+  void                                       paintEvent(QPaintEvent *event) final;
+  void                                       moveEvent(QMoveEvent *event) final;
+  void                                       resizeEvent(QResizeEvent *event) final;
+  void                                       closeEvent(QCloseEvent *event) final;
 
  private slots:
   void HandleClockTick();
