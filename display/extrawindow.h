@@ -16,5 +16,8 @@ class ExtraWindow final : public QWidget {
  private:
   std::unique_ptr<Ui::ExtraWindow> ui_;
 
+  void                             paintEvent(QPaintEvent* event) final;
+  void                             moveEvent(QMoveEvent* event) final;
+  void                             resizeEvent(QResizeEvent* event) final;
   void                             closeEvent(QCloseEvent* event) final;
 };
