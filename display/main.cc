@@ -8,6 +8,7 @@
 #include "config.h"
 #include "displaywindow.h"
 #include "globalstore.h"
+#include "iconwindow.h"
 #include "tcpclient.h"
 
 auto main(int argc, char **argv) -> int {
@@ -28,19 +29,21 @@ auto main(int argc, char **argv) -> int {
   QFontDatabase::addApplicationFont(":/fonts/qweather-icons.ttf");
   QFontDatabase::addApplicationFont(":/fonts/SymbolsNerdFont-Regular.ttf");
 
-  TcpClient tcp_client;
-  if (!tcp_client.Start()) {
-    QMessageBox::critical(nullptr, "错误", "无法创建套接字！");
-    return 1;
-  }
-
+  TcpClient     tcp_client;
   DisplayWindow display_window;
+  IconWindow    icon_window;
+  icon_window.show();
 
   QObject::connect(&tcp_client, &TcpClient::MessageReceived, GlobalStore::Get(), &GlobalStore::HandleResponse);
   QObject::connect(GlobalStore::Get(), &GlobalStore::FailedHandleResp, [](const QString &error_msg) {
     QMessageBox::critical(nullptr, "错误", "服务器数据响应错误：" + error_msg);
     QApplication::quit();
   });
+
+  if (!tcp_client.Start()) {
+    QMessageBox::critical(nullptr, "错误", "无法创建套接字！");
+    return 1;
+  }
 
   auto  req = class_system::Request{};
   req.set_key(config::Get()["Server"]["key"].value_or(""));
