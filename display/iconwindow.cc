@@ -4,11 +4,12 @@
 #include <qevent.h>
 #include <qscreen.h>
 
+#include "extrawindow.h"
 #include "ui_iconwindow.h"
 
 IconWindow::IconWindow(QWidget* parent)
     : QWidget{parent, Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint}, ui_{new Ui::IconWindow} {
-  extra_window_ = std::unique_ptr<QWidget>();
+  extra_window_ = std::make_unique<ExtraWindow>();
   ui_->setupUi(this);
 
   setAttribute(Qt::WA_TranslucentBackground);
@@ -17,6 +18,8 @@ IconWindow::IconWindow(QWidget* parent)
 
   ui_->left_label->installEventFilter(this);
   ui_->right_label->installEventFilter(this);
+
+  connect(extra_window_.get(), &ExtraWindow::Hided, this, &IconWindow::show);
 }
 
 IconWindow::~IconWindow() = default;

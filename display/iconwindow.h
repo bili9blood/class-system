@@ -4,6 +4,8 @@ namespace Ui {
 class IconWindow;
 }
 
+class ExtraWindow;
+
 class IconWindow final : public QWidget {
   Q_OBJECT
  public:
@@ -12,7 +14,7 @@ class IconWindow final : public QWidget {
 
  private:
   std::unique_ptr<Ui::IconWindow> ui_;
-  std::unique_ptr<QWidget>        extra_window_;
+  std::unique_ptr<ExtraWindow>    extra_window_;
 
   QPoint                          mouse_start_pos_;
   int                             prev_y_{};
