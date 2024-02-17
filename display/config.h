@@ -10,7 +10,19 @@ inline std::optional<toml::table> cfg;
 }
 
 inline auto& Get() {
-  if (!_D::cfg) _D::cfg = toml::parse_file(QApplication::applicationDirPath().toStdString() + "/config.toml");
+  if (!_D::cfg) {
+    _D::cfg = toml::parse_file(QApplication::applicationDirPath().toStdString() + "/config.toml");
+
+#define CONFIG_INSERT(name) \
+  if (!_D::cfg->contains(#name)) _D::cfg->insert(#name, toml::table{})
+
+    CONFIG_INSERT(DisplayWindow);
+    CONFIG_INSERT(IconWindow);
+    CONFIG_INSERT(ExtraWindow);
+
+#undef CONFIG_INSERT
+  }
+
   return *_D::cfg;
 }
 

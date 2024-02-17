@@ -35,8 +35,6 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
 
   connect(GlobalStore::Get(), &GlobalStore::SucceededHandleResp, this, &DisplayWindow::HandleSucceesfulResp);
 
-  if (!config::Get().contains("DisplayWindow")) config::Get().insert("DisplayWindow", toml::table{});
-
   SwitchWindowLayer(true);
 }
 
