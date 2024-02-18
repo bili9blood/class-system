@@ -17,7 +17,7 @@ add_executable(
 target_link_libraries(
   class-system-display PRIVATE
   Qt5::Core Qt5::Widgets Qt5::Network
-  protobuf::libprotobuf ZLIB::ZLIB
+  protobuf::libprotobuf
 )
 
 target_include_directories(
@@ -32,6 +32,7 @@ if(${WIN32} AND NOT ${CMAKE_BUILD_TYPE} STREQUAL Debug)
   set_property(
     TARGET class-system-display PROPERTY
     WIN32_EXECUTABLE ON
+    MSVC_RUNTIME_LIBRARY "MultiThreaded"
   )
 endif()
 

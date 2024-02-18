@@ -4,7 +4,6 @@
 #include <qstyle.h>
 #include <shared/constants.h>
 
-#include <gzip/decompress.hpp>
 #include <nlohmann/json.hpp>
 
 #include "config.h"
