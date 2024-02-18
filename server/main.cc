@@ -1,11 +1,11 @@
 #include <hv/iniparser.h>
 
-#include "constants.h"
 #include "server.h"
+#include "util.h"
 
 auto main() -> int {
   IniParser ini;
-  ini.LoadFromFile((constants::kBasePath + std::string{"/class-system-server.ini"}).c_str());
+  ini.LoadFromFile((util::GetBasePath() + "/class-system-server.ini").c_str());
   const unsigned short port       = ini.Get("port", "", 7989);
   const int            thread_num = ini.Get("thread_num", "", 1);
 

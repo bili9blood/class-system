@@ -17,4 +17,6 @@ void        SplitIdsFromStr(std::string_view str, google::protobuf::RepeatedFiel
  * @return hv::BufferPtr the buffer after converting, never return an empty buffer ptr!
  */
 hv::BufferPtr MessageToBuf(const google::protobuf::MessageLite& msg);
+
+std::string   GetBasePath();
 }

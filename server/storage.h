@@ -1,6 +1,6 @@
 #include <sqlite_orm/sqlite_orm.h>
 
-#include "constants.h"
+#include "util.h"
 
 namespace storage {
 
@@ -100,7 +100,7 @@ struct Sentence {
 
 // NOLINTNEXTLINE
 inline auto db = sqlite_orm::make_storage(
-    constants::kBasePath + "/class-system-server.db",
+    util::GetBasePath() + "/class-system-server.db",
 
     _D::make_index("idx_student_class_id", &type::Student::class_id),
     _D::make_index("idx_lesson_class_id", &type::WeeklyLesson::class_id),

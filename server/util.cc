@@ -4,6 +4,12 @@
 #include <iomanip>
 #include <sstream>
 
+#ifdef _WIN32
+#include <direct.h>
+#elif __APPLE__ || __linux__
+#include <unistd.h>
+#endif
+
 namespace util {
 
 std::string GetCurrentDate(std::string_view format) {
@@ -36,6 +42,14 @@ hv::BufferPtr MessageToBuf(const google::protobuf::MessageLite& msg) {
   }
 
   return std::make_shared<hv::Buffer>(byte_arr, std::max<size_t>(1, str.size()));
+}
+
+std::string GetBasePath() {
+  // NOLINTNEXTLINE
+  const auto* const home_path = getenv("HOME");
+  if (home_path) return std::string{home_path};
+  char cwd[1024];
+  return std::string{getcwd(cwd, 1024) ? cwd : ""};
 }
 
 }  // namespace util
