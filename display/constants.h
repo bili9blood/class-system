@@ -12,8 +12,10 @@ constexpr const char                             kNoticeDateFormat[]            
 constexpr const char                             kLessonFormat[]                        = "%1 (%2~%3)";
 constexpr const char                             kStudentNameFormat[]                   = "%1号%2";
 constexpr const char                             kTemptureFormat[]                      = "%1℃~%2℃";
+constexpr const char                             kRollCallUncalledFormat[]              = "未抽到：%1人";
 
 constexpr int                                    kClockTimerIntervalMs                  = 1'000;
 constexpr int                                    kSentencesNoticesSwitchTimerIntervalMs = 30'000;
+constexpr int                                    kRollCallTimerIntervalMs               = 180;
 
 }  // namespace constants

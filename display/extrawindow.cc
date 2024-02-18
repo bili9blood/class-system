@@ -3,6 +3,8 @@
 #include <qevent.h>
 
 #include "config.h"
+#include "constants.h"
+#include "globalstore.h"
 #include "ui_extrawindow.h"
 
 static auto initilized{false};
@@ -13,6 +15,11 @@ ExtraWindow::ExtraWindow(QWidget *parent) : QWidget{parent, Qt::WindowStaysOnTop
   QFile ss_file{":/styles/material-light-blue.qss"};
   ss_file.open(QFile::ReadOnly);
   setStyleSheet(ss_file.readAll());
+
+  rollcall_timer_.setInterval(constants::kRollCallTimerIntervalMs);
+
+  connect(GlobalStore::Get(), &GlobalStore::SucceededHandleResp, this, &ExtraWindow::HandleSuccessfulResp);
+  connect(&rollcall_timer_, &QTimer::timeout, this, &ExtraWindow::HandleRollCallTick);
 }
 
 ExtraWindow::~ExtraWindow() = default;

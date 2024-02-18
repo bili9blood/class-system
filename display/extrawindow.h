@@ -1,7 +1,13 @@
 #pragma once
+#include <proto/ClassInfo.pb.h>
+#include <qtimer.h>
 
 namespace Ui {
 class ExtraWindow;
+}
+
+namespace class_system {
+class Response;
 }
 
 class ExtraWindow final : public QWidget {
@@ -15,9 +21,18 @@ class ExtraWindow final : public QWidget {
 
  private:
   std::unique_ptr<Ui::ExtraWindow> ui_;
+  class_system::ClassInfo          class_info_;
+
+  QTimer                           rollcall_timer_;
 
   void                             paintEvent(QPaintEvent* event) final;
   void                             moveEvent(QMoveEvent* event) final;
   void                             resizeEvent(QResizeEvent* event) final;
   void                             closeEvent(QCloseEvent* event) final;
+
+ private slots:
+  void HandleSuccessfulResp(const class_system::Response& resp);
+  void HandleStartRollCall();
+  void HandleRollCallTick();
+  void HandleResetRollCall();
 };

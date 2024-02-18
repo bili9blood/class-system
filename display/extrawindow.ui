@@ -6,15 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>578</width>
+    <height>481</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>班级系统 - 额外窗口</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">font-family: Microsoft YaHei;</string>
   </property>
   <layout class="QVBoxLayout" name="main_layout">
    <property name="leftMargin">
@@ -43,22 +40,114 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="rollcall_tab">
       <attribute name="title">
        <string>随机点名</string>
       </attribute>
-     </widget>
-     <widget class="QWidget" name="tab">
-      <attribute name="title">
-       <string>页</string>
-      </attribute>
+      <layout class="QGridLayout" name="rollcall_layout" rowstretch="1,1,1,0" columnstretch="1,1">
+       <item row="1" column="1" rowspan="2">
+        <widget class="QListWidget" name="called_list">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="rollcall_reset_button">
+         <property name="text">
+          <string>重置</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="rollcall_start_button">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font-size: 22px;</string>
+         </property>
+         <property name="text">
+          <string>点名</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="cur_called_label">
+         <property name="styleSheet">
+          <string notr="true">font-size: 28px;
+font-weight: bold;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="called_title_label">
+         <property name="text">
+          <string>已抽中学生</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="uncalled_students_label">
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>rollcall_start_button</sender>
+   <signal>clicked()</signal>
+   <receiver>ExtraWindow</receiver>
+   <slot>HandleStartRollCall()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>111</x>
+     <y>215</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>140</x>
+     <y>505</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rollcall_reset_button</sender>
+   <signal>clicked()</signal>
+   <receiver>ExtraWindow</receiver>
+   <slot>HandleResetRollCall()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>122</x>
+     <y>142</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>130</x>
+     <y>586</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>HandleStartRollCall()</slot>
+  <slot>HandleResetRollCall()</slot>
+ </slots>
 </ui>
