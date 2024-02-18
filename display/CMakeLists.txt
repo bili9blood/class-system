@@ -32,7 +32,6 @@ if(${WIN32} AND NOT ${CMAKE_BUILD_TYPE} STREQUAL Debug)
   set_property(
     TARGET class-system-display PROPERTY
     WIN32_EXECUTABLE ON
-    MSVC_RUNTIME_LIBRARY "MultiThreaded"
   )
 endif()
 
