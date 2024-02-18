@@ -52,6 +52,9 @@ auto main(int argc, char **argv) -> int {
   req.set_key(config::Get()["Server"]["key"].value_or(""));
   req.set_request_class_info(true);
   req.set_request_sentences(true);
+  std::string str_req;
+  req.SerializeToString(&str_req);
+  tcp_client.Write({str_req.data(), (int)str_req.size()});
 
   int code = QApplication::exec();
   config::Save();

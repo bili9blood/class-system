@@ -13,7 +13,7 @@ find_package(protobuf CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
 
 if(${BUILD_GUI})
-  find_package(Qt5 COMPONENTS Core Widgets CONFIG REQUIRED)
+  find_package(Qt5 COMPONENTS Core Widgets Network CONFIG REQUIRED)
 endif()
 
 find_package(libhv CONFIG REQUIRED)

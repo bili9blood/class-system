@@ -1,6 +1,6 @@
 #pragma once
 
-#include "hv/TcpClient.h"
+class QTcpSocket;
 
 class TcpClient final : public QObject {
   Q_OBJECT
@@ -20,12 +20,8 @@ class TcpClient final : public QObject {
    * @brief write data into socket with length header
    *
    * @param data data to be sent
-   * @return int length of data
    */
-  int Write(const QByteArray &data);
-
-  //! overload
-  int Write(const hv::BufferPtr &data);
+  void Write(const QByteArray &data);
 
  signals:
   void MessageReceived(const QByteArray &msg);
@@ -33,5 +29,8 @@ class TcpClient final : public QObject {
   void Disconnected();
 
  private:
-  hv::TcpClient client_;
+  std::unique_ptr<QTcpSocket> socket_;
+
+ private slots:
+  void HandleReadyRead();
 };

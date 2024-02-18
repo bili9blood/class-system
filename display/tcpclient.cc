@@ -1,50 +1,48 @@
 #include "tcpclient.h"
 
 #include <qendian.h>
+#include <qtcpsocket.h>
 #include <qurl.h>
-#include <shared/constants.h>
 
 #include "config.h"
+TcpClient::TcpClient(QObject *parent) : QObject{parent} {
+  socket_ = std::make_unique<QTcpSocket>();
 
-TcpClient::TcpClient(QObject *parent) : QObject(parent) {
-  client_.setUnpack(&const_cast<unpack_setting_t &>(constants::kUnpackSetting));
-
-  client_.onMessage = [this](const hv::SocketChannelPtr &, hv::Buffer *buf) {
-    const auto arr = QByteArray{(char *)buf->data() + 4, (int)buf->size() - 4};
-    Q_EMIT MessageReceived(arr);
-  };
-
-  client_.onConnection = [this](const hv::SocketChannelPtr &chn) {
-    if (chn->isConnected())
-      Q_EMIT Connected();
-    else
-      Q_EMIT Disconnected();
-  };
+  connect(socket_.get(), &QTcpSocket::connected, this, &TcpClient::Connected);
+  connect(socket_.get(), &QTcpSocket::disconnected, this, &TcpClient::Disconnected);
+  connect(socket_.get(), &QTcpSocket::readyRead, this, &TcpClient::HandleReadyRead);
 }
 
 TcpClient::~TcpClient() = default;
 
 bool TcpClient::Start() {
-  const auto server_url = QUrl{config::Get()["Server"]["url"].value_or("")};
-  if (!server_url.isValid() || server_url.scheme() != "tcp") return false;
-  if (client_.createsocket(server_url.port(7989), server_url.host().toUtf8()) < 0) return false;
-  client_.start();
+  QUrl url{config::Get()["Server"]["url"].value_or("")};
+  if (url.isEmpty() || url.scheme() != "tcp") return false;
+
+  socket_->connectToHost(url.host(), url.port(7989));
   return true;
 }
 
-int TcpClient::Write(const QByteArray &data) {
-  if (data.isEmpty())
-    return 0;
-
+void TcpClient::Write(const QByteArray &data) {
   QByteArray arr;
   arr.resize(sizeof(int));
   *(int *)(arr.data()) = qToBigEndian(data.size());
   arr.append(data);
 
-  client_.send(new hv::Buffer{arr.data(), (size_t)arr.size()});
-  return data.size();
+  socket_->write(arr);
 }
 
-int TcpClient::Write(const hv::BufferPtr &data) {
-  return Write(QByteArray{(char *)data->data(), (int)data->size()});
+void TcpClient::HandleReadyRead() {
+  while (socket_->bytesAvailable() >= sizeof(int)) {
+    int size{};
+    socket_->read((char *)&size, sizeof(int));
+    size = qFromBigEndian(size);
+    if (socket_->bytesAvailable() < size) return;
+
+    QByteArray data;
+    data.resize(size);
+    socket_->read(data.data(), size);
+
+    Q_EMIT MessageReceived(data);
+  }
 }
