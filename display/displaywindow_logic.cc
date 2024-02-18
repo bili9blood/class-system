@@ -5,12 +5,14 @@
 #include <shared/constants.h>
 
 #include <gzip/decompress.hpp>
+#include <nlohmann/json.hpp>
 
 #include "config.h"
 #include "constants.h"
 #include "display/eventnodewidget.h"
 #include "displaywindow.h"
 #include "flowlayout.h"
+#include "httpclient.h"
 #include "ui_displaywindow.h"
 #include "util.h"
 #include "weatherwidget.h"
@@ -152,23 +154,38 @@ void DisplayWindow::DisplayLessons() {
 void DisplayWindow::DisplayWeather() {
   ClearLayout(ui_->weather_layout);
 
-  // const auto *const key      = config::Get()["QWeather"]["key"].value_or("");
-  // const auto *const location = config::Get()["QWeather"]["location"].value_or("");
+  const auto *const key      = config::Get()["QWeather"]["key"].value_or("");
+  const auto *const location = config::Get()["QWeather"]["location"].value_or("");
 
-  // const auto        res      = requests::get(QString{constants::kQweatherApiUrl}.arg(key).arg(location).toUtf8());
-  // const auto        res_json = nlohmann::json::parse(gzip::decompress(res->body.c_str(), res->body.size()));
+  QString           res;
+  QEventLoop        loop;
 
-  // for (auto i{0}; i < (int)res_json["daily"].size(); ++i) {
-  //   auto *const wgt = new WeatherWidget{
-  //       std::stoi((std::string)res_json["daily"][i]["iconDay"]),
-  //       std::stoi((std::string)res_json["daily"][i]["tempMin"]),
-  //       std::stoi((std::string)res_json["daily"][i]["tempMax"]),
+  HttpClient        cli{QString{constants::kQweatherApiUrl}.arg(key).arg(location)};
+  cli.success([&](const auto &_res) {
+    res = _res;
+    loop.quit();
+  });
+  cli.get();
 
-  //       QDate::currentDate().addDays(i),
-  //       centralWidget()
-  //   };
-  //   ui_->weather_layout->addWidget(wgt);
-  // }
+  loop.exec();
+
+  const auto res_json = nlohmann::json::parse(res.toUtf8().data());
+
+  try {
+    for (auto i{0}; i < (int)res_json["daily"].size(); ++i) {
+      auto *const wgt = new WeatherWidget{
+          std::stoi((std::string)res_json["daily"][i]["iconDay"]),
+          std::stoi((std::string)res_json["daily"][i]["tempMin"]),
+          std::stoi((std::string)res_json["daily"][i]["tempMax"]),
+
+          QDate::currentDate().addDays(i),
+          centralWidget()
+      };
+      ui_->weather_layout->addWidget(wgt);
+    }
+  } catch (const nlohmann::json::exception &e) {
+    return;
+  }
 }
 
 void DisplayWindow::UpdateLessonsStatus() {
