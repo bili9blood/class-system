@@ -2,8 +2,8 @@
 
 #include <hv/hendian.h>
 #include <hv/hlog.h>
-#include <shared/constants.h>
 
+#include "constants.h"
 #include "logic.h"
 
 Server::Server(unsigned short _port, int thread_num) {
