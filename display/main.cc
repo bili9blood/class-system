@@ -1,7 +1,6 @@
 #include <proto/Request.pb.h>
 #include <qapplication.h>
 #include <qfontdatabase.h>
-#include <shared/util.h>
 
 #include <csignal>
 
@@ -53,7 +52,6 @@ auto main(int argc, char **argv) -> int {
   req.set_key(config::Get()["Server"]["key"].value_or(""));
   req.set_request_class_info(true);
   req.set_request_sentences(true);
-  tcp_client.Write(util::MessageToBuf(req));
 
   int code = QApplication::exec();
   config::Save();

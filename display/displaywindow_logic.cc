@@ -4,7 +4,6 @@
 #include <qrandom.h>
 #include <qstyle.h>
 #include <shared/constants.h>
-#include <shared/util.h>
 
 #include <gzip/decompress.hpp>
 
@@ -14,6 +13,7 @@
 #include "displaywindow.h"
 #include "flowlayout.h"
 #include "ui_displaywindow.h"
+#include "util.h"
 #include "weatherwidget.h"
 
 #ifdef min

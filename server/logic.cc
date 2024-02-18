@@ -4,7 +4,6 @@
 #include <hv/hstring.h>
 #include <proto/Request.pb.h>
 #include <proto/Response.pb.h>
-#include <shared/util.h>
 
 #include "storage.h"
 #include "util.h"
