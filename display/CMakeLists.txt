@@ -9,7 +9,7 @@ qt5_wrap_ui(DISPLAY_FORM_SRC ${DISPLAY_UI_FILES})
 
 add_executable(
   class-system-display
-  ${DISPLAY_SRC} ${DISPLAY_FORM_SRC} ../resources/display.qrc ../resources/icon.rc
+  ${DISPLAY_SRC} ${DISPLAY_FORM_SRC} ../resources/display.qrc ../resources/win.rc
   ${SHARED_SRC}
   ${PROTO_SRC}
 )

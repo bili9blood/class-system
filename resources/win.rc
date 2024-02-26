@@ -1,0 +1,26 @@
+IDI_ICON1 ICON DISCARDABLE "images/icon.ico"
+
+1 VERSIONINFO  
+FILEVERSION    0,0,0,0
+PRODUCTVERSION 0,0,0,0
+FILEFLAGS 0x1L
+FILEOS 0x40004L
+FILETYPE 0x1L
+FILESUBTYPE 0x1L
+{
+  BLOCK "StringFileInfo" {
+    BLOCK "080904E4" {
+      VALUE "CompanyName", ""
+      VALUE "FileDescription", "ClassSystem 班级管理系统"  
+      VALUE "FileVersion", "git"
+      VALUE "InternalName", "class-system"
+      VALUE "LegalCopyright", "Nineblood"
+      VALUE "OriginalFilename", ""
+      VALUE "ProductName", "ClassSystem 班级管理系统"
+      VALUE "ProductVersion", "git"
+    }
+  }
+  BLOCK "VarFileInfo" {
+    VALUE "Translation", 0x809, 1252
+  }
+}
