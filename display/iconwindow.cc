@@ -21,6 +21,10 @@ IconWindow::IconWindow(QWidget* parent)
          )
   );
 
+  ui_->left_label->setPixmap(QPixmap::fromImage(
+      ui_->right_label->pixmap(Qt::ReturnByValue).toImage().mirrored(true, false)
+  ));
+
   ui_->left_label->installEventFilter(this);
   ui_->right_label->installEventFilter(this);
 
@@ -41,18 +45,23 @@ bool IconWindow::eventFilter(QObject* object, QEvent* event) {
       out                     = true;
     }
 
-    if (event->type() == QEvent::MouseMove) {
+    else if (event->type() == QEvent::MouseMove) {
       auto* const mouse_event = dynamic_cast<QMouseEvent*>(event);
       move(0, (mouse_event->globalPos() - mouse_start_pos_).y());
       out = true;
     }
 
-    if (event->type() == QEvent::MouseButtonRelease) {
+    else if (event->type() == QEvent::MouseButtonRelease) {
       move(0, qBound(0, y(), QApplication::primaryScreen()->availableGeometry().height() - height()));
-      if (abs(y() - prev_y_) < 10) {
+      if (abs(mouse_start_pos_.x() - dynamic_cast<QMouseEvent*>(event)->x()) >= 10) {
+        qDebug() << "TODO: show window list";
+      }
+
+      else if (abs(y() - prev_y_) < 10) {
         extra_window_->show();
         hide();
       }
+      out = true;
     }
   }
 

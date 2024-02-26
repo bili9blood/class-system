@@ -6,6 +6,7 @@
   <file>fonts/qweather-icons.ttf</file>
   <file>fonts/SymbolsNerdFont-Regular.ttf</file>
   <file>images/icon.ico</file>
+  <file>images/menu.png</file>
   <file>styles/material-light-blue.qss</file>
 </qresource>
 </RCC>

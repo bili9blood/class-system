@@ -30,21 +30,18 @@
     <widget class="QLabel" name="left_label">
      <property name="minimumSize">
       <size>
-       <width>50</width>
-       <height>50</height>
+       <width>35</width>
+       <height>70</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>50</width>
-       <height>50</height>
+       <width>35</width>
+       <height>70</height>
       </size>
      </property>
      <property name="text">
       <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="../resources/display.qrc">:/images/icon.ico</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -68,21 +65,21 @@
     <widget class="QLabel" name="right_label">
      <property name="minimumSize">
       <size>
-       <width>50</width>
-       <height>50</height>
+       <width>35</width>
+       <height>70</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>50</width>
-       <height>50</height>
+       <width>35</width>
+       <height>70</height>
       </size>
      </property>
      <property name="text">
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../resources/display.qrc">:/images/icon.ico</pixmap>
+      <pixmap resource="../resources/display.qrc">:/images/menu.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
