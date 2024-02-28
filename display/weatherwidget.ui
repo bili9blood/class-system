@@ -52,7 +52,7 @@
        <property name="styleSheet">
         <string notr="true">* {
   font-family: qweather-icons;
-  font-size: 19px;
+  font-size: 21px;
 }
 .weather-today QLabel {
   color: #ee8545;
@@ -71,7 +71,7 @@
        <property name="styleSheet">
         <string notr="true">* {
   font-family: Microsoft YaHei;
-  font-size: 16px;
+  font-size: 18px;
 }
 .weather-today QLabel {
   font-weight: bold;
@@ -107,7 +107,7 @@
       <string notr="true">* {
   font-weight: 300;
   font-family: Microsoft YaHei;
-  font-size: 16px;
+  font-size: 18px;
 }
 .weather-today QLabel{
   font-weight: bold;

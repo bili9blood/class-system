@@ -30,7 +30,7 @@
     <widget class="QTabWidget" name="tab_widget">
      <property name="styleSheet">
       <string notr="true">QTabWidget {
-  font-size: 18px;
+  font-size: 20px;
 }</string>
      </property>
      <property name="tabPosition">
@@ -70,7 +70,7 @@
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">font-size: 22px;</string>
+          <string notr="true">font-size: 24px;</string>
          </property>
          <property name="text">
           <string>点名</string>
@@ -80,7 +80,7 @@
        <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="cur_called_label">
          <property name="styleSheet">
-          <string notr="true">font-size: 28px;
+          <string notr="true">font-size: 30px;
 font-weight: bold;</string>
          </property>
          <property name="alignment">

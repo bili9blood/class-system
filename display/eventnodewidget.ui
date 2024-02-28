@@ -35,7 +35,7 @@
       <widget class="QLabel" name="date_label">
        <property name="styleSheet">
         <string notr="true">font-family: Microsoft Yahei;
-font-size: 18px;
+font-size: 20px;
 color: white;
 font-weight: bold;</string>
        </property>
@@ -51,7 +51,7 @@ font-weight: bold;</string>
       <widget class="QLabel" name="days_left_label">
        <property name="styleSheet">
         <string notr="true">font-family: Microsoft Yahei;
-font-size: 16px;
+font-size: 18px;
 color: white;</string>
        </property>
        <property name="text">
@@ -96,12 +96,12 @@ color: white;</string>
        <property name="styleSheet">
         <string notr="true">* {
   font-family: Symbols Nerd Font;
-  font-size: 19px;
+  font-size: 21px;
   color: white;
 }
 .important {
   color: #ee8545;
-  font-size: 22px;
+  font-size: 24px;
 }</string>
        </property>
        <property name="text">
@@ -131,7 +131,7 @@ color: white;</string>
     <widget class="QLabel" name="name_label">
      <property name="styleSheet">
       <string notr="true">font-family: Microsoft Yahei;
-font-size: 18px;
+font-size: 20px;
 color: white;
 font-weight: bold;</string>
      </property>
