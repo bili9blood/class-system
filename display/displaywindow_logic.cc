@@ -245,6 +245,7 @@ void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
 
   DisplayLessons();
 
+  SwitchWindowLayer(true);
   show();
 }
 

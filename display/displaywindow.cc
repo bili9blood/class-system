@@ -34,8 +34,6 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
   DisplayWeather();
 
   connect(GlobalStore::Get(), &GlobalStore::SucceededHandleResp, this, &DisplayWindow::HandleSucceesfulResp);
-
-  SwitchWindowLayer(true);
 }
 
 DisplayWindow::~DisplayWindow() = default;
