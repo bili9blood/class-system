@@ -30,14 +30,14 @@
     <widget class="QLabel" name="left_label">
      <property name="minimumSize">
       <size>
-       <width>35</width>
-       <height>70</height>
+       <width>20</width>
+       <height>40</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>35</width>
-       <height>70</height>
+       <width>20</width>
+       <height>40</height>
       </size>
      </property>
      <property name="text">
@@ -65,14 +65,14 @@
     <widget class="QLabel" name="right_label">
      <property name="minimumSize">
       <size>
-       <width>35</width>
-       <height>70</height>
+       <width>20</width>
+       <height>40</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>35</width>
-       <height>70</height>
+       <width>20</width>
+       <height>40</height>
       </size>
      </property>
      <property name="text">
