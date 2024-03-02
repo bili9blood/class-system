@@ -33,16 +33,15 @@ void TcpClient::Write(const QByteArray &data) {
 }
 
 void TcpClient::HandleReadyRead() {
+  static int size{};
   while (socket_->bytesAvailable() >= sizeof(int)) {
-    int size{};
-    socket_->read((char *)&size, sizeof(int));
-    size = qFromBigEndian(size);
-    if (socket_->bytesAvailable() < size) return;
+    if (size == 0)
+      size = qFromBigEndian(*(int *)(socket_->read(sizeof(int)).data()));
 
-    QByteArray data;
-    data.resize(size);
-    socket_->read(data.data(), size);
-
-    Q_EMIT MessageReceived(data);
+    if (socket_->bytesAvailable() >= size) {
+      const auto data = socket_->read(size);
+      size            = 0;
+      Q_EMIT MessageReceived(data);
+    }
   }
 }
