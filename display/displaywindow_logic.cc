@@ -2,14 +2,13 @@
 #include <qlayoutitem.h>
 #include <qrandom.h>
 #include <qstyle.h>
-#include <shared/constants.h>
 
 #include <nlohmann/json.hpp>
 
 #include "config.h"
 #include "constants.h"
-#include "display/eventnodewidget.h"
 #include "displaywindow.h"
+#include "eventnodewidget.h"
 #include "flowlayout.h"
 #include "httpclient.h"
 #include "ui_displaywindow.h"
