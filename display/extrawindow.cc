@@ -3,7 +3,7 @@
 #include <qevent.h>
 
 #include "config.h"
-#include "constants.h"
+#include "constants/constants.h"
 #include "globalstore.h"
 #include "ui_extrawindow.h"
 

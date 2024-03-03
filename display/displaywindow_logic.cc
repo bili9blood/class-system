@@ -6,7 +6,7 @@
 #include <nlohmann/json.hpp>
 
 #include "config.h"
-#include "constants.h"
+#include "constants/constants.h"
 #include "displaywindow.h"
 #include "eventnodewidget.h"
 #include "flowlayout.h"

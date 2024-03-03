@@ -3,7 +3,7 @@
 #include <qdatetime.h>
 #include <qstyle.h>
 
-#include "constants.h"
+#include "constants/constants.h"
 #include "ui_eventnodewidget.h"
 
 EventNodeWidget::EventNodeWidget(const class_system::ClassInfo::Event &event, QWidget *parent)

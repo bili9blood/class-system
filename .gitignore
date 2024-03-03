@@ -1,2 +1,9 @@
-build/
-.vscode/
+node_modules
+*.log
+dist
+build
+.output
+.nuxt
+.env
+*.local
+.idea/

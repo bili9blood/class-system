@@ -2,7 +2,7 @@
 
 #include <qdatetime.h>
 
-#include "constants.h"
+#include "constants/constants.h"
 #include "ui_weatherwidget.h"
 
 WeatherWidget::WeatherWidget(

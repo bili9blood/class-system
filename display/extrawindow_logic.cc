@@ -1,7 +1,7 @@
 #include <proto/Response.pb.h>
 #include <qset.h>
 
-#include "constants.h"
+#include "constants/constants.h"
 #include "extrawindow.h"
 #include "qrandom.h"
 #include "ui_extrawindow.h"

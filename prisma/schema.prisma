@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model class_ {
+  id           Int    @id @default(autoincrement()) @db.TinyInt
+  name         String @db.VarChar(32)
+  man_password String @db.Char(6)
+
+  @@map("class")
+}
+
+model complete_arr {
+  id                Int    @id @default(autoincrement()) @db.SmallInt
+  class_id          Int    @db.TinyInt
+  job               String @db.VarChar(32)
+  start_idx         Int    @db.SmallInt
+  start_date        String @db.Char(8)
+  days_one_step     Int    @db.TinyInt
+  students_one_step Int    @db.TinyInt
+
+  @@index([class_id], map: "idx_class_id")
+}
+
+model event {
+  id        Int     @id @default(autoincrement()) @db.UnsignedSmallInt
+  class_id  Int     @db.TinyInt
+  title     String  @db.VarChar(128)
+  date      String  @db.Char(8)
+  important Boolean
+
+  @@index([class_id], map: "idx_class_id")
+}
+
+model lesson {
+  id            Int    @id @default(autoincrement()) @db.UnsignedSmallInt
+  class_id      Int    @db.TinyInt
+  lesson_number Int    @db.TinyInt
+  mon           String @db.VarChar(32)
+  tue           String @db.VarChar(32)
+  wed           String @db.VarChar(32)
+  thu           String @db.VarChar(32)
+  fri           String @db.VarChar(32)
+  start_tm      String @db.Char(4)
+  end_tm        String @db.Char(4)
+
+  @@index([class_id], map: "idx_class_id")
+}
+
+model notice {
+  id       Int    @id @default(autoincrement()) @db.UnsignedSmallInt
+  class_id Int    @db.TinyInt
+  title    String @db.VarChar(128)
+  date     String @db.Char(8)
+  text     String @db.Text
+
+  @@index([class_id], map: "idx_class_id")
+}
+
+model partial_arr {
+  id                Int    @id @default(autoincrement()) @db.SmallInt
+  class_id          Int    @db.TinyInt
+  job               String @db.VarChar(32)
+  start_idx         Int    @db.SmallInt
+  start_date        String @db.Char(8)
+  days_one_step     Int    @db.TinyInt
+  students_one_step Int    @db.TinyInt
+  student_ids       Json
+
+  @@index([class_id], map: "idx_class_id")
+}
+
+model sentence {
+  id     Int    @id @default(autoincrement()) @db.UnsignedSmallInt
+  text   String @db.Text
+  author String @db.VarChar(64)
+}
+
+model student {
+  id         Int    @id @default(autoincrement()) @db.UnsignedSmallInt
+  inclass_id Int    @db.UnsignedTinyInt
+  class_id   Int    @db.TinyInt
+  name       String @db.VarChar(32)
+
+  @@index([class_id], map: "idx_class_id")
+}
+
+model weekday_arr {
+  id              Int    @id @default(autoincrement()) @db.UnsignedSmallInt
+  class_id        Int    @db.TinyInt
+  job             String @db.VarChar(32)
+  mon_student_ids Json
+  tue_student_ids Json
+  wed_student_ids Json
+  thu_student_ids Json
+  fri_student_ids Json
+
+  @@index([class_id], map: "idx_class_id")
+}

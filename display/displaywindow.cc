@@ -6,7 +6,7 @@
 #include <windowsx.h>
 
 #include "config.h"
-#include "constants.h"
+#include "constants/constants.h"
 #include "flowlayout.h"
 #include "globalstore.h"
 #include "native.h"
