@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package class_system;
-
-message Sentence {
-  string text   = 1;
-  string author = 2;
-}

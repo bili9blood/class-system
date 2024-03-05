@@ -12,30 +12,11 @@
 #include "flowlayout.h"
 #include "httpclient.h"
 #include "ui_displaywindow.h"
-#include "util.h"
 #include "weatherwidget.h"
 
 #ifdef min
 #undef min
 #endif
-
-#define GET_WEEKDAY_TODAY(x, c, d)              \
-  [c] {                                         \
-    switch (QDate::currentDate().dayOfWeek()) { \
-      case Qt::Monday:                          \
-        return x(mon);                          \
-      case Qt::Tuesday:                         \
-        return x(tue);                          \
-      case Qt::Wednesday:                       \
-        return x(wed);                          \
-      case Qt::Thursday:                        \
-        return x(thu);                          \
-      case Qt::Friday:                          \
-        return x(fri);                          \
-      default:                                  \
-        d                                       \
-    }                                           \
-  }()
 
 static void ClearLayout(QLayout *layout) {
   if (!layout->count()) return;
@@ -45,7 +26,9 @@ static void ClearLayout(QLayout *layout) {
   }
 }
 
-void DisplayWindow::InitSentences(const google::protobuf::RepeatedPtrField<class_system::Sentence> &sentences) {
+void DisplayWindow::InitSentences(const QList<GlobalStore::Sentence> &sentences) {
+  if (sentences.empty()) return;
+
   // simply make the first sentence different every time
   const auto idx = QRandomGenerator::global()->bounded(sentences.size());
   for (auto i{idx}; i < sentences.size(); ++i) sentences_.push(sentences[i]);
@@ -54,47 +37,45 @@ void DisplayWindow::InitSentences(const google::protobuf::RepeatedPtrField<class
 
 QList<DisplayWindow::DailyArrangement> DisplayWindow::GetDailyArrangement() {
   static const auto FromPartial =
-      [](const class_system::ClassInfo::PartialArrangement &arr) -> DisplayWindow::DailyArrangement {
-    const auto &opts             = arr.opts();
-    const auto  start_date       = QDate::fromString(QString::fromStdString(opts.start_date()), constants::kProtobufDateFormat);
-    const auto  days_since_start = (int)start_date.daysTo(QDate::currentDate());
-    const auto  cur_idx =
-        ((days_since_start / opts.days_one_step()) * opts.students_one_step() + opts.start_idx()) %
-        arr.student_ids_size();
-    QList<int> student_ids_today;
-    for (auto i{0}; i < opts.students_one_step(); ++i)
-      student_ids_today.push_back(arr.student_ids((cur_idx + i) % arr.student_ids_size()));
-    return {QString::fromStdString(arr.job()), student_ids_today};
+      [](const GlobalStore::PartialArrangement &arr) -> DisplayWindow::DailyArrangement {
+    const auto days_since_start = (int)arr.start_date.daysTo(QDate::currentDate());
+    const auto cur_idx =
+        ((days_since_start / arr.days_one_step) * arr.students_one_step + arr.start_idx) %
+        arr.students.size();
+    QList<GlobalStore::Student> students_today;
+    for (auto i{0}; i < arr.students_one_step; ++i)
+      students_today.push_back(arr.students[(cur_idx + i) % arr.students.size()]);
+    return {arr.job, students_today};
   };
 
   static const auto FromComplete =
-      [this](const class_system::ClassInfo::CompleteArrangement &arr) -> DisplayWindow::DailyArrangement {
-    class_system::ClassInfo::PartialArrangement partial;
-    partial.CopyFrom(arr);
-    for (const auto &s : class_info_.students()) partial.mutable_student_ids()->Add(s.id());
+      [this](const GlobalStore::CompleteArrangement &arr) -> DisplayWindow::DailyArrangement {
+    GlobalStore::PartialArrangement partial;
+    partial.job               = arr.job;
+    partial.start_date        = arr.start_date;
+    partial.start_idx         = arr.start_idx;
+    partial.students_one_step = arr.students_one_step;
+    partial.days_one_step     = arr.days_one_step;
+    partial.students          = GlobalStore::GetClassInfo().students;
     return FromPartial(partial);
   };
 
   static const auto FromWeekday =
-      [](const class_system::ClassInfo::WeekdayArrangement &arr) -> DisplayWindow::DailyArrangement {
-#define _X_(w) arr.w##_student_ids()
-    const auto student_ids_today = GET_WEEKDAY_TODAY(_X_, arr, return _X_(mon););
-#undef _X_
-
-    return {QString::fromStdString(arr.job()), {student_ids_today.cbegin(), student_ids_today.cend()}};
+      [](const GlobalStore::WeekdayArrangement &arr) -> DisplayWindow::DailyArrangement {
+    return {arr.job, arr.students[(QDate::currentDate().dayOfWeek() - 1) % 5]};
   };
 
   QList<DisplayWindow::DailyArrangement> res_list;
-  for (const auto &arr : class_info_.partial_arrangements()) res_list << FromPartial(arr);
-  for (const auto &arr : class_info_.complete_arrangements()) res_list << FromComplete(arr);
-  for (const auto &arr : class_info_.weekday_arrangements()) res_list << FromWeekday(arr);
+  for (const auto &arr : GlobalStore::GetClassInfo().partial_arr) res_list << FromPartial(arr);
+  for (const auto &arr : GlobalStore::GetClassInfo().complete_arr) res_list << FromComplete(arr);
+  for (const auto &arr : GlobalStore::GetClassInfo().weekday_arr) res_list << FromWeekday(arr);
   return res_list;
 }
 
 void DisplayWindow::DisplayEvents() {
   ClearLayout(ui_->events_widget->layout());
-  for (auto i{0}; i < std::min(4, class_info_.events_size()); ++i) {
-    auto *const event_widget = new EventNodeWidget{class_info_.events(i), ui_->events_widget};
+  for (auto i{0}; i < std::min(4, GlobalStore::GetClassInfo().events.size()); ++i) {
+    auto *const event_widget = new EventNodeWidget{GlobalStore::GetClassInfo().events[i], ui_->events_widget};
     ui_->events_widget->layout()->addWidget(event_widget);
   }
 }
@@ -111,15 +92,8 @@ void DisplayWindow::DisplayArrangement() {
     title_label->setProperty("class", "title");
 
     auto *flow_layout = new FlowLayout{};
-    for (const auto &student_id : arr.student_ids) {
-      auto *const stu_label = new QLabel{
-          QString{constants::kStudentNameFormat}
-              .arg(student_id)
-              .arg(QString::fromStdString(
-                  util::GetStudentNameById(class_info_.students(), student_id)
-              )),
-          ui_->arrangement_widget
-      };
+    for (const auto &student : arr.students) {
+      auto *const stu_label = new QLabel{student.GetDisplayStr(), ui_->arrangement_widget};
       stu_label->setAlignment(Qt::AlignCenter);
       flow_layout->addWidget(stu_label);
     }
@@ -133,16 +107,14 @@ void DisplayWindow::DisplayLessons() {
   ClearLayout(ui_->lessons_layout);
 
   // add new lesson labels
-  for (const auto &l : class_info_.lessons()) {
-#define _X_(w) QString::fromStdString(l.w())
-    const auto lesson_today = GET_WEEKDAY_TODAY(_X_, l, return _X_(mon););
-#undef _X_
+  for (const auto &l : GlobalStore::GetClassInfo().lessons) {
+    const auto  lesson_today = l.lessons[(QDate::currentDate().dayOfWeek() - 1) % 5];
 
-    auto *const lbl = new QLabel{
+    auto *const lbl          = new QLabel{
         QString{constants::kLessonFormat}
             .arg(lesson_today)
-            .arg(QTime::fromString(QString::fromStdString(l.start_tm()), constants::kProtobufTimeFormat).toString("HH:mm"))
-            .arg(QTime::fromString(QString::fromStdString(l.end_tm()), constants::kProtobufTimeFormat).toString("HH:mm")),
+            .arg(l.start_tm.toString("HH:mm"))
+            .arg(l.end_tm.toString("HH:mm")),
         ui_->lessons_widget
     };
     ui_->lessons_layout->addWidget(lbl);
@@ -188,18 +160,19 @@ void DisplayWindow::DisplayWeather() {
 
 void DisplayWindow::UpdateLessonsStatus() {
   auto lbls = ui_->lessons_widget->findChildren<QLabel *>();
-  if (lbls.size() != class_info_.lessons().size()) return;
-  const auto lessons_cnt  = lbls.size();
-  const auto cur_time_str = QTime::currentTime().toString(constants::kProtobufTimeFormat).toStdString();
+  if (lbls.size() != GlobalStore::GetClassInfo().lessons.size()) return;
+  const auto lessons_cnt = lbls.size();
+  const auto cur_time    = QTime::currentTime();
 
   for (auto i{0}; i < lessons_cnt; ++i) {
     auto &lbl = lbls[i];
     if (
-        (i > 0 && cur_time_str >= class_info_.lessons(i - 1).end_tm() && cur_time_str < class_info_.lessons(i).end_tm()) ||
-        (i == 0 && cur_time_str < class_info_.lessons(i).end_tm())
+        (i > 0 && cur_time >= GlobalStore::GetClassInfo().lessons[i - 1].end_tm &&
+         cur_time < GlobalStore::GetClassInfo().lessons[i].end_tm) ||
+        (i == 0 && cur_time < GlobalStore::GetClassInfo().lessons[i].end_tm)
     )
       lbl->setProperty("class", "current");
-    else if (cur_time_str > class_info_.lessons(i).start_tm())
+    else if (cur_time > GlobalStore::GetClassInfo().lessons[i].start_tm)
       lbl->setProperty("class", "past");
     else
       lbl->setProperty("class", "");
@@ -213,10 +186,10 @@ void DisplayWindow::UpdateWindowStatus() {
   static QPoint old_pos;
 
   const auto    during_lesson = std::any_of(
-      class_info_.lessons().cbegin(), class_info_.lessons().cend(),
+      GlobalStore::GetClassInfo().lessons.cbegin(), GlobalStore::GetClassInfo().lessons.cend(),
       [](const auto &l) {
-        const auto cur_time_str = QTime::currentTime().toString(constants::kProtobufTimeFormat).toStdString();
-        return cur_time_str >= l.start_tm() && cur_time_str < l.end_tm();
+        const auto cur_time = QTime::currentTime();
+        return cur_time >= l.start_tm && cur_time < l.end_tm;
       }
   );
   if (is_front && during_lesson) {
@@ -231,10 +204,8 @@ void DisplayWindow::UpdateWindowStatus() {
   }
 }
 
-void DisplayWindow::HandleSucceesfulResp(const class_system::Response &resp) {
-  class_info_ = resp.class_info();
-
-  InitSentences(resp.sentences());
+void DisplayWindow::HandleClassInfo() {
+  InitSentences(GlobalStore::GetClassInfo().sentences);
   DisplayEvents();
   DisplayArrangement();
 
@@ -262,17 +233,17 @@ void DisplayWindow::HandleSwitchSentences() {
   const auto cur_sentence = sentences_.front();
   sentences_.pop();
 
-  ui_->sentence_text_label->setText(QString::fromStdString(cur_sentence.text()));
+  ui_->sentence_text_label->setText(cur_sentence.text);
   ui_->sentence_author_label->setText(
       QString{constants::kSentenceAuthorFormat}
-          .arg(QString::fromStdString(cur_sentence.author()))
+          .arg(cur_sentence.author)
   );
 
   sentences_.push(cur_sentence);
 }
 
 void DisplayWindow::HandleSwitchNotices() {
-  if (class_info_.notices().empty()) {
+  if (GlobalStore::GetClassInfo().notices.empty()) {
     ui_->notices_data_title_label->setText("无公告");
     ui_->notices_date_label->setText("");
     ui_->notices_text_browser->setText("");
@@ -280,16 +251,11 @@ void DisplayWindow::HandleSwitchNotices() {
   }
 
   static int cur_notice_index{};
-  if (cur_notice_index >= class_info_.notices_size()) cur_notice_index = 0;
-  const auto &cur_notice = class_info_.notices(cur_notice_index);
-  ui_->notices_data_title_label->setText(QString::fromStdString(cur_notice.title()));
-  ui_->notices_text_browser->setText(QString::fromStdString(cur_notice.text()));
-  const auto date_str = cur_notice.date() == "FOREVER"
-                            ? ""
-                            : QDate::fromString(
-                                  QString::fromStdString(cur_notice.date()), constants::kProtobufDateFormat
-                              )
-                                  .toString(constants::kNoticeDateFormat);
+  if (cur_notice_index >= GlobalStore::GetClassInfo().notices.size()) cur_notice_index = 0;
+  const auto &cur_notice = GlobalStore::GetClassInfo().notices[cur_notice_index];
+  ui_->notices_data_title_label->setText(cur_notice.title);
+  ui_->notices_text_browser->setText(cur_notice.text);
+  const auto date_str = cur_notice.last_forever ? "" : cur_notice.date.toString(constants::kNoticeDateFormat);
   ui_->notices_date_label->setText(date_str);
 
   ++cur_notice_index;

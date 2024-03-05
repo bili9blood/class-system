@@ -11,9 +11,6 @@ endif()
 
 project(class-system-display LANGUAGES CXX VERSION 1.0.0)
 
-find_package(protobuf CONFIG REQUIRED)
-include(./proto.cmake)
-
 find_package(Qt5 COMPONENTS Core Widgets Network CONFIG REQUIRED)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS display/*.h display/*.cc)
@@ -29,13 +26,11 @@ add_executable(
   class-system-display
   ${SOURCES} ${FORM_SOURCES} resources/display.qrc resources/win.rc
   ${SHARED_SRC}
-  ${PROTO_SRC}
 )
 
 target_link_libraries(
   class-system-display PRIVATE
   Qt5::Core Qt5::Widgets Qt5::Network
-  protobuf::libprotobuf
 )
 
 target_include_directories(class-system-display PRIVATE include)
@@ -50,5 +45,3 @@ if(${WIN32} AND NOT ${CMAKE_BUILD_TYPE} STREQUAL Debug)
     WIN32_EXECUTABLE ON
   )
 endif()
-
-add_dependencies(class-system-display generate-message)

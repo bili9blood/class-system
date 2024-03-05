@@ -36,6 +36,8 @@ export interface Notice {
   text: string;
 }
 
+// FIXME: change `startTm` `endTm` to `start_tm` etc.
+// (don't forget to change field name in the database!)
 export interface Lesson {
   id: number;
   lessons: [string, string, string, string, string];

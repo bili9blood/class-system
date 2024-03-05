@@ -13,8 +13,8 @@ constexpr const char                             kLessonFormat[]                
 constexpr const char                             kStudentNameFormat[]                   = "%1号%2";
 constexpr const char                             kTemptureFormat[]                      = "%1℃~%2℃";
 constexpr const char                             kRollCallUncalledFormat[]              = "未抽到：%1人";
-constexpr const char                             kProtobufDateFormat[]                  = "yyyyMMdd";
-constexpr const char                             kProtobufTimeFormat[]                  = "HHmm";
+constexpr const char                             kTransferDateFormat[]                  = "yyyyMMdd";
+constexpr const char                             kTransferTimeFormat[]                  = "HHmm";
 
 constexpr int                                    kClockTimerIntervalMs                  = 1'000;
 constexpr int                                    kSentencesNoticesSwitchTimerIntervalMs = 30'000;

@@ -1,8 +1,5 @@
 #pragma once
 
-#include <qbytearray.h>
-#include <qdebug.h>
-#include <qlist.h>
+#include <QtCore/QtCore>
 #include <qmessagebox.h>
-#include <qstring.h>
 #include <qwidget.h>

@@ -1,6 +1,5 @@
 #pragma once
-
-#include <proto/ClassInfo.pb.h>
+#include "globalstore.h"
 
 namespace Ui {
 class EventNodeWidget;
@@ -9,7 +8,7 @@ class EventNodeWidget;
 class EventNodeWidget final : public QWidget {
   Q_OBJECT
  public:
-  explicit EventNodeWidget(const class_system::ClassInfo::Event &event, QWidget *parent = nullptr);
+  explicit EventNodeWidget(const GlobalStore::Event &event, QWidget *parent = nullptr);
   ~EventNodeWidget() final;
 
  private:

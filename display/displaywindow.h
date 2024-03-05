@@ -1,9 +1,8 @@
 #pragma once
-#include <proto/Response.pb.h>
 #include <qmainwindow.h>
 #include <qtimer.h>
-
 #include <queue>
+#include "globalstore.h"
 
 namespace Ui {
 class DisplayWindow;
@@ -14,7 +13,7 @@ class DisplayWindow final : public QMainWindow {
 
   struct DailyArrangement {
     QString    job;
-    QList<int> student_ids;
+    QList<GlobalStore::Student> students;
   };
 
  public:
@@ -22,19 +21,18 @@ class DisplayWindow final : public QMainWindow {
   ~DisplayWindow() final;
 
  public slots:
-  void HandleSucceesfulResp(const class_system::Response &resp);
+  void HandleClassInfo();
 
  private:
   std::unique_ptr<Ui::DisplayWindow>         ui_;
   QPoint                                     mouse_start_pos_;
 
-  class_system::ClassInfo                    class_info_;
-  std::queue<class_system::Sentence>         sentences_;
+  std::queue<GlobalStore::Sentence>         sentences_;
 
   QTimer                                     clock_timer_;
   QTimer                                     sentences_notices_switch_timer_;
 
-  void                                       InitSentences(const google::protobuf::RepeatedPtrField<class_system::Sentence> &sentences);
+  void                                       InitSentences(const QList<GlobalStore::Sentence> &sentences);
   QList<DailyArrangement>                    GetDailyArrangement();
   void                                       DisplayEvents();
   void                                       DisplayArrangement();
