@@ -1,1 +1,2 @@
 include/*.hpp linguist-vendored
+display/httpclient.* linguist-vendored
