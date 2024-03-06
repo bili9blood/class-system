@@ -252,7 +252,7 @@ void DisplayWindow::HandleSwitchNotices() {
 
   static int cur_notice_index{};
   if (cur_notice_index >= GlobalStore::GetClassInfo().notices.size()) cur_notice_index = 0;
-  const auto &cur_notice = GlobalStore::GetClassInfo().notices[cur_notice_index];
+  const auto cur_notice = GlobalStore::GetClassInfo().notices[cur_notice_index];
   ui_->notices_data_title_label->setText(cur_notice.title);
   ui_->notices_text_browser->setText(cur_notice.text);
   const auto date_str = cur_notice.last_forever ? "" : cur_notice.date.toString(constants::kNoticeDateFormat);
