@@ -1,2 +1,4 @@
+# 3rd-party codes
 include/*.hpp linguist-vendored
 display/httpclient.* linguist-vendored
+display/flowlayout.* linguist-vendored
