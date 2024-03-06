@@ -72,3 +72,9 @@ jobs:
         with:
           name: windows-x86_64
           path: ${{ runner.workspace }}/build/rel
+
+  publish-release:
+    runs-on: ubuntu-latest
+    # needs: [build-display]
+    steps:
+      - run: echo "${{ steps.get_version.outputs.VERSION }}"
