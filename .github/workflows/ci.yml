@@ -1,13 +1,8 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-
-  pull_request:
-    branches:
-      - main
+  - push
+  - pull_request
 
 jobs:
   lint:
@@ -58,20 +53,20 @@ jobs:
       - name: Configure & Build
         uses: ashutoshvarma/action-cmake-build@master
         with:
-          build-dir: ${{ runner.workspace }}/build
+          build-dir: build
           cc: cl
           cxx: cl
           build-type: Release
           parallel: 4
       - run: |
-          mkdir ${{ runner.workspace }}/build/rel
-          cp ${{ runner.workspace }}/build/Release/class-system-display.exe ${{ runner.workspace }}/build/rel
-          windeployqt ${{ runner.workspace }}/build/rel/class-system-display.exe --release --no-translations --no-opengl-sw --no-system-d3d-compiler
+          mkdir build/rel
+          cp build/Release/class-system-display.exe build/rel
+          windeployqt build/rel/class-system-display.exe --release --no-translations --no-opengl-sw --no-system-d3d-compiler
       - name: Archive executable
         uses: actions/upload-artifact@v4
         with:
           name: windows-x86_64
-          path: ${{ runner.workspace }}/build/rel
+          path: build/rel
 
   publish-release:
     if: startsWith(github.ref, 'refs/tags/')
