@@ -35,8 +35,8 @@ static GlobalStore::ClassInfo ParseFromJson(const QString &json_str) {
     });
   }
 
-  for (const auto &n : json["notice"]) {
-    const auto last_forever{n["last_forever"].get<bool>()};
+  for (const auto &n : json["notices"]) {
+    const auto last_forever{n["date"] == "FOREVER"};
     const auto date = last_forever
                           ? QDate{}
                           : Str2Date(n["date"].get<std::string>());
