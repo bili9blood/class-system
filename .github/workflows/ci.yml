@@ -75,13 +75,4 @@ jobs:
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
-        with:
-          name: windows-x86_64
-      - name: Compress
-        shell: pwsh
-        run: |
-          Compress-Archive -Path ./* -DestinationPath class-system-display_windows_x86-64.zip
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: class-system-display_windows_x86-64.zip
+      - run: ls -R
