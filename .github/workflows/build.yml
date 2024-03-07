@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    tags: 
+      - 'v*'
+
+jobs:
+  build-display:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: 5.15.2
+          setup-python: false
+      - name: Setup MSVC
+        uses: TheMrMilchmann/setup-msvc-dev@v3
+        with:
+          arch: x64
+      - name: Configure & Build
+        uses: ashutoshvarma/action-cmake-build@master
+        with:
+          build-dir: build
+          cc: cl
+          cxx: cl
+          build-type: Release
+          parallel: 4
+      - run: |
+          mkdir build/rel
+          cp build/Release/class-system-display.exe build/rel
+          windeployqt build/rel/class-system-display.exe --release --no-translations --no-opengl-sw --no-system-d3d-compiler
+      - name: Archive executable
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-x86_64
+          path: build/rel
+      - name: Compress
+        run: |
+          Compress-Archive -Path build/rel/* -DestinationPath build/class-system-display_windows-x86_64.zip
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with: 
+          files: build/class-system-display_windows-x86_64.zip
+
