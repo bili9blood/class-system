@@ -11,8 +11,12 @@
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
-  "[jsonc]": {
-    "editor.formatOnSave": false
+  "editor.formatOnSave": false,
+  "[c]": {
+    "editor.formatOnSave": true
+  },
+  "[cpp]": {
+    "editor.formatOnSave": true
   },
   // Silent the stylistic rules in you IDE, but still auto fix them
   "eslint.rules.customizations": [
