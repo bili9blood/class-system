@@ -43,4 +43,3 @@ jobs:
         uses: softprops/action-gh-release@v1
         with: 
           files: build/class-system-display_windows-x86_64.zip
-
