@@ -9,7 +9,7 @@ class GlobalStore final : public QObject {
     int                id{};
 
     [[nodiscard]] auto GetDisplayStr() const {
-      return QString::asprintf("%s%02d", name.toStdString().c_str(), id);
+      return QString::asprintf("%02d%s", id, name.toStdString().c_str());
     }
   };
 
