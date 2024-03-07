@@ -45,7 +45,7 @@ font-family: Fira Mono;
       <item row="0" column="1">
        <widget class="QLabel" name="sentence_text_label">
         <property name="styleSheet">
-         <string notr="true">font-size: 20px;
+         <string notr="true">font-size: 22px;
 font-family: Microsoft Yahei;
 </string>
         </property>
@@ -63,7 +63,7 @@ font-family: Microsoft Yahei;
       <item row="1" column="1">
        <widget class="QLabel" name="sentence_author_label">
         <property name="styleSheet">
-         <string notr="true">font-size: 18px;
+         <string notr="true">font-size: 20px;
 font-family: Microsoft Yahei;
 </string>
         </property>
@@ -81,7 +81,7 @@ font-family: Microsoft Yahei;
       <item row="1" column="0">
        <widget class="QLabel" name="date_weekday_label">
         <property name="styleSheet">
-         <string notr="true">font-size: 21px;
+         <string notr="true">font-size: 23px;
 font-family: Microsoft Yahei;
 </string>
         </property>
@@ -147,10 +147,10 @@ font-family: Microsoft Yahei;
         <property name="styleSheet">
          <string notr="true">QLabel {
   font-family: Microsoft Yahei;
-  font-size: 20px;
+  font-size:24px;
 }
 QLabel.title {
-  font-size: 21px;
+  font-size: 25px;
   font-weight: bold;
 }
 </string>
@@ -176,7 +176,7 @@ QLabel.title {
         <item>
          <widget class="QLabel" name="notices_data_title_label">
           <property name="styleSheet">
-           <string notr="true">font-size: 20px;
+           <string notr="true">font-size: 22px;
 font-family: Microsoft YaHei;
 </string>
           </property>
@@ -191,7 +191,7 @@ font-family: Microsoft YaHei;
         <item>
          <widget class="QLabel" name="notices_date_label">
           <property name="styleSheet">
-           <string notr="true">font-size: 20px;
+           <string notr="true">font-size: 22px;
 font-family: Microsoft YaHei;
 font-weight: 300;</string>
           </property>
@@ -216,7 +216,7 @@ font-weight: 300;</string>
         <item>
          <widget class="QTextBrowser" name="notices_text_browser">
           <property name="styleSheet">
-           <string notr="true">font-size: 20px;
+           <string notr="true">font-size: 22px;
 font-family: Microsoft YaHei;
 
 background: transparent;</string>
@@ -254,17 +254,17 @@ background: transparent;</string>
        <widget class="QWidget" name="lessons_widget" native="true">
         <property name="styleSheet">
          <string notr="true">QLabel {
-  font-size: 19px;
+  font-size: 25px;
   font-family: Fira Mono,Microsoft YaHei;
 }
 QLabel.current {
   color: #ee8545;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 26px;
 }
 QLabel.past{
   color: #AAA;
-  font-size: 19px;
+  font-size: 22px;
 }</string>
         </property>
         <layout class="QVBoxLayout" name="lessons_layout">
@@ -286,7 +286,7 @@ QLabel.past{
       <item row="0" column="2">
        <widget class="QLabel" name="events_title_label">
         <property name="styleSheet">
-         <string notr="true">font-size: 23px;
+         <string notr="true">font-size: 25px;
 font-family: 江西拙楷;
 font-weight: bold;
 </string>
@@ -302,7 +302,7 @@ font-weight: bold;
       <item row="3" column="2">
        <widget class="QLabel" name="arrangement_title_label">
         <property name="styleSheet">
-         <string notr="true">font-size: 23px;
+         <string notr="true">font-size: 25px;
 font-family: 江西拙楷;
 font-weight: bold;
 </string>
@@ -318,7 +318,7 @@ font-weight: bold;
       <item row="0" column="4">
        <widget class="QLabel" name="lessons_title_label">
         <property name="styleSheet">
-         <string notr="true">font-size: 23px;
+         <string notr="true">font-size: 25px;
 font-family: 江西拙楷;
 font-weight: bold;
 </string>
@@ -334,7 +334,7 @@ font-weight: bold;
       <item row="0" column="0">
        <widget class="QLabel" name="notices_title_label">
         <property name="styleSheet">
-         <string notr="true">font-size: 23px;
+         <string notr="true">font-size: 25px;
 font-family: 江西拙楷;
 font-weight: bold;
 </string>
