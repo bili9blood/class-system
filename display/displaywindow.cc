@@ -34,16 +34,18 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
   DisplayWeather();
 
   connect(GlobalStore::Get(), &GlobalStore::SucceededHandleResp, this, &DisplayWindow::HandleClassInfo);
+
+  ::SetParent((HWND)winId(), native::GetDesktopViewHwnd());  // NOLINT
 }
 
 DisplayWindow::~DisplayWindow() = default;
 
 void DisplayWindow::mousePressEvent(QMouseEvent *event) {
-  mouse_start_pos_ = event->pos();
+  if (is_layer_front_) mouse_start_pos_ = event->pos();
 }
 
 void DisplayWindow::mouseMoveEvent(QMouseEvent *event) {
-  move(event->globalPos() - mouse_start_pos_);
+  if (is_layer_front_) move(event->globalPos() - mouse_start_pos_);
 }
 
 void DisplayWindow::mouseReleaseEvent(QMouseEvent *event) {
@@ -56,7 +58,7 @@ void DisplayWindow::mouseReleaseEvent(QMouseEvent *event) {
 bool DisplayWindow::nativeEvent(const QByteArray &event_type, void *message, long *result) {
 #ifdef WIN32
   const auto *msg = static_cast<MSG *>(message);
-  if (msg->message == WM_NCHITTEST) {
+  if (msg->message == WM_NCHITTEST && is_layer_front_) {
     *result                = 0l;
     constexpr int kPadding = 14;
     const auto    x        = GET_X_LPARAM(msg->lParam);
@@ -84,9 +86,9 @@ bool DisplayWindow::nativeEvent(const QByteArray &event_type, void *message, lon
 }
 
 void DisplayWindow::paintEvent(QPaintEvent *event) {
-  QPainter        painter{this};
+  QPainter                 painter{this};
 
-  QLinearGradient ling{{0, 0}, rect().bottomRight()};
+  QLinearGradient          ling{{0, 0}, rect().bottomRight()};
   constexpr unsigned short kAlpha{154};
   ling.setColorAt(0, QColor{0, 12, 64, kAlpha});
   ling.setColorAt(1, QColor{96, 125, 139, kAlpha});
@@ -127,11 +129,4 @@ void DisplayWindow::MoveCenter() {
       (screen_size.width() - width()) / 2,
       (screen_size.height() - height()) / 2
   );
-}
-
-void DisplayWindow::SwitchWindowLayer(const bool &front) {
-  // NOLINTNEXTLINE
-  ::SetParent((HWND)winId(), front ? native::GetFrontDesktopHwnd() : native::GetBackDesktopHwnd());
-  hide();
-  show();
 }

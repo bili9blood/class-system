@@ -6,7 +6,6 @@
 
 namespace native {
 
-HWND GetFrontDesktopHwnd();
-HWND GetBackDesktopHwnd();
+HWND GetDesktopViewHwnd();
 
 }  // namespace native

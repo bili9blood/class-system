@@ -182,7 +182,6 @@ void DisplayWindow::UpdateLessonsStatus() {
 }
 
 void DisplayWindow::UpdateWindowStatus() {
-  static bool   is_front = true;
   static QPoint old_pos;
 
   const auto    during_lesson = std::any_of(
@@ -192,15 +191,15 @@ void DisplayWindow::UpdateWindowStatus() {
         return cur_time >= l.start_tm && cur_time < l.end_tm;
       }
   );
-  if (is_front && during_lesson) {
-    SwitchWindowLayer(is_front = false);
+  if (is_layer_front_ && during_lesson) {
     old_pos = pos();
     MoveCenter();
-    setWindowOpacity(0.8);
-  } else if (!is_front && !during_lesson) {
-    SwitchWindowLayer(is_front = true);
+    setWindowOpacity(0.85);
+    is_layer_front_ = false;
+  } else if (!is_layer_front_ && !during_lesson) {
     move(old_pos);
     setWindowOpacity(1.0);
+    is_layer_front_ = true;
   }
 }
 
@@ -215,7 +214,7 @@ void DisplayWindow::HandleClassInfo() {
 
   DisplayLessons();
 
-  SwitchWindowLayer(true);
+  is_layer_front_ = true;
   show();
 }
 
