@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
 
 jobs:
   build-display:
@@ -29,10 +30,17 @@ jobs:
           cxx: cl
           build-type: Release
           parallel: 4
-      - run: |
+      - name: Prepare executable
+        run: |
           mkdir build/rel
           cp build/Release/class-system-display.exe build/rel
           windeployqt build/rel/class-system-display.exe --release --no-translations --no-opengl-sw --no-system-d3d-compiler
+      - name: Run UPX
+        uses: crazy-max/ghaction-upx@v3
+        with:
+          version: latest
+          files: build/rel/class-system-display.exe
+          args: "-9"
       - name: Archive executable
         uses: actions/upload-artifact@v3
         with:
@@ -43,5 +51,6 @@ jobs:
           Compress-Archive -Path build/rel/* -DestinationPath build/class-system-display_windows-x86_64.zip
       - name: Release
         uses: softprops/action-gh-release@v1
+        if: github.event_name == 'push'
         with:
           files: build/class-system-display_windows-x86_64.zip
