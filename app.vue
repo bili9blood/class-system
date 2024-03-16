@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { appName } from "~/constants";
+import IconIco from "~/resources/images/icon.ico";
 
 useHead({
-  title: `${appName} | 管理端`,
+  title: appName,
+  link: [{ rel: "icon", href: IconIco, sizes: "any" }],
 });
 </script>
 
@@ -19,10 +21,5 @@ body,
   height: 100vh;
   margin: 0;
   padding: 0;
-}
-
-html.dark {
-  background: #222;
-  color: white;
 }
 </style>

@@ -17,6 +17,14 @@ export default defineConfig({
     }),
     presetTypography(),
   ],
+
+  theme: {
+    colors: {
+      "primary": "#2CABFC",
+      "primary-content": "#2c3e50",
+    },
+  },
+
   transformers: [
     transformerDirectives(),
     transformerVariantGroup(),
