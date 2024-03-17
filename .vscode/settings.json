@@ -66,6 +66,7 @@
     "json",
     "jsonc",
     "yaml",
-    "github-actions-workflow"
+    "github-actions-workflow",
+    "css"
   ]
 }
