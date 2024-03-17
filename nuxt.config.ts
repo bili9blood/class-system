@@ -15,6 +15,10 @@ export default defineNuxtConfig({
     ],
   },
 
+  components: {
+    dirs: ["~/manage/components"],
+  },
+
   experimental: {
     // when using generate, payload js assets included in sw precache manifest
     // but missing on offline, disabling extraction it until fixed
@@ -25,6 +29,7 @@ export default defineNuxtConfig({
 
   css: [
     "@unocss/reset/tailwind.css",
+    "~/resources/styles/quasar-variables.css",
   ],
 
   nitro: {
@@ -58,6 +63,8 @@ export default defineNuxtConfig({
 
   dir: {
     assets: "resources",
+    layouts: "manage/layouts",
+    pages: "manage/pages",
   },
 
   devtools: {

@@ -4,18 +4,18 @@
     elevated
     bg-primary
     flex="~ gap-2"
-    p-2
+    p-2 text-primary-content
   >
-    <q-btn outline>
+    <q-btn flat>
       <i i-carbon-save />
       保存
     </q-btn>
     <q-separator vertical />
-    <q-btn outline>
+    <q-btn flat>
       <i i-carbon-undo />
       撤销
     </q-btn>
-    <q-btn outline>
+    <q-btn flat>
       <i i-carbon-redo />
       重做
     </q-btn>

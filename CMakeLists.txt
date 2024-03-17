@@ -33,7 +33,7 @@ target_link_libraries(
   Qt5::Core Qt5::Widgets Qt5::Network
 )
 
-target_include_directories(class-system-display PRIVATE include)
+target_include_directories(class-system-display PRIVATE display/include)
 
 target_precompile_headers(
   class-system-display PRIVATE display/common.h
