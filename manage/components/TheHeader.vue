@@ -4,27 +4,27 @@ import IconIco from "~/resources/images/icon.ico";
 </script>
 
 <template>
-  <q-header
+  <QHeader
     height-hint="98"
     elevated
     text-primary-content
   >
-    <q-toolbar>
-      <q-toolbar-title>
+    <QToolbar>
+      <QToolbarTitle>
         <q-avatar square>
           <img :src="IconIco">
         </q-avatar>
         {{ appName }}
-      </q-toolbar-title>
+      </QToolbarTitle>
 
-      <q-tabs align="right" hidden sm:block>
-        <q-route-tab to="/">
+      <QTabs align="right" hidden sm:block>
+        <QRouteTab to="/">
           主页
-        </q-route-tab>
-        <q-route-tab to="/students">
+        </QRouteTab>
+        <QRouteTab to="/students">
           学生
-        </q-route-tab>
-      </q-tabs>
-    </q-toolbar>
-  </q-header>
+        </QRouteTab>
+      </QTabs>
+    </QToolbar>
+  </QHeader>
 </template>

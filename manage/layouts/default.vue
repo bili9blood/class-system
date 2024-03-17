@@ -11,23 +11,23 @@ const bgImgUrl: string = JSON.parse(await $fetch("/api/dailyImage", { headers: {
       <div :style="{ background: `url(${bgImgUrl})` }" class="bg-img" :draggable="false" object-cover />
     </div>
 
-    <q-layout flex="~ col" h-full>
-      <the-header />
+    <QLayout flex="~ col" h-full>
+      <TheHeader />
 
-      <q-page-container flex-1>
+      <QPageContainer flex-1>
         <div h-full w-full flex>
           <div flex-1 />
           <div w="65%" flex-2 h-full bg-white>
             <slot />
-            <q-separator />
-            <page-footer />
+            <QSeparator />
+            <PageFooter />
           </div>
           <div flex-1 />
         </div>
-      </q-page-container>
+      </QPageContainer>
 
-      <the-footer />
-    </q-layout>
+      <TheFooter />
+    </QLayout>
   </div>
 </template>
 
