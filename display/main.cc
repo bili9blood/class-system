@@ -15,7 +15,7 @@ void InitFonts() {
   QApplication::setFont(font);
 
   QFontDatabase::addApplicationFont(":/fonts/FiraMono-Bold.ttf");
-  QFontDatabase::addApplicationFont(":/fonts/JiangxiZhuoKai.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/JiangxiZhuoKai-min.ttf");
   QFontDatabase::addApplicationFont(":/fonts/qweather-icons.ttf");
   QFontDatabase::addApplicationFont(":/fonts/SymbolsNerdFont-Regular.ttf");
 }
@@ -40,7 +40,6 @@ auto main(int argc, char **argv) -> int {
     QMessageBox::critical(nullptr, "错误", "服务器数据响应错误：" + error_msg);
     QApplication::quit();
   });
-
 
   int code = QApplication::exec();
   config::Save();
