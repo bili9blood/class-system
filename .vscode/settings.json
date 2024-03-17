@@ -68,5 +68,6 @@
     "yaml",
     "github-actions-workflow",
     "css"
-  ]
+  ],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

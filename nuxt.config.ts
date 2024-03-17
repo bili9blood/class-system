@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     "@unocss/nuxt",
     "@pinia/nuxt",
     "nuxt-module-eslint-config",
-    "nuxt-quasar-vite",
+    "nuxt-quasar-ui",
   ],
 
   imports: {
@@ -84,6 +84,7 @@ export default defineNuxtConfig({
     config: {
       dark: false,
     },
+    lang: "zh-CN",
   },
 
 });
