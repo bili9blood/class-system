@@ -22,6 +22,7 @@
     "@antfu/ni": "^0.21.12",
     "@iconify-json/carbon": "^1.1.31",
     "@iconify-json/twemoji": "^1.1.15",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@pinia/nuxt": "^0.5.1",
     "@quasar/extras": "^1.16.9",
     "@unocss/eslint-config": "^0.58.6",

@@ -7,12 +7,14 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "nuxt-module-eslint-config",
     "nuxt-quasar-ui",
+    "@pinia-plugin-persistedstate/nuxt",
   ],
 
   imports: {
     presets: [
       { from: "moment", imports: [{ name: "default", as: "moment" }] },
     ],
+    warn(_) {}, // disable warnings
   },
 
   components: {
