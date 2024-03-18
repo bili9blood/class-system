@@ -19,6 +19,7 @@ ExtraWindow::ExtraWindow(QWidget *parent) : QWidget{parent, Qt::WindowStaysOnTop
   setStyleSheet(ss_file.readAll());
 
   rollcall_timer_.setInterval(constants::kRollCallTimerIntervalMs);
+  rollcall_timer_.setTimerType(Qt::PreciseTimer);
 
   connect(GlobalStore::Get(), &GlobalStore::SucceededHandleResp, this, &ExtraWindow::HandleSuccessfulResp);
   connect(&rollcall_timer_, &QTimer::timeout, this, &ExtraWindow::HandleRollCallTick);
