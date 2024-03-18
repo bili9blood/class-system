@@ -46,18 +46,11 @@
       <attribute name="title">
        <string>随机点名</string>
       </attribute>
-      <layout class="QGridLayout" name="rollcall_layout" rowstretch="1,1,1,0" columnstretch="1,1">
-       <item row="1" column="1" rowspan="2">
-        <widget class="QListWidget" name="called_list">
-         <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="rollcall_reset_button">
-         <property name="text">
-          <string>重置</string>
+      <layout class="QGridLayout" name="rollcall_layout" rowstretch="1,1,1,0,0,0" columnstretch="1,1">
+       <item row="5" column="0">
+        <widget class="QLabel" name="uncalled_students_label">
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -88,7 +81,14 @@ font-weight: bold;</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="1" column="0">
+        <widget class="QPushButton" name="rollcall_reset_button">
+         <property name="text">
+          <string>重置</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
         <widget class="QLabel" name="called_title_label">
          <property name="text">
           <string>已抽中学生</string>
@@ -98,10 +98,99 @@ font-weight: bold;</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="uncalled_students_label">
-         <property name="wordWrap">
-          <bool>true</bool>
+       <item row="4" column="0">
+        <widget class="QWidget" name="rollcall_count_widget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">#rollcall_count_widget {
+  border: 2px solid #2979FF;
+  border-radius: 4px;
+}
+
+QToolButton {
+  font-size: 29px;
+  font-weight: 1000;
+}</string>
+         </property>
+         <layout class="QHBoxLayout" name="rollcall_count_layout">
+          <property name="leftMargin">
+           <number>4</number>
+          </property>
+          <property name="topMargin">
+           <number>4</number>
+          </property>
+          <property name="rightMargin">
+           <number>4</number>
+          </property>
+          <property name="bottomMargin">
+           <number>4</number>
+          </property>
+          <item>
+           <widget class="QToolButton" name="rollcall_decrease_count_btn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>48</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>-</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="rollcall_count_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>1</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="rollcall_increase_count_btn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>48</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>+</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="1" rowspan="4">
+        <widget class="QListWidget" name="called_list">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
          </property>
         </widget>
        </item>
@@ -136,8 +225,8 @@ font-weight: bold;</string>
    <slot>HandleResetRollCall()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>122</x>
-     <y>142</y>
+     <x>124</x>
+     <y>195</y>
     </hint>
     <hint type="destinationlabel">
      <x>130</x>
@@ -145,9 +234,42 @@ font-weight: bold;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>rollcall_decrease_count_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>ExtraWindow</receiver>
+   <slot>HandleChangeRollCallCount()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>53</x>
+     <y>390</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>265</x>
+     <y>800</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rollcall_increase_count_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>ExtraWindow</receiver>
+   <slot>HandleChangeRollCallCount()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>254</x>
+     <y>387</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>273</x>
+     <y>552</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>HandleStartRollCall()</slot>
   <slot>HandleResetRollCall()</slot>
+  <slot>HandleChangeRollCallCount()</slot>
  </slots>
 </ui>

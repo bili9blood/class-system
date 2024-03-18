@@ -35,4 +35,5 @@ class ExtraWindow final : public QWidget {
   void HandleStartRollCall();
   void HandleRollCallTick();
   void HandleResetRollCall();
+  void HandleChangeRollCallCount();
 };
