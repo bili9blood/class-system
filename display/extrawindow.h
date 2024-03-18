@@ -28,6 +28,8 @@ class ExtraWindow final : public QWidget {
   void                             resizeEvent(QResizeEvent* event) final;
   void                             closeEvent(QCloseEvent* event) final;
 
+  void                             RollCallOne();
+
  private slots:
   void HandleSuccessfulResp();
   void HandleStartRollCall();

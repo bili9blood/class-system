@@ -10,7 +10,21 @@ static QSet<int>            called_set;
 static GlobalStore::Student rollcall_cur_tick_called;
 static int                  rollcall_timer_tick_cnt{};
 
-void                        ExtraWindow::HandleSuccessfulResp() {
+/* ---------------------------------------------------------------- */
+/*                             Roll Call                            */
+/* ---------------------------------------------------------------- */
+
+void ExtraWindow::RollCallOne() {
+  int idx{};
+  if (called_set.size() == GlobalStore::GetClassInfo().students.size()) HandleResetRollCall();
+  do {
+    idx = QRandomGenerator::global()->bounded(GlobalStore::GetClassInfo().students.size());
+  } while (called_set.contains(GlobalStore::GetClassInfo().students[idx].id));
+
+  rollcall_cur_tick_called = GlobalStore::GetClassInfo().students[idx];
+}
+
+void ExtraWindow::HandleSuccessfulResp() {
   ui_->tab_widget->setTabEnabled(0, !GlobalStore::GetClassInfo().students.empty());
   if (!GlobalStore::GetClassInfo().students.empty())
     HandleResetRollCall();
@@ -24,13 +38,7 @@ void ExtraWindow::HandleStartRollCall() {
 void ExtraWindow::HandleRollCallTick() {
   ++rollcall_timer_tick_cnt;
 
-  int idx{};
-  if (called_set.size() == GlobalStore::GetClassInfo().students.size()) HandleResetRollCall();
-  do {
-    idx = QRandomGenerator::global()->bounded(GlobalStore::GetClassInfo().students.size());
-  } while (called_set.contains(GlobalStore::GetClassInfo().students[idx].id));
-
-  rollcall_cur_tick_called = GlobalStore::GetClassInfo().students[idx];
+  RollCallOne();
 
   ui_->cur_called_label->setText(rollcall_cur_tick_called.GetDisplayStr());
 
