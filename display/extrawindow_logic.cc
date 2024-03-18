@@ -32,7 +32,8 @@ void ExtraWindow::HandleSuccessfulResp() {
 }
 
 void ExtraWindow::HandleStartRollCall() {
-  rollcall_first = true;
+  rollcall_first          = true;
+  rollcall_timer_tick_cnt = 0;
   ui_->rollcall_start_button->setDisabled(true);
   rollcall_timer_.start();
 }
@@ -67,7 +68,6 @@ void ExtraWindow::HandleRollCallTick() {
   // 已经选出第一个学生了
   if (rollcall_timer_tick_cnt == 10) {
     rollcall_timer_.stop();
-    rollcall_timer_tick_cnt = 0;
 
     // 如果要抽更多的学生，则一次性抽完
     const auto rollcall_count = ui_->rollcall_count_label->text().toUShort();
