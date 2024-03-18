@@ -32,6 +32,7 @@ export default defineNuxtConfig({
   css: [
     "@unocss/reset/tailwind.css",
     "~/resources/styles/quasar-variables.css",
+    "~/resources/styles/fonts.css",
   ],
 
   nitro: {

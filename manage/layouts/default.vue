@@ -12,13 +12,14 @@ const bgImgUrl: string = JSON.parse(await $fetch("/api/dailyImage", { headers: {
     </div>
 
     <QLayout flex="~ col" h-full>
-      <TheHeader />
+      <TheHeader nav />
 
       <QPageContainer flex-1>
         <div h-full w-full flex>
           <div flex-1 />
-          <div w="65%" flex-2 h-full bg-white>
+          <div w="65%" flex-2 h-full bg-white px-4 py-8>
             <slot />
+            <br>
             <QSeparator />
             <PageFooter />
           </div>

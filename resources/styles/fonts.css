@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "ZiHunBianTaoTi";
+  src: url("../fonts/ZiHunBianTaoTi.ttf");
+}
+
+[font-btt],
+.font-btt {
+  font-family: "ZiHunBianTaoTi" !important;
+}
