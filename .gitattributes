@@ -3,6 +3,9 @@ display/include/*.hpp linguist-vendored
 display/httpclient.* linguist-vendored
 display/flowlayout.* linguist-vendored
 
+# Resources
+resources/* linguist-vendored
+
 # Qt UI
 display/*.ui linguist-language=xml
 display/*.ui linguist-detectable
