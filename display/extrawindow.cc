@@ -9,7 +9,9 @@
 
 static auto initilized{false};
 
-ExtraWindow::ExtraWindow(QWidget *parent) : QWidget{parent, Qt::WindowStaysOnTopHint | Qt::Tool}, ui_{new Ui::ExtraWindow} {
+ExtraWindow::ExtraWindow(QWidget *parent) : QWidget{parent, Qt::WindowStaysOnTopHint}, ui_{new Ui::ExtraWindow} {
+  setWindowFlag(Qt::WindowMinMaxButtonsHint, false);
+
   ui_->setupUi(this);
 
   QFile ss_file{":/styles/material-light-blue.qss"};
