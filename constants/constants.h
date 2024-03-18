@@ -18,6 +18,6 @@ constexpr const char                             kTransferTimeFormat[]          
 
 constexpr int                                    kClockTimerIntervalMs                  = 1'000;
 constexpr int                                    kSentencesNoticesSwitchTimerIntervalMs = 30'000;
-constexpr int                                    kRollCallTimerIntervalMs               = 180;
+constexpr int                                    kRollCallTimerIntervalMs               = 100;
 
 }  // namespace constants
