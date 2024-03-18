@@ -25,6 +25,7 @@ void ExtraWindow::HandleRollCallTick() {
   ++rollcall_timer_tick_cnt;
 
   int idx{};
+  if (called_set.size() == GlobalStore::GetClassInfo().students.size()) HandleResetRollCall();
   do {
     idx = QRandomGenerator::global()->bounded(GlobalStore::GetClassInfo().students.size());
   } while (called_set.contains(GlobalStore::GetClassInfo().students[idx].id));
