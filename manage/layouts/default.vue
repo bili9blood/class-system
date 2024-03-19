@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const bgImgUrl: string = JSON.parse(await $fetch("/api/dailyImage", { headers: { "Accept-Encoding": "none" } })).data;
+const bgImgUrl = (await useFetch("/api/dailyImage")).data.value?.data;
 </script>
 
 <template>
