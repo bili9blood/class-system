@@ -1,7 +1,7 @@
 import type { ZodError } from "zod";
 
 export function createResp<T>(data: T, code: number = 200, message: string = "成功") {
-  return JSON.stringify({ data, code, message }, void 0, 0);
+  return { data, code, message };
 }
 
 export function createZodErrResp(err: ZodError) {
