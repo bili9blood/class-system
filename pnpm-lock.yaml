@@ -22,9 +22,6 @@ devDependencies:
   '@iconify-json/twemoji':
     specifier: ^1.1.15
     version: 1.1.15
-  '@pinia-plugin-persistedstate/nuxt':
-    specifier: ^1.2.0
-    version: 1.2.0(@pinia/nuxt@0.5.1)(pinia@2.1.7)
   '@pinia/nuxt':
     specifier: ^0.5.1
     version: 0.5.1(typescript@5.4.2)(vue@3.4.21)
@@ -1993,21 +1990,6 @@ packages:
       '@parcel/watcher-win32-arm64': 2.3.0
       '@parcel/watcher-win32-ia32': 2.3.0
       '@parcel/watcher-win32-x64': 2.3.0
-    dev: true
-
-  /@pinia-plugin-persistedstate/nuxt@1.2.0(@pinia/nuxt@0.5.1)(pinia@2.1.7):
-    resolution: {integrity: sha512-2rtgx5viGSMQMCoFYZMHguA2FhFKCUvw0PwETfqQegsWeBHlqk1/D0G/9xqep8Hq+c1BuFx+jNLJzoLXtYfivg==}
-    peerDependencies:
-      '@pinia/nuxt': ^0.5.0
-    dependencies:
-      '@nuxt/kit': 3.10.3
-      '@pinia/nuxt': 0.5.1(typescript@5.4.2)(vue@3.4.21)
-      defu: 6.1.4
-      pinia-plugin-persistedstate: 3.2.1(pinia@2.1.7)
-    transitivePeerDependencies:
-      - pinia
-      - rollup
-      - supports-color
     dev: true
 
   /@pinia/nuxt@0.5.1(typescript@5.4.2)(vue@3.4.21):
@@ -7631,14 +7613,6 @@ packages:
   /picomatch@4.0.1:
     resolution: {integrity: sha512-xUXwsxNjwTQ8K3GnT4pCJm+xq3RUPQbmkYJTP5aFIfNIvbcc/4MUxgBaaRSZJ6yGJZiGSyYlM6MzwTsRk8SYCg==}
     engines: {node: '>=12'}
-    dev: true
-
-  /pinia-plugin-persistedstate@3.2.1(pinia@2.1.7):
-    resolution: {integrity: sha512-MK++8LRUsGF7r45PjBFES82ISnPzyO6IZx3CH5vyPseFLZCk1g2kgx6l/nW8pEBKxxd4do0P6bJw+mUSZIEZUQ==}
-    peerDependencies:
-      pinia: ^2.0.0
-    dependencies:
-      pinia: 2.1.7(typescript@5.4.2)(vue@3.4.21)
     dev: true
 
   /pinia@2.1.7(typescript@5.4.2)(vue@3.4.21):

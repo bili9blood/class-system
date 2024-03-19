@@ -7,7 +7,6 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "nuxt-module-eslint-config",
     "nuxt-quasar-ui",
-    "@pinia-plugin-persistedstate/nuxt",
   ],
 
   imports: {
