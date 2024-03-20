@@ -1,17 +1,31 @@
 #pragma once
 #include <qapplication.h>
+#include <qsavefile.h>
 
+#include <sstream>
 #include <toml.hpp>
 
 namespace config {
 
+void Save();
+
 namespace _D {
 inline std::optional<toml::table> cfg;
-}
 
-inline QString GetPath() { return QApplication::applicationDirPath() + "/config.toml"; }
+class AutoSaveConfig {
+ public:
+  ~AutoSaveConfig() {
+    if (qApp) config::Save();
+  }
+  toml::table& operator->() { return *cfg; }
+  auto         operator[](const char* k) { return (*cfg)[k]; }
+} inline auto_save_cfg;
 
-inline auto& Get() {
+}  // namespace _D
+
+inline QString            GetPath() { return QApplication::applicationDirPath() + "/config.toml"; }
+
+inline _D::AutoSaveConfig Get() {
   if (!_D::cfg) {
     _D::cfg = toml::parse_file(GetPath().toStdString());
 
@@ -25,12 +39,19 @@ inline auto& Get() {
 #undef CONFIG_INSERT
   }
 
-  return *_D::cfg;
+  return {_D::auto_save_cfg};
 }
 
 inline void Save() {
   if (!_D::cfg) return;
-  std::ofstream cfg_ofs{GetPath().toStdString()};
-  cfg_ofs << toml::toml_formatter{*_D::cfg};
+
+  QSaveFile file{GetPath()};
+  file.open(QIODevice::WriteOnly);
+
+  std::stringstream ss;
+  ss << toml::toml_formatter{*_D::cfg};
+
+  file.write(ss.str().c_str());
+  file.commit();
 }
 }  // namespace config

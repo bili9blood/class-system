@@ -3,7 +3,6 @@
 
 #include <csignal>
 
-#include "config.h"
 #include "displaywindow.h"
 #include "globalstore.h"
 #include "iconwindow.h"
@@ -41,7 +40,5 @@ auto main(int argc, char **argv) -> int {
     QApplication::quit();
   });
 
-  int code = QApplication::exec();
-  config::Save();
-  return code;
+  return QApplication::exec();
 }
