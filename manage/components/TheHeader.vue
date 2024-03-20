@@ -6,37 +6,37 @@ defineProps<{ nav: boolean }>();
 </script>
 
 <template>
-  <QHeader
+  <q-header
     height-hint="98"
     elevated
     text-primary-content
   >
-    <QToolbar>
-      <QToolbarTitle select-none>
+    <q-toolbar>
+      <q-toolbar-title select-none>
         <q-avatar square>
           <img :src="IconIco" :draggable="false">
         </q-avatar>
         &nbsp;
         <span font-btt select-text text-6>{{ appName }}</span>
-      </QToolbarTitle>
+      </q-toolbar-title>
 
-      <QTabs v-if="$props.nav" align="right" hidden sm:block>
-        <QRouteTab to="/">
+      <q-tabs v-if="$props.nav" align="right" hidden sm:block>
+        <q-route-tab to="/">
           主页
-        </QRouteTab>
-        <QRouteTab to="/students">
+        </q-route-tab>
+        <q-route-tab to="/students">
           学生
-        </QRouteTab>
-        <QRouteTab to="/lessons">
+        </q-route-tab>
+        <q-route-tab to="/lessons">
           课程
-        </QRouteTab>
-        <QRouteTab to="/arrangements">
+        </q-route-tab>
+        <q-route-tab to="/arrangements">
           安排
-        </QRouteTab>
-        <QRouteTab to="/noticesAndEvents">
+        </q-route-tab>
+        <q-route-tab to="/noticesAndEvents">
           公告·事件
-        </QRouteTab>
-      </QTabs>
-    </QToolbar>
-  </QHeader>
+        </q-route-tab>
+      </q-tabs>
+    </q-toolbar>
+  </q-header>
 </template>

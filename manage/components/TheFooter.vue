@@ -1,23 +1,23 @@
 <template>
-  <QFooter
+  <q-footer
     height-hint="68"
     elevated
     bg-primary
     flex="~ gap-2"
     p-2 text-primary-content
   >
-    <QBtn flat>
+    <q-btn flat>
       <i i-carbon-save />
       保存
-    </QBtn>
-    <QSeparator vertical />
-    <QBtn flat>
+    </q-btn>
+    <q-separator vertical />
+    <q-btn flat>
       <i i-carbon-undo />
       撤销
-    </QBtn>
-    <QBtn flat>
+    </q-btn>
+    <q-btn flat>
       <i i-carbon-redo />
       重做
-    </QBtn>
-  </QFooter>
+    </q-btn>
+  </q-footer>
 </template>

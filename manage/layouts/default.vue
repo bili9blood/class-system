@@ -11,24 +11,24 @@ const bgImgUrl = (await useFetch("/api/dailyImage")).data.value?.data;
       <div :style="{ background: `url(${bgImgUrl})` }" class="bg-img" :draggable="false" object-cover />
     </div>
 
-    <QLayout flex="~ col" h-full>
-      <TheHeader nav />
+    <q-layout flex="~ col" h-full>
+      <the-header nav />
 
-      <QPageContainer flex-1>
+      <q-page-container flex-1>
         <div h-full w-full flex>
           <div flex-1 />
           <div w="65%" flex-2 h-full bg-white px-4 py-8>
             <slot />
             <br>
-            <QSeparator />
-            <PageFooter />
+            <q-separator />
+            <page-footer />
           </div>
           <div flex-1 />
         </div>
-      </QPageContainer>
+      </q-page-container>
 
       <TheFooter />
-    </QLayout>
+    </q-layout>
   </div>
 </template>
 
