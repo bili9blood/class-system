@@ -1,7 +1,7 @@
 <template>
   <div h-screen w-screen overflow-hidden>
     <q-layout flex="~ col" h-full>
-      <the-header :nav="false" />
+      <the-header :route-tabs="false" />
 
       <q-page-container flex-1>
         <div h-full w-full flex>

@@ -1,8 +1,29 @@
 <script setup lang="ts">
-import { appName } from "~/constants";
+import { app_name } from "~/constants";
 import IconIco from "~/resources/images/icon.ico";
 
-defineProps<{ nav: boolean }>();
+defineProps<{ routeTabs: boolean }>();
+
+const $q = useQuasar();
+
+// const { class_id } = storeToRefs(useClassStore());
+// const classes = (await useFetch("/api/classes")).data;
+// const class_name = computed(() => classes?.value?.data.find(c => c.id === class_id.value)?.name);
+
+const tab = ref("/");
+
+watch(tab, () => {
+  if (tab.value === "logout") {
+    const { class_id, password, logined } = storeToRefs(useClassStore());
+    class_id.value = 0;
+    password.value = "";
+    logined.value = false;
+    $q.notify({
+      message: "已退出登录",
+      color: "positive",
+    });
+  }
+});
 </script>
 
 <template>
@@ -17,10 +38,10 @@ defineProps<{ nav: boolean }>();
           <img :src="IconIco" :draggable="false">
         </q-avatar>
         &nbsp;
-        <span font-btt select-text text-6>{{ appName }}</span>
+        <span font-btt select-text text-6>{{ app_name }}</span>
       </q-toolbar-title>
 
-      <q-tabs v-if="$props.nav" align="right" hidden sm:block>
+      <q-tabs v-if="$props.routeTabs" v-model="tab" align="right" hidden sm:block>
         <q-route-tab to="/">
           主页
         </q-route-tab>
@@ -36,8 +57,11 @@ defineProps<{ nav: boolean }>();
         <q-route-tab to="/notices_and_events">
           公告·事件
         </q-route-tab>
+        <q-separator vertical />
+        <q-tab name="logout">
+          退出登录
+        </q-tab>
       </q-tabs>
-      <q-btn></q-btn>
     </q-toolbar>
   </q-header>
 </template>

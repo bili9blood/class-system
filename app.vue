@@ -1,24 +1,22 @@
 <script setup lang="ts">
-import { appName } from "~/constants";
+import { app_name } from "~/constants";
 import IconIco from "~/resources/images/icon.ico";
 
 useHead({
-  title: appName,
+  title: app_name,
   link: [{ rel: "icon", href: IconIco, sizes: "any" }],
 });
 
 const $r = useRouter();
 
-function HandleLoginStatusChanged(logined: boolean | undefined) {
-  if (logined === false)
-    $r.push("/");
-  else if (logined === true)
+const { logined } = storeToRefs(useClassStore());
+
+watch(logined, () => {
+  if (logined.value === false)
     $r.push("/auth/login");
-}
-
-HandleLoginStatusChanged(useClassStore().logined);
-
-watch(storeToRefs(useClassStore()).logined, HandleLoginStatusChanged);
+  else if (logined.value === true)
+    $r.push("/");
+});
 </script>
 
 <template>
