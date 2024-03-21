@@ -4,25 +4,34 @@ import IconIco from "~/resources/images/icon.ico";
 
 defineProps<{ tabs: boolean }>();
 
+const $r = useRouter();
 const $q = useQuasar();
 
-// const { class_id } = storeToRefs(useClassStore());
-// const classes = (await useFetch("/api/classes")).data;
-// const class_name = computed(() => classes?.value?.data.find(c => c.id === class_id.value)?.name);
+const routes = $r.getRoutes().filter(r => r.meta.name).sort(
+  (lhs, rhs) =>
+    lhs.meta.name === "主页"
+      ? -1
+      : rhs.meta.name === "主页"
+        ? 1
+        : lhs.meta.name!.localeCompare(rhs.meta.name!),
+);
 
 const tab = ref("/");
 
+function Logout() {
+  const { class_id, password, logined } = storeToRefs(useClassStore());
+  class_id.value = 0;
+  password.value = "";
+  logined.value = false;
+  $q.notify({
+    message: "已退出登录",
+    color: "positive",
+  });
+}
+
 watch(tab, () => {
-  if (tab.value === "logout") {
-    const { class_id, password, logined } = storeToRefs(useClassStore());
-    class_id.value = 0;
-    password.value = "";
-    logined.value = false;
-    $q.notify({
-      message: "已退出登录",
-      color: "positive",
-    });
-  }
+  if (tab.value === "logout")
+    Logout();
 });
 </script>
 
@@ -42,26 +51,34 @@ watch(tab, () => {
       </q-toolbar-title>
 
       <q-tabs v-if="$props.tabs" v-model="tab" align="right" hidden sm:block>
-        <q-route-tab to="/">
-          主页
+        <q-route-tab
+          v-for="route in routes"
+          :key="route.path" :to="route.path" :name="route.path"
+        >
+          {{ route.meta.name }}
         </q-route-tab>
-        <q-route-tab to="/students">
-          学生
-        </q-route-tab>
-        <q-route-tab to="/lessons">
-          课程
-        </q-route-tab>
-        <q-route-tab to="/arrangements">
-          安排
-        </q-route-tab>
-        <q-route-tab to="/notices_and_events">
-          公告·事件
-        </q-route-tab>
+
         <q-separator vertical />
+
         <q-tab name="logout">
           退出登录
         </q-tab>
       </q-tabs>
+
+      <q-btn flat icon="menu" round flex sm:hidden>
+        <q-menu auto-close>
+          <q-list>
+            <q-item v-for="route in routes" :key="route.path" clickable :to="route.path">
+              {{ route.meta.name }}
+            </q-item>
+
+            <q-separator />
+            <q-item clickable @click="Logout">
+              退出登录
+            </q-item>
+          </q-list>
+        </q-menu>
+      </q-btn>
     </q-toolbar>
   </q-header>
 </template>

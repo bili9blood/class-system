@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  name: "学生",
+});
 </script>
 
 <template>

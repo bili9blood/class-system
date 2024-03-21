@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  name: "主页",
+});
+
 const hour_now = moment().hour();
 const time_type = hour_now < 11 ? "morning" : hour_now < 13 ? "noon" : hour_now < 18 ? "afternoon" : "evening";
 const welcome_bg_color = ({
