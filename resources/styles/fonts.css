@@ -1,7 +1,4 @@
-@font-face {
-  font-family: "ZiHunBianTaoTi";
-  src: url("../fonts/ZiHunBianTaoTi.ttf");
-}
+@import "//192960944.r.cdn36.com/chinesefonts3/packages/zhbtt/dist/字魂扁桃体/result.css";
 
 [font-btt],
 .font-btt {
