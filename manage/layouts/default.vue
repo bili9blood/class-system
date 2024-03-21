@@ -12,7 +12,7 @@ const bgImgUrl = (await useFetch("/api/daily_image")).data.value?.data;
     </div>
 
     <q-layout flex="~ col" h-full>
-      <the-header routeTabs />
+      <the-header tabs />
 
       <q-page-container flex-1>
         <div h-full w-full flex>
