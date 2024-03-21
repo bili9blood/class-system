@@ -33,7 +33,7 @@ defineProps<{ nav: boolean }>();
         <q-route-tab to="/arrangements">
           安排
         </q-route-tab>
-        <q-route-tab to="/noticesAndEvents">
+        <q-route-tab to="/notices_and_events">
           公告·事件
         </q-route-tab>
       </q-tabs>

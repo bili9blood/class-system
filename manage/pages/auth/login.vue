@@ -2,38 +2,62 @@
 definePageMeta({ layout: "auth" });
 
 interface LoginForm {
-  class_id?: string;
+  class_id?: number;
   password?: string;
 }
 
+const $r = useRouter();
+
 const formData = ref<LoginForm>({});
 const classes = (await useFetch("/api/classes")).data?.value?.data;
+
+async function HandleSubmit() {
+  const { class_id, password } = formData.value;
+  if (!class_id || !password)
+    return;
+
+  const success = await useClassStore().login(class_id, password);
+  if (success)
+    $r.push("/");
+
+  onBeforeMount(() => {
+    formData.value = {};
+  });
+}
 </script>
 
 <template>
   <q-card>
     <q-card-section>
-      <div text="8 center" font-btt select-none>
+      <div text="8 center primary-content" font-btt select-none>
         登录
       </div>
     </q-card-section>
-    <q-select
-      v-model="formData.class_id"
-      filled
-      label="选择班级"
-      :options="classes?.map(({ id }) => id)"
-      :option-label="(_id) => classes?.find(({ id }) => _id === id)?.name"
-    />
 
     <q-card-section>
-      <q-form
-        class="q-gutter-md"
-      >
-        <div>
-          <q-btn type="submit" color="primary">
-            登录
-          </q-btn>
-        </div>
+      <q-form class="q-gutter-md" @submit="HandleSubmit">
+        <q-select
+          v-model="formData.class_id"
+          filled
+          label="选择班级"
+          :options="classes?.map(({ id }) => id)"
+          :option-label="(_id) => classes?.find(({ id }) => _id === id)?.name"
+        />
+        <q-input
+          v-model="formData.password"
+          filled
+          label="六位数字密码"
+          type="password"
+          mask="######"
+          :rules="[
+            (val) => val?.length === 6 || '请输入六位数字密码',
+          ]"
+        />
+        <q-btn type="submit" color="primary">
+          <i i-carbon-login />
+          &nbsp;
+          登录
+        </q-btn>
       </q-form>
     </q-card-section>
   </q-card>

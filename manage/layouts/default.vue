@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const bgImgUrl = (await useFetch("/api/dailyImage")).data.value?.data;
+const bgImgUrl = (await useFetch("/api/daily_image")).data.value?.data;
 </script>
 
 <template>

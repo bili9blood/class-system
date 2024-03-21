@@ -10,6 +10,7 @@ export default defineNuxtConfig({
   ],
 
   imports: {
+    dirs: ["manage/stores", "manage/composables"],
     presets: [
       { from: "moment", imports: [{ name: "default", as: "moment" }] },
     ],
@@ -87,6 +88,7 @@ export default defineNuxtConfig({
       dark: false,
     },
     lang: "zh-CN",
+    plugins: ["Notify"],
   },
 
 });

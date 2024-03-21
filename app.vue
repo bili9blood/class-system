@@ -6,6 +6,11 @@ useHead({
   title: appName,
   link: [{ rel: "icon", href: IconIco, sizes: "any" }],
 });
+
+const $r = useRouter();
+
+if (await useClassStore().password === "")
+  $r.push("/auth/login");
 </script>
 
 <template>
