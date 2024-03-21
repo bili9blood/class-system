@@ -1,10 +1,24 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
-import { Notify } from "quasar";
 import { Md5 } from "ts-md5";
+import type { PiniaPluginContext } from "pinia";
 
-export const useClassStore = defineStore("user", () => {
+async function HandleAfterRestore(ctx: PiniaPluginContext) {
+  const store = ctx.store as ReturnType<typeof useClassStore>;
+  try {
+    await store.login(store.class_id, store.password);
+  }
+  catch {
+    storeToRefs(store).logined.value = false;
+  }
+  finally {
+    storeToRefs(store).logined.value = true;
+  }
+}
+
+export const useClassStore = defineStore("class", () => {
   const class_id = ref(0);
   const password = ref("");
+  const logined = ref<boolean>();
 
   async function login(_class_id: number, _password: string) {
     const hashed_password = Md5.hashStr(_password + moment().format("YYYYMMDD")).toString();
@@ -16,24 +30,25 @@ export const useClassStore = defineStore("user", () => {
       method: "POST",
     });
 
-    if (result.code !== 200) {
-      Notify.create({
-        message: `登录失败： ${result.message}`,
-        color: "negative",
-      });
-      return false;
-    }
+    if (result.code !== 200)
+      throw result.message;
+
     class_id.value = _class_id;
     password.value = hashed_password;
-    return true;
   }
 
   return {
     class_id,
     password,
+    logined,
 
     login,
   };
+}, {
+  persist: {
+    afterRestore: HandleAfterRestore,
+    paths: ["class_id", "password"],
+  },
 });
 
 if (import.meta.hot)

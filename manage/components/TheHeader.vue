@@ -37,6 +37,7 @@ defineProps<{ nav: boolean }>();
           公告·事件
         </q-route-tab>
       </q-tabs>
+      <q-btn></q-btn>
     </q-toolbar>
   </q-header>
 </template>

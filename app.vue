@@ -9,8 +9,16 @@ useHead({
 
 const $r = useRouter();
 
-if (await useClassStore().password === "")
-  $r.push("/auth/login");
+function HandleLoginStatusChanged(logined: boolean | undefined) {
+  if (logined === false)
+    $r.push("/");
+  else if (logined === true)
+    $r.push("/auth/login");
+}
+
+HandleLoginStatusChanged(useClassStore().logined);
+
+watch(storeToRefs(useClassStore()).logined, HandleLoginStatusChanged);
 </script>
 
 <template>

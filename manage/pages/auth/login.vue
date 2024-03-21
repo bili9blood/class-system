@@ -16,14 +16,23 @@ async function HandleSubmit() {
   if (!class_id || !password)
     return;
 
-  const success = await useClassStore().login(class_id, password);
-  if (success)
+  try {
+    await useClassStore().login(class_id, password);
+  }
+  catch (e) {
+    Notify.create({
+      message: `登录失败： ${e}`,
+      color: "negative",
+    });
+  }
+  finally {
     $r.push("/");
-
-  onBeforeMount(() => {
-    formData.value = {};
-  });
+  }
 }
+
+onBeforeMount(() => {
+  formData.value = {};
+});
 </script>
 
 <template>

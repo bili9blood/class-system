@@ -8,6 +8,11 @@ const welcome_bg_color = ({
   evening: "bg-purple-500",
 } as const)[time_type];
 const welcome_msg = ({ morning: "早上好", noon: "中午好", afternoon: "下午好", evening: "晚上好" } as const)[time_type];
+
+const $r = useRouter();
+
+if (await useClassStore().password === "")
+  $r.push("/auth/login");
 </script>
 
 <template>
