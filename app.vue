@@ -2,21 +2,23 @@
 import { app_name } from "~/constants";
 import IconIco from "~/resources/images/icon.ico";
 
-useHead({
-  title: app_name,
-  link: [{ rel: "icon", href: IconIco, sizes: "any" }],
-});
-
 const $r = useRouter();
 
+const page_name = computed(() => $r.currentRoute.value.meta.name);
+
 const { logined } = storeToRefs(useClassStore());
+
+useHead({
+  title: computed(() => `${app_name} | ${page_name.value}`),
+  link: [{ rel: "icon", href: IconIco, sizes: "any" }],
+});
 
 watch(logined, () => {
   if (logined.value === false)
     $r.push("/auth/login");
   else if (logined.value === true)
     $r.push("/");
-});
+}, { immediate: true });
 </script>
 
 <template>
