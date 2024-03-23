@@ -1,5 +1,8 @@
 <script setup lang="ts">
 const bgImgUrl = (await useFetch("/api/daily_image")).data.value?.data;
+const $r = useRouter();
+
+const page_name = computed(() => $r.currentRoute.value.meta.name);
 </script>
 
 <template>
@@ -17,7 +20,10 @@ const bgImgUrl = (await useFetch("/api/daily_image")).data.value?.data;
       <q-page-container flex-1>
         <div h-full w-full flex>
           <div flex-1 />
-          <div sm:w="65%" flex-2 h-full w-full bg-white px-10 py-8 sm:px-4>
+          <div sm:w="65%" flex-2 h-full w-full bg-white px-10 py-6 sm:px-4>
+            <div text="center 8" font-btt mb-2>
+              {{ page_name }}
+            </div>
             <slot />
             <br select-none>
             <q-separator />
