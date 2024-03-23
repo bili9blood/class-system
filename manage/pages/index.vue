@@ -20,9 +20,26 @@ if (await useClassStore().password === "")
 </script>
 
 <template>
-  <q-card :class="`${welcome_bg_color} q-gutter-sm`">
-    <p font-btt select-none text-7 sm:text-9.5>
-      {{ welcome_msg }}，欢迎使用班级系统管理端。
-    </p>
-  </q-card>
+  <div flex="~ col gap-4 sm:gap-6">
+    <q-card :class="`${welcome_bg_color}`">
+      <q-card-section font-btt select-none text-7 sm:text-9.5>
+        {{ welcome_msg }}，欢迎使用班级系统管理端。
+      </q-card-section>
+    </q-card>
+
+    <q-card bg-secondary>
+      <q-card-section font-btt select-none text-7 sm:text-9.5>
+        班级概览
+      </q-card-section>
+      <q-card-section>
+        <class-overview />
+      </q-card-section>
+    </q-card>
+  </div>
 </template>
+
+<style scoped>
+.q-card__section {
+  padding: 0.5rem;
+}
+</style>

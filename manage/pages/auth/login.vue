@@ -25,10 +25,9 @@ async function HandleSubmit() {
       message: `登录失败： ${e}`,
       color: "negative",
     });
+    return;
   }
-  finally {
-    $r.push("/");
-  }
+  $r.push("/");
 }
 
 onBeforeMount(() => {

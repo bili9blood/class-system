@@ -1,27 +1,28 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
 import { Md5 } from "ts-md5";
 import type { PiniaPluginContext } from "pinia";
+import type { Info } from "~/type";
 
 async function HandleAfterRestore(ctx: PiniaPluginContext) {
   const store = ctx.store as ReturnType<typeof useClassStore>;
   try {
-    await store.login(store.class_id, store.password);
+    await store.login(store.class_id, store.password, true);
   }
   catch {
     storeToRefs(store).logined.value = false;
+    return;
   }
-  finally {
-    storeToRefs(store).logined.value = true;
-  }
+  storeToRefs(store).logined.value = true;
 }
 
 export const useClassStore = defineStore("class", () => {
   const class_id = ref(0);
   const password = ref("");
   const logined = ref<boolean>();
+  const info = ref<Info>();
 
-  async function login(_class_id: number, _password: string) {
-    const hashed_password = Md5.hashStr(_password + moment().format("YYYYMMDD")).toString();
+  async function login(_class_id: number, _password: string, hashed: boolean = false) {
+    const hashed_password = hashed ? _password : Md5.hashStr(_password + moment().format("YYYYMMDD")).toString();
     const result = await $fetch("/api/login", {
       body: {
         class_id: _class_id,
@@ -35,14 +36,29 @@ export const useClassStore = defineStore("class", () => {
 
     class_id.value = _class_id;
     password.value = hashed_password;
+    await fetchInfo();
+  }
+
+  async function fetchInfo() {
+    const result = await $fetch("/api/info/get", {
+      body: {
+        class_id: class_id.value,
+        long: false,
+      },
+      method: "POST",
+    });
+
+    info.value = result.data!;
   }
 
   return {
     class_id,
     password,
     logined,
+    info,
 
     login,
+    fetchInfo,
   };
 }, {
   persist: {
