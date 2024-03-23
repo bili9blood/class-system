@@ -1,3 +1,5 @@
+import type { Info } from "~/type";
+
 const parser = z.object({
   class_id: z.number(),
   long: z.boolean().or(z.undefined()),
@@ -16,7 +18,7 @@ export default defineEventHandler(async (e) => {
   const res = await Promise.race([
     new Promise<undefined>(r => setTimeout(r, 1000 * 60)),
     observeInfo(class_id),
-  ]);
+  ]) as Info | undefined;
   if (res === undefined)
     return createResp(await getInfo(class_id), 304, "无改变");
   else
