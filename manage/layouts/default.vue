@@ -19,7 +19,7 @@ const bgImgUrl = (await useFetch("/api/daily_image")).data.value?.data;
           <div flex-1 />
           <div sm:w="65%" flex-2 h-full w-full bg-white px-10 py-8 sm:px-4>
             <slot />
-            <br>
+            <br select-none>
             <q-separator />
             <page-footer />
           </div>
