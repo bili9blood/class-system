@@ -39,7 +39,7 @@ onBeforeMount(() => {
 <template>
   <q-card>
     <q-card-section>
-      <div text="8 center primary-content" font-btt select-none>
+      <div text="8 center dark" font-btt select-none>
         登录
       </div>
     </q-card-section>

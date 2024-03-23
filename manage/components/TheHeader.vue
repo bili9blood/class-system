@@ -39,7 +39,7 @@ watch(tab, () => {
   <q-header
     height-hint="98"
     elevated
-    text-primary-content
+    text-dark
   >
     <q-toolbar>
       <q-toolbar-title select-none>

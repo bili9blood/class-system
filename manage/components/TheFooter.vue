@@ -4,7 +4,7 @@
     elevated
     bg-primary
     flex="~ gap-2"
-    p-2 text-primary-content
+    p-2 text-dark
   >
     <q-btn flat>
       <i i-carbon-save />

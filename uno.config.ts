@@ -20,8 +20,14 @@ export default defineConfig({
 
   theme: {
     colors: {
-      "primary": "#2CABFC",
-      "primary-content": "#2c3e50",
+      primary: "var(--q-primary)",
+      secondary: "var(--q-secondary)",
+      accent: "var(--q-accent)",
+      dark: "var(--q-dark)",
+      positive: "var(--q-positive)",
+      negative: "var(--q-negative)",
+      info: "var(--q-info)",
+      warning: "var(--q-warning)",
     },
   },
 
