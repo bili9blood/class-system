@@ -2,7 +2,7 @@
 import { app_name } from "~/constants";
 import IconIco from "~/resources/images/icon.ico";
 
-defineProps<{ tabs: boolean }>();
+defineProps<{ nav: boolean }>();
 
 const $r = useRouter();
 const $q = useQuasar();
@@ -50,7 +50,7 @@ watch(tab, () => {
         <span font-btt select-text text-6>{{ app_name }}</span>
       </q-toolbar-title>
 
-      <q-tabs v-if="$props.tabs" v-model="tab" align="right" hidden sm:block>
+      <q-tabs v-if="$props.nav" v-model="tab" align="right" hidden sm:block>
         <q-route-tab
           v-for="route in routes"
           :key="route.path" :to="route.path" :name="route.path"
@@ -65,7 +65,7 @@ watch(tab, () => {
         </q-tab>
       </q-tabs>
 
-      <q-btn flat icon="menu" round flex sm:hidden>
+      <q-btn v-if="$props.nav" flat icon="menu" round flex sm:hidden>
         <q-menu auto-close>
           <q-list>
             <q-item v-for="route in routes" :key="route.path" clickable :to="route.path">

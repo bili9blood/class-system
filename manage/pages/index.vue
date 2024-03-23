@@ -21,7 +21,7 @@ if (await useClassStore().password === "")
 
 <template>
   <q-card :class="`${welcome_bg_color} q-gutter-sm`">
-    <p font-btt select-none text-10>
+    <p font-btt select-none text-7 sm:text-9.5>
       {{ welcome_msg }}，欢迎使用班级系统管理端。
     </p>
   </q-card>
