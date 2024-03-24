@@ -9,6 +9,9 @@ const { info } = storeToRefs(useClassStore());
 <template>
   <div>
     <q-card bg-secondary>
+      <q-card-section text="center white">
+        点击学生姓名进行更改，划到下面增加学生
+      </q-card-section>
       <q-card-section>
         <div grid="~ gap-2 justify-items-center" justify-center class="students-grid">
           <lazy-q-btn v-for="i in info?.students" :key="i.id" flat whitespace-nowrap p-1.5 text-4>
@@ -17,6 +20,9 @@ const { info } = storeToRefs(useClassStore());
               <strong>{{ i.name }}</strong>
             </span>
           </lazy-q-btn>
+          <q-btn icon="add" px-2 text-3 outline>
+            添加学生
+          </q-btn>
         </div>
       </q-card-section>
     </q-card>
