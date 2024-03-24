@@ -9,14 +9,14 @@ const page_name = computed(() => $r.currentRoute.value.meta.name);
 const { logined } = storeToRefs(useClassStore());
 
 useHead({
-  title: computed(() => `${app_name} | ${page_name.value}`),
+  title: computed(() => page_name.value ? `${app_name} | ${page_name.value}` : app_name),
   link: [{ rel: "icon", href: IconIco, sizes: "any" }],
 });
 
 watch(logined, () => {
   if (logined.value === false)
     $r.push("/auth/login");
-  else if (logined.value === true)
+  else if (logined.value === true && $r.currentRoute.value.path === "/auth/login")
     $r.push("/");
 }, { immediate: true });
 </script>
