@@ -22,7 +22,7 @@ watch(logined, () => {
 </script>
 
 <template>
-  <NuxtLayout>
+  <NuxtLayout text-dark>
     <NuxtPage />
   </NuxtLayout>
 </template>
