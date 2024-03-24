@@ -4,11 +4,25 @@ import type { Student } from "~/type";
 const props = defineProps<{ inclassId: number }>();
 defineEmits([...useDialogPluginComponent.emits]);
 
+const $q = useQuasar();
+
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent();
 const { info } = storeToRefs(useClassStore());
 
 const student = computed(() => info.value?.students.find(s => s.inclass_id === props.inclassId));
 const editing = ref<Partial<Omit<Student, "id">>>(useCloned(student.value ?? {}).cloned.value);
+
+function HandleRemove() {
+  $q.dialog({
+    title: "确认删除此学生？",
+    cancel: true,
+    persistent: true,
+  }).onOk(() => {
+    if (student.value)
+      info.value?.students.splice(info.value?.students.indexOf(student.value), 1);
+    onDialogOK();
+  });
+}
 
 function HandleSubmit() {
   if (student.value && editing.value.name)
@@ -32,6 +46,9 @@ function HandleSubmit() {
 
           <q-btn @click="onDialogCancel">
             取消
+          </q-btn>
+          <q-btn color="negative" @click="HandleRemove">
+            删除
           </q-btn>
           <q-btn type="submit" color="primary">
             确认
