@@ -1,26 +1,25 @@
 <script setup lang="ts">
-const bgImgUrl = (await useFetch("/api/daily_image")).data.value?.data;
+const bg_img_url = (await useFetch("/api/daily_image")).data;
 const $r = useRouter();
 
 const page_name = computed(() => $r.currentRoute.value.meta.name);
 </script>
 
 <template>
-  <div h-screen w-screen overflow-hidden>
+  <div h-screen w-screen>
     <div
       position-fixed hidden
       h-full w-full sm:block
     >
-      <div :style="{ background: `url(${bgImgUrl})` }" class="bg-img" :draggable="false" object-cover />
+      <div :style="{ background: `url(${bg_img_url?.data})` }" class="bg-img" :draggable="false" object-cover />
     </div>
 
-    <q-layout flex="~ col" h-full>
+    <q-layout h-full>
       <the-header nav />
 
-      <q-page-container flex-1>
-        <div h-full w-full flex>
-          <div flex-1 />
-          <div sm:w="65%" flex-2 h-full w-full bg-white px-10 py-6 sm:px-4>
+      <q-page-container h-full>
+        <div h-full w-full flex items-center justify-center>
+          <div sm:w="65%" flex-2 min-h-full w-full overflow-auto bg-white px-10 py-6 sm:px-4>
             <div text="center 8" font-btt mb-2>
               {{ page_name }}
             </div>
@@ -29,7 +28,6 @@ const page_name = computed(() => $r.currentRoute.value.meta.name);
             <q-separator />
             <page-footer />
           </div>
-          <div flex-1 />
         </div>
       </q-page-container>
 
