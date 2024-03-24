@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import AddStudentDialog from "../components/dialogs/AddStudentDialog.vue";
 import EditStudentDialog from "~/manage/components/dialogs/EditStudentDialog.vue";
+import type { Student } from "~/type";
 
 definePageMeta({
   name: "学生",
@@ -15,6 +17,14 @@ function HandleStudentClicked(inclassId: number) {
     componentProps: {
       inclassId,
     },
+  });
+}
+
+function HandleAddStudentClicked() {
+  $q.dialog({
+    component: AddStudentDialog,
+  }).onOk((new_stu: Student) => {
+    info.value?.students.push(new_stu);
   });
 }
 </script>
@@ -36,7 +46,11 @@ function HandleStudentClicked(inclassId: number) {
               <strong>{{ i.name }}</strong>
             </span>
           </lazy-q-btn>
-          <q-btn icon="add" px-2 text-3 outline>
+          <q-btn
+            icon="add"
+            px-2 text-3 outline
+            @click="HandleAddStudentClicked"
+          >
             添加学生
           </q-btn>
         </div>
