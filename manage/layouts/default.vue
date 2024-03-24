@@ -17,17 +17,15 @@ const page_name = computed(() => $r.currentRoute.value.meta.name);
     <q-layout h-full>
       <the-header nav />
 
-      <q-page-container h-full>
-        <div h-full w-full flex items-center justify-center>
-          <div sm:w="65%" flex-2 min-h-full w-full overflow-auto bg-white px-10 py-6 sm:px-4>
-            <div text="center 8" font-btt mb-2>
-              {{ page_name }}
-            </div>
-            <slot />
-            <br select-none>
-            <q-separator />
-            <page-footer />
+      <q-page-container h-full w-full flex items-center justify-center>
+        <div sm:w="65%" h-full w-full overflow-auto bg-white px-10 py-6 sm:px-4>
+          <div text="center 8" font-btt mb-2>
+            {{ page_name }}
           </div>
+          <slot />
+          <br select-none>
+          <q-separator />
+          <page-footer />
         </div>
       </q-page-container>
 
