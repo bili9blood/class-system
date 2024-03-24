@@ -62,9 +62,7 @@ onBeforeMount(() => {
             (val) => val?.length === 6 || '请输入六位数字密码',
           ]"
         />
-        <q-btn type="submit" color="primary">
-          <i i-carbon-login />
-          &nbsp;
+        <q-btn type="submit" color="primary" icon="login">
           登录
         </q-btn>
       </q-form>

@@ -6,17 +6,14 @@
     flex="~ gap-2"
     p-2 text-dark
   >
-    <q-btn flat>
-      <i i-carbon-save />
+    <q-btn flat icon="save">
       保存
     </q-btn>
     <q-separator vertical />
-    <q-btn flat>
-      <i i-carbon-undo />
+    <q-btn flat icon="undo">
       撤销
     </q-btn>
-    <q-btn flat>
-      <i i-carbon-redo />
+    <q-btn flat icon="redo">
       重做
     </q-btn>
   </q-footer>
