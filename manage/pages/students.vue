@@ -23,7 +23,7 @@ function HandleStudentClicked(inclassId: number) {
   <div>
     <q-card bg-secondary>
       <q-card-section text="center white">
-        点击学生姓名进行更改，划到下面添加学生
+        点击学生姓名进行更改，滑至下面添加学生
       </q-card-section>
       <q-card-section>
         <div grid="~ gap-2 justify-items-center" justify-center class="students-grid">
