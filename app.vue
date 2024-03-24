@@ -35,4 +35,7 @@ body,
   margin: 0;
   padding: 0;
 }
+.q-card__section {
+  padding: 0.5rem !important;
+}
 </style>

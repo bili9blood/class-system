@@ -37,9 +37,3 @@ if (await useClassStore().password === "")
     </q-card>
   </div>
 </template>
-
-<style scoped>
-.q-card__section {
-  padding: 0.5rem;
-}
-</style>
