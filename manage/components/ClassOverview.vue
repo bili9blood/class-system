@@ -3,7 +3,7 @@ const { info } = storeToRefs(useClassStore());
 </script>
 
 <template>
-  <div grid="~ cols-1 sm:cols-3 gap-4" text-5>
+  <div grid="~ gap-4" text-5 class="overview-grid">
     <div>
       <q-badge>学生</q-badge>
       {{ info?.students.length }} 人
@@ -33,6 +33,9 @@ const { info } = storeToRefs(useClassStore());
 </template>
 
 <style scoped>
+.overview-grid {
+  grid-template-columns: repeat(auto-fill, 14rem);
+}
 .q-badge {
   font-size: unset;
   line-height: unset;
