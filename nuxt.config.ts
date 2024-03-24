@@ -89,7 +89,7 @@ export default defineNuxtConfig({
       dark: false,
     },
     lang: "zh-CN",
-    plugins: ["Notify"],
+    plugins: ["Dialog", "Notify"],
   },
 
 });

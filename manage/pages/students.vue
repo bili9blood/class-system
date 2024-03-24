@@ -1,20 +1,36 @@
 <script setup lang="ts">
+import EditStudentDialog from "~/manage/components/dialogs/EditStudentDialog.vue";
+
 definePageMeta({
   name: "学生",
 });
 
+const $q = useQuasar();
+
 const { info } = storeToRefs(useClassStore());
+
+function HandleStudentClicked(inclassId: number) {
+  $q.dialog({
+    component: EditStudentDialog,
+    componentProps: {
+      inclassId,
+    },
+  });
+}
 </script>
 
 <template>
   <div>
     <q-card bg-secondary>
       <q-card-section text="center white">
-        点击学生姓名进行更改，划到下面增加学生
+        点击学生姓名进行更改，划到下面添加学生
       </q-card-section>
       <q-card-section>
         <div grid="~ gap-2 justify-items-center" justify-center class="students-grid">
-          <lazy-q-btn v-for="i in info?.students" :key="i.id" flat whitespace-nowrap p-1.5 text-4>
+          <lazy-q-btn
+            v-for="i in info?.students" :key="i.id" flat whitespace-nowrap p-1.5 text-4
+            @click="HandleStudentClicked(i.inclass_id)"
+          >
             <span>
               {{ i.inclass_id.toString().padStart(2, "0") }}
               <strong>{{ i.name }}</strong>
@@ -31,7 +47,7 @@ const { info } = storeToRefs(useClassStore());
 
 <style scoped>
 .students-grid {
-  grid-template-columns: repeat(auto-fill, 4.5rem);
+  grid-template-columns: repeat(auto-fill, 5rem);
 }
 .q-badge {
   line-height: unset;
