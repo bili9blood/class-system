@@ -9,18 +9,12 @@ const { info } = storeToRefs(useClassStore());
 
 const student = computed(() => info.value?.students.find(s => s.inclass_id === props.inclassId));
 const editing = ref<Partial<Omit<Student, "id">>>(useCloned(student.value ?? {}).cloned.value);
-watch(student, () => editing.value = {});
 
 function HandleSubmit() {
   if (student.value && editing.value.name)
     student.value.name = editing.value.name;
 
   onDialogOK();
-}
-
-function HandleCancelClicked() {
-  editing.value = {};
-  onDialogCancel();
 }
 </script>
 
@@ -36,7 +30,7 @@ function HandleCancelClicked() {
           <q-input v-model="editing.inclass_id" label="学号（仅供查看，不可编辑）" disable />
           <q-input v-model="editing.name" label="姓名" />
 
-          <q-btn @click="HandleCancelClicked">
+          <q-btn @click="onDialogCancel">
             取消
           </q-btn>
           <q-btn type="submit" color="primary">
