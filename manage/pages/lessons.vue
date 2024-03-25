@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Lesson } from "~/type";
+
 definePageMeta({
   name: "课程",
 });
@@ -7,6 +9,14 @@ const { info } = storeToRefs(useClassStore());
 
 function FormatTime(time: string) {
   return time.replace(/(\d\d)(\d\d)/, "$1:$2");
+}
+
+function HandleRemoveLessonLine(idx: number) {
+  info.value?.lessons.splice(idx, 1);
+}
+
+function HandleInsertLessonLine(idx: number) {
+  info.value?.lessons.splice(idx + 1, 0, { id: 0, lessons: ["", "", "", "", ""], startTm: "0000", endTm: "0000" });
 }
 </script>
 
@@ -23,40 +33,40 @@ function FormatTime(time: string) {
           <strong>上课时间</strong>
           <strong>下课时间</strong>
           <strong>操作</strong>
-          <template v-for="l in info?.lessons" :key="l.id">
-            <template v-for="_l, idx in l.lessons" :key="idx">
-              <q-input v-model="l.lessons[idx]" outlined dense />
+          <template v-for="line, line_idx in info?.lessons" :key="line.id">
+            <template v-for="_, le_idx in line.lessons" :key="le_idx">
+              <q-input v-model="line.lessons[le_idx]" outlined dense />
             </template>
 
             <div flex="~ items-center" align-middle text-black>
               <q-icon name="access_time" cursor-pointer>
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-time v-model="l.startTm" mask="HHmm">
+                  <q-time v-model="line.startTm" mask="HHmm">
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="关闭" color="primary" flat />
                     </div>
                   </q-time>
                 </q-popup-proxy>
               </q-icon>
-              {{ FormatTime(l.startTm) }}
+              {{ FormatTime(line.startTm) }}
             </div>
 
             <div flex="~ items-center" text-center text-black>
               <q-icon name="access_time" cursor-pointer>
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-time v-model="l.endTm" mask="HHmm">
+                  <q-time v-model="line.endTm" mask="HHmm">
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="关闭" color="primary" flat />
                     </div>
                   </q-time>
                 </q-popup-proxy>
               </q-icon>
-              {{ FormatTime(l.endTm) }}
+              {{ FormatTime(line.endTm) }}
             </div>
 
             <div flex>
-              <q-btn flat dense label="删除" />
-              <q-btn flat dense label="插入" />
+              <q-btn flat dense label="删除" @click="HandleRemoveLessonLine(line_idx)" />
+              <q-btn flat dense label="插入" @click="HandleInsertLessonLine(line_idx)" />
             </div>
           </template>
         </div>
