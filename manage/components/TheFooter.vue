@@ -10,14 +10,14 @@ const class_store = useClassStore();
     flex="~ gap-2"
     p-2 text-dark
   >
-    <q-btn flat icon="save">
+    <q-btn flat icon="save" @click="class_store.putInfo">
       保存
     </q-btn>
     <q-separator vertical />
-    <q-btn flat icon="undo" @click="class_store.undo()">
+    <q-btn flat icon="undo" @click="class_store.undo">
       撤销
     </q-btn>
-    <q-btn flat icon="redo" @click="class_store.redo()">
+    <q-btn flat icon="redo" @click="class_store.redo">
       重做
     </q-btn>
   </q-footer>

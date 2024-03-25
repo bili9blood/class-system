@@ -12,6 +12,13 @@ export async function updateInfo(class_id: number, input: InputInfo) {
       .filter(prev => !input.students?.some(student => student.id === prev.id))
       .map(({ id }) => id);
     await db.student.deleteMany({ where: { id: { in: deletedStudentIds } } });
+
+    for (const student of input.students.filter(student => prevInfo.students.some(prev => prev.id === student.id))) {
+      await db.student.updateMany({
+        where: { id: student.id },
+        data: student,
+      });
+    }
   }
 
   if (input.events) {
@@ -22,6 +29,13 @@ export async function updateInfo(class_id: number, input: InputInfo) {
       .filter(prev => !input.events?.some(event => event.id === prev.id))
       .map(({ id }) => id);
     await db.event.deleteMany({ where: { id: { in: deletedEventIds } } });
+
+    for (const event of input.events.filter(event => prevInfo.events.some(prev => prev.id === event.id))) {
+      await db.event.updateMany({
+        where: { id: event.id },
+        data: event,
+      });
+    }
   }
 
   if (input.lessons) {
@@ -46,6 +60,23 @@ export async function updateInfo(class_id: number, input: InputInfo) {
       .filter(prev => !input.lessons?.some(lesson => lesson.id === prev.id))
       .map(({ id }) => id);
     await db.lesson.deleteMany({ where: { id: { in: deletedLessonIds } } });
+
+    input.lessons.filter(lesson => prevInfo.lessons.some(prev => prev.id === lesson.id)).forEach(async (lesson, idx) => {
+      await db.lesson.updateMany({
+        where: { id: lesson.id },
+        data: {
+          mon: lesson.lessons[0],
+          tue: lesson.lessons[1],
+          wed: lesson.lessons[2],
+          thu: lesson.lessons[3],
+          fri: lesson.lessons[4],
+          lesson_number: idx,
+          start_tm: lesson.startTm,
+          end_tm: lesson.endTm,
+          class_id,
+        },
+      });
+    });
   }
 
   if (input.complete_arr) {
@@ -64,6 +95,13 @@ export async function updateInfo(class_id: number, input: InputInfo) {
       .filter(prev => !input.complete_arr?.some(completeArr => completeArr.id === prev.id))
       .map(({ id }) => id);
     await db.complete_arr.deleteMany({ where: { id: { in: deletedCompleteArrIds } } });
+
+    for (const completeArr of input.complete_arr.filter(completeArr => prevInfo.complete_arr.some(prev => prev.id === completeArr.id))) {
+      await db.complete_arr.updateMany({
+        where: { id: completeArr.id },
+        data: completeArr,
+      });
+    }
   }
 
   if (input.partial_arr) {
@@ -82,6 +120,13 @@ export async function updateInfo(class_id: number, input: InputInfo) {
       .filter(prev => !input.partial_arr?.some(partialArr => partialArr.id === prev.id))
       .map(({ id }) => id);
     await db.partial_arr.deleteMany({ where: { id: { in: deletedPartialArrIds } } });
+
+    for (const partialArr of input.partial_arr.filter(partialArr => prevInfo.partial_arr.some(prev => prev.id === partialArr.id))) {
+      await db.partial_arr.updateMany({
+        where: { id: partialArr.id },
+        data: partialArr,
+      });
+    }
   }
 
   if (input.weekday_arr) {
@@ -105,6 +150,21 @@ export async function updateInfo(class_id: number, input: InputInfo) {
       .filter(prev => !input.weekday_arr?.some(weekdayArr => weekdayArr.id === prev.id))
       .map(({ id }) => id);
     await db.weekday_arr.deleteMany({ where: { id: { in: deletedWeekdayArrIds } } });
+
+    for (const weekdayArr of input.weekday_arr.filter(weekdayArr => prevInfo.weekday_arr.some(prev => prev.id === weekdayArr.id))) {
+      await db.weekday_arr.updateMany({
+        where: { id: weekdayArr.id },
+        data: {
+          job: weekdayArr.job,
+          mon_student_ids: weekdayArr.student_ids[0],
+          tue_student_ids: weekdayArr.student_ids[1],
+          wed_student_ids: weekdayArr.student_ids[2],
+          thu_student_ids: weekdayArr.student_ids[3],
+          fri_student_ids: weekdayArr.student_ids[4],
+          class_id,
+        },
+      });
+    }
   }
 
   if (input.sentences) {
@@ -118,6 +178,13 @@ export async function updateInfo(class_id: number, input: InputInfo) {
       .filter(prev => !input.sentences?.some(sentence => sentence.id === prev.id))
       .map(({ id }) => id);
     await db.sentence.deleteMany({ where: { id: { in: deletedSentencesIds } } });
+
+    for (const sentence of input.sentences.filter(sentence => prevInfo.sentences.some(prev => prev.id === sentence.id))) {
+      await db.sentence.updateMany({
+        where: { id: sentence.id },
+        data: sentence,
+      });
+    }
   }
 
   const info = await getInfo(class_id);

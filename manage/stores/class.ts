@@ -51,6 +51,33 @@ export const useClassStore = defineStore("class", () => {
     info.value = result.data!;
   }
 
+  async function putInfo() {
+    const result = await $fetch("/api/info/put", {
+      body: {
+        info: info.value,
+        class_id: class_id.value,
+        password: password.value,
+      },
+      method: "POST",
+    });
+
+    if (result.code === 401) {
+      logined.value = false;
+      return;
+    }
+    if (result.code !== 200) {
+      Notify.create({
+        message: `保存失败：${result.message}`,
+        color: "negative",
+      });
+      return;
+    }
+    Notify.create({
+      message: "保存成功",
+      color: "positive",
+    });
+  }
+
   return {
     class_id,
     password,
@@ -59,6 +86,7 @@ export const useClassStore = defineStore("class", () => {
 
     login,
     fetchInfo,
+    putInfo,
   };
 }, {
   persist: {
