@@ -67,6 +67,9 @@ devDependencies:
   pinia:
     specifier: ^2.1.7
     version: 2.1.7(typescript@5.4.2)(vue@3.4.21)
+  pinia-undo:
+    specifier: ^0.2.4
+    version: 0.2.4(pinia@2.1.7)
   prisma:
     specifier: ^5.11.0
     version: 5.11.0
@@ -7641,6 +7644,15 @@ packages:
       pinia: 2.1.7(typescript@5.4.2)(vue@3.4.21)
     dev: true
 
+  /pinia-undo@0.2.4(pinia@2.1.7):
+    resolution: {integrity: sha512-czb1fOkTBWJPYkjNTVsGa6x8drL8Kwu9pA6Vldn7pulg3Gc4G17AF5+b01uogH1g00p11T5xQt+3hnRWy4ipkQ==}
+    peerDependencies:
+      pinia: ^2.0.0
+    dependencies:
+      pinia: 2.1.7(typescript@5.4.2)(vue@3.4.21)
+      undo-stacker: 0.2.1
+    dev: true
+
   /pinia@2.1.7(typescript@5.4.2)(vue@3.4.21):
     resolution: {integrity: sha512-+C2AHFtcFqjPih0zpYuvof37SFxMQ7OEG2zV9jRI12i9BOy3YQVAHwdKtyyc8pDcDyIc33WCIsZaCFWU7WWxGQ==}
     peerDependencies:
@@ -8994,6 +9006,10 @@ packages:
     engines: {node: '>=14.0'}
     dependencies:
       '@fastify/busboy': 2.1.0
+    dev: true
+
+  /undo-stacker@0.2.1:
+    resolution: {integrity: sha512-wEFIuUlJtSB0Rt/LBxPqiZqKN2AMKqjdYIr2VTIPUPOEZxAOVE4zVY+z2b2yPBL1NvLW+Sm/kbCaqeWlINPZNA==}
     dev: true
 
   /unenv@1.9.0:

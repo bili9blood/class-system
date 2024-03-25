@@ -69,6 +69,7 @@ export default defineNuxtConfig({
     assets: "resources",
     layouts: "manage/layouts",
     pages: "manage/pages",
+    plugins: "manage/plugins",
   },
 
   devtools: {

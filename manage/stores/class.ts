@@ -65,6 +65,9 @@ export const useClassStore = defineStore("class", () => {
     afterRestore: HandleAfterRestore,
     paths: ["class_id", "password"],
   },
+  undo: {
+    omit: ["class_id", "password", "logined"],
+  },
 });
 
 if (import.meta.hot)
