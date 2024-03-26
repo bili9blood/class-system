@@ -1,5 +1,11 @@
 import type { InputInfo } from "~/type";
 
+function objectEquals<O extends Record<string, any>>(lhs: O | undefined, rhs: O | undefined) {
+  if (lhs === void 0 || rhs === void 0)
+    return false;
+  return Object.keys(lhs).every(key => lhs[key] === rhs[key]);
+}
+
 export async function updateInfo(class_id: number, input: InputInfo) {
   const db = useDatabase();
   const prevInfo = await getInfo(class_id);
@@ -13,12 +19,14 @@ export async function updateInfo(class_id: number, input: InputInfo) {
       .map(({ id }) => id);
     await db.student.deleteMany({ where: { id: { in: deletedStudentIds } } });
 
-    for (const student of input.students.filter(student => prevInfo.students.some(prev => prev.id === student.id))) {
-      await db.student.updateMany({
-        where: { id: student.id },
-        data: student,
-      });
-    }
+    input.students.filter(student => prevInfo.students.some(prev => prev.id === student.id)).forEach(async (student) => {
+      if (!objectEquals(student, prevInfo.students.find(prev => prev.id === student.id))) {
+        await db.student.updateMany({
+          where: { id: student.id ?? 0 },
+          data: student,
+        });
+      }
+    });
   }
 
   if (input.events) {
@@ -30,12 +38,33 @@ export async function updateInfo(class_id: number, input: InputInfo) {
       .map(({ id }) => id);
     await db.event.deleteMany({ where: { id: { in: deletedEventIds } } });
 
-    for (const event of input.events.filter(event => prevInfo.events.some(prev => prev.id === event.id))) {
-      await db.event.updateMany({
-        where: { id: event.id },
-        data: event,
-      });
-    }
+    input.events.filter(event => prevInfo.events.some(prev => prev.id === event.id)).forEach(async (event) => {
+      if (!objectEquals(event, prevInfo.events.find(prev => prev.id === event.id))) {
+        await db.event.updateMany({
+          where: { id: event.id ?? 0 },
+          data: event,
+        });
+      }
+    });
+  }
+
+  if (input.notices) {
+    const newNotices = input.notices.filter(notice => !prevInfo.notices.some(prev => prev.id === notice.id));
+    await db.notice.createMany({ data: newNotices.map((notice) => { delete notice.id; return { ...notice, class_id }; }) });
+
+    const deletedEventIds = prevInfo.events
+      .filter(prev => !input.events?.some(event => event.id === prev.id))
+      .map(({ id }) => id);
+    await db.event.deleteMany({ where: { id: { in: deletedEventIds } } });
+
+    input.notices.filter(notices => prevInfo.events.some(prev => prev.id === notices.id)).forEach(async (notice) => {
+      if (!objectEquals(notice, prevInfo.notices.find(prev => prev.id === notice.id))) {
+        await db.notice.updateMany({
+          where: { id: notice.id ?? 0 },
+          data: notice,
+        });
+      }
+    });
   }
 
   if (input.lessons) {
@@ -62,20 +91,22 @@ export async function updateInfo(class_id: number, input: InputInfo) {
     await db.lesson.deleteMany({ where: { id: { in: deletedLessonIds } } });
 
     input.lessons.filter(lesson => prevInfo.lessons.some(prev => prev.id === lesson.id)).forEach(async (lesson, idx) => {
-      await db.lesson.updateMany({
-        where: { id: lesson.id },
-        data: {
-          mon: lesson.lessons[0],
-          tue: lesson.lessons[1],
-          wed: lesson.lessons[2],
-          thu: lesson.lessons[3],
-          fri: lesson.lessons[4],
-          lesson_number: idx,
-          start_tm: lesson.startTm,
-          end_tm: lesson.endTm,
-          class_id,
-        },
-      });
+      if (!objectEquals(lesson, prevInfo.lessons.find(prev => prev.id === lesson.id))) {
+        await db.lesson.updateMany({
+          where: { id: lesson.id ?? 0 },
+          data: {
+            mon: lesson.lessons[0],
+            tue: lesson.lessons[1],
+            wed: lesson.lessons[2],
+            thu: lesson.lessons[3],
+            fri: lesson.lessons[4],
+            lesson_number: idx,
+            start_tm: lesson.startTm,
+            end_tm: lesson.endTm,
+            class_id,
+          },
+        });
+      }
     });
   }
 
@@ -96,12 +127,14 @@ export async function updateInfo(class_id: number, input: InputInfo) {
       .map(({ id }) => id);
     await db.complete_arr.deleteMany({ where: { id: { in: deletedCompleteArrIds } } });
 
-    for (const completeArr of input.complete_arr.filter(completeArr => prevInfo.complete_arr.some(prev => prev.id === completeArr.id))) {
-      await db.complete_arr.updateMany({
-        where: { id: completeArr.id },
-        data: completeArr,
-      });
-    }
+    input.complete_arr.filter(completeArr => prevInfo.complete_arr.some(prev => prev.id === completeArr.id)).forEach(async (completeArr) => {
+      if (!objectEquals(completeArr, prevInfo.complete_arr.find(prev => prev.id === completeArr.id))) {
+        await db.complete_arr.updateMany({
+          where: { id: completeArr.id ?? 0 },
+          data: completeArr,
+        });
+      }
+    });
   }
 
   if (input.partial_arr) {
@@ -121,12 +154,14 @@ export async function updateInfo(class_id: number, input: InputInfo) {
       .map(({ id }) => id);
     await db.partial_arr.deleteMany({ where: { id: { in: deletedPartialArrIds } } });
 
-    for (const partialArr of input.partial_arr.filter(partialArr => prevInfo.partial_arr.some(prev => prev.id === partialArr.id))) {
-      await db.partial_arr.updateMany({
-        where: { id: partialArr.id },
-        data: partialArr,
-      });
-    }
+    input.partial_arr.filter(partialArr => prevInfo.partial_arr.some(prev => prev.id === partialArr.id)).forEach(async (partialArr) => {
+      if (!objectEquals(partialArr, prevInfo.partial_arr.find(prev => prev.id === partialArr.id))) {
+        await db.partial_arr.updateMany({
+          where: { id: partialArr.id ?? 0 },
+          data: partialArr,
+        });
+      }
+    });
   }
 
   if (input.weekday_arr) {
@@ -151,40 +186,22 @@ export async function updateInfo(class_id: number, input: InputInfo) {
       .map(({ id }) => id);
     await db.weekday_arr.deleteMany({ where: { id: { in: deletedWeekdayArrIds } } });
 
-    for (const weekdayArr of input.weekday_arr.filter(weekdayArr => prevInfo.weekday_arr.some(prev => prev.id === weekdayArr.id))) {
-      await db.weekday_arr.updateMany({
-        where: { id: weekdayArr.id },
-        data: {
-          job: weekdayArr.job,
-          mon_student_ids: weekdayArr.student_ids[0],
-          tue_student_ids: weekdayArr.student_ids[1],
-          wed_student_ids: weekdayArr.student_ids[2],
-          thu_student_ids: weekdayArr.student_ids[3],
-          fri_student_ids: weekdayArr.student_ids[4],
-          class_id,
-        },
-      });
-    }
-  }
-
-  if (input.sentences) {
-    const newSentences = input.sentences.filter(sentence => !prevInfo.sentences.some(prev => prev.id === sentence.id));
-
-    await db.sentence.createMany({
-      data: newSentences.map((sentence) => { delete sentence.id; return sentence; }),
+    input.weekday_arr.filter(weekdayArr => prevInfo.weekday_arr.some(prev => prev.id === weekdayArr.id)).forEach(async (weekdayArr) => {
+      if (!objectEquals(weekdayArr, prevInfo.weekday_arr.find(prev => prev.id === weekdayArr.id))) {
+        await db.weekday_arr.updateMany({
+          where: { id: weekdayArr.id ?? 0 },
+          data: {
+            job: weekdayArr.job,
+            mon_student_ids: weekdayArr.student_ids[0],
+            tue_student_ids: weekdayArr.student_ids[1],
+            wed_student_ids: weekdayArr.student_ids[2],
+            thu_student_ids: weekdayArr.student_ids[3],
+            fri_student_ids: weekdayArr.student_ids[4],
+            class_id,
+          },
+        });
+      }
     });
-
-    const deletedSentencesIds = prevInfo.sentences
-      .filter(prev => !input.sentences?.some(sentence => sentence.id === prev.id))
-      .map(({ id }) => id);
-    await db.sentence.deleteMany({ where: { id: { in: deletedSentencesIds } } });
-
-    for (const sentence of input.sentences.filter(sentence => prevInfo.sentences.some(prev => prev.id === sentence.id))) {
-      await db.sentence.updateMany({
-        where: { id: sentence.id },
-        data: sentence,
-      });
-    }
   }
 
   const info = await getInfo(class_id);

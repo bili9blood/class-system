@@ -152,6 +152,4 @@ export const inputInfoParser = z.object({
   complete_arr: z.array(completeArrParser).optional(),
   partial_arr: z.array(partialArrParser).optional(),
   weekday_arr: z.array(weekdayArrParser).optional(),
-
-  sentences: z.array(sentenceParser).optional(),
 });
