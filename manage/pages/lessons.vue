@@ -22,7 +22,12 @@ function HandleInsertLessonLine(idx: number) {
 
 <template>
   <div>
-    <q-card w-full overflow-x-auto bg-secondary>
+    <q-card w-full overflow-x-auto bg-secondary text-black>
+      <q-card-section>
+        <q-btn outline icon="add" @click="HandleInsertLessonLine(-1)">
+          添加课程
+        </q-btn>
+      </q-card-section>
       <q-card-section min-w-180>
         <q-markup-table flat justify-center bg-transparent>
           <thead font-bold>
@@ -44,7 +49,7 @@ function HandleInsertLessonLine(idx: number) {
               </td>
 
               <td>
-                <div flex="~ items-center" align-middle text-black>
+                <div flex="~ items-center" align-middle>
                   <q-icon name="access_time" cursor-pointer>
                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                       <q-time v-model="line.startTm" mask="HHmm">
@@ -59,7 +64,7 @@ function HandleInsertLessonLine(idx: number) {
               </td>
 
               <td>
-                <div flex="~ items-center" text-center text-black>
+                <div flex="~ items-center" text-center>
                   <q-icon name="access_time" cursor-pointer>
                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                       <q-time v-model="line.endTm" mask="HHmm">
