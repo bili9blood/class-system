@@ -24,52 +24,64 @@ function HandleInsertLessonLine(idx: number) {
   <div>
     <q-card w-full overflow-x-auto bg-secondary>
       <q-card-section min-w-170>
-        <div grid="~ cols-8 gap-2 justify-items-center" justify-center>
-          <strong>星期一</strong>
-          <strong>星期二</strong>
-          <strong>星期三</strong>
-          <strong>星期四</strong>
-          <strong>星期五</strong>
-          <strong>上课时间</strong>
-          <strong>下课时间</strong>
-          <strong>操作</strong>
-          <template v-for="line, line_idx in info?.lessons" :key="line.id">
-            <template v-for="_, le_idx in line.lessons" :key="le_idx">
-              <q-input v-model="line.lessons[le_idx]" outlined dense />
-            </template>
+        <q-markup-table flat justify-center bg-transparent>
+          <thead>
+            <tr>
+              <th>星期一</th>
+              <th>星期二</th>
+              <th>星期三</th>
+              <th>星期四</th>
+              <th>星期五</th>
+              <th>上课时间</th>
+              <th>下课时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="line, line_idx in info?.lessons" :key="line.id">
+              <td v-for="_, le_idx in line.lessons" :key="le_idx">
+                <q-input v-model="line.lessons[le_idx]" outlined dense />
+              </td>
 
-            <div flex="~ items-center" align-middle text-black>
-              <q-icon name="access_time" cursor-pointer>
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-time v-model="line.startTm" mask="HHmm">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="关闭" color="primary" flat />
-                    </div>
-                  </q-time>
-                </q-popup-proxy>
-              </q-icon>
-              {{ FormatTime(line.startTm) }}
-            </div>
+              <td>
+                <div flex="~ items-center" align-middle text-black>
+                  <q-icon name="access_time" cursor-pointer>
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-time v-model="line.startTm" mask="HHmm">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="关闭" color="primary" flat />
+                        </div>
+                      </q-time>
+                    </q-popup-proxy>
+                  </q-icon>
+                  {{ FormatTime(line.startTm) }}
+                </div>
+              </td>
 
-            <div flex="~ items-center" text-center text-black>
-              <q-icon name="access_time" cursor-pointer>
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-time v-model="line.endTm" mask="HHmm">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="关闭" color="primary" flat />
-                    </div>
-                  </q-time>
-                </q-popup-proxy>
-              </q-icon>
-              {{ FormatTime(line.endTm) }}
-            </div>
+              <td>
+                <div flex="~ items-center" text-center text-black>
+                  <q-icon name="access_time" cursor-pointer>
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-time v-model="line.endTm" mask="HHmm">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="关闭" color="primary" flat />
+                        </div>
+                      </q-time>
+                    </q-popup-proxy>
+                  </q-icon>
+                  {{ FormatTime(line.endTm) }}
+                </div>
+              </td>
 
-            <div flex>
-              <q-btn flat dense label="删除" @click="HandleRemoveLessonLine(line_idx)" />
-              <q-btn flat dense label="插入" @click="HandleInsertLessonLine(line_idx)" />
-            </div>
-          </template>
-        </div>
+              <td>
+                <div flex>
+                  <q-btn flat dense label="删除" @click="HandleRemoveLessonLine(line_idx)" />
+                  <q-btn flat dense label="插入" @click="HandleInsertLessonLine(line_idx)" />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </q-markup-table>
       </q-card-section>
     </q-card>
   </div>
