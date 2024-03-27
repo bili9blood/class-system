@@ -49,33 +49,29 @@ function HandleInsertLessonLine(idx: number) {
               </td>
 
               <td>
-                <div flex="~ items-center" align-middle>
-                  <q-icon name="access_time" cursor-pointer>
-                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                      <q-time v-model="line.startTm" mask="HHmm">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="关闭" color="primary" flat />
-                        </div>
-                      </q-time>
-                    </q-popup-proxy>
-                  </q-icon>
+                <q-btn flat dense icon="access_time" w-full>
+                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                    <q-time v-model="line.startTm" mask="HHmm">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="关闭" color="primary" flat />
+                      </div>
+                    </q-time>
+                  </q-popup-proxy>
                   {{ FormatTime(line.startTm) }}
-                </div>
+                </q-btn>
               </td>
 
               <td>
-                <div flex="~ items-center" text-center>
-                  <q-icon name="access_time" cursor-pointer>
-                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                      <q-time v-model="line.endTm" mask="HHmm">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="关闭" color="primary" flat />
-                        </div>
-                      </q-time>
-                    </q-popup-proxy>
-                  </q-icon>
+                <q-btn flat dense icon="access_time" w-full>
+                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                    <q-time v-model="line.endTm" mask="HHmm">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="关闭" color="primary" flat />
+                      </div>
+                    </q-time>
+                  </q-popup-proxy>
                   {{ FormatTime(line.endTm) }}
-                </div>
+                </q-btn>
               </td>
 
               <td>
