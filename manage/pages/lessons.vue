@@ -22,14 +22,14 @@ function HandleInsertLessonLine(idx: number) {
 
 <template>
   <div>
-    <q-card w-full overflow-x-auto bg-secondary text-black>
+    <q-card bg-secondary text-black>
       <q-card-section>
         <q-btn outline icon="add" @click="HandleInsertLessonLine(-1)">
           添加课程
         </q-btn>
       </q-card-section>
-      <q-card-section min-w-180>
-        <q-markup-table flat justify-center bg-transparent>
+      <q-card-section w-full overflow-x-auto>
+        <q-markup-table flat min-w-180 justify-center bg-transparent>
           <thead font-bold>
             <tr>
               <th>星期一</th>
