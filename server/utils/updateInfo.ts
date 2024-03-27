@@ -52,12 +52,12 @@ export async function updateInfo(class_id: number, input: InputInfo) {
     const newNotices = input.notices.filter(notice => !prevInfo.notices.some(prev => prev.id === notice.id));
     await db.notice.createMany({ data: newNotices.map((notice) => { delete notice.id; return { ...notice, class_id }; }) });
 
-    const deletedEventIds = prevInfo.events
-      .filter(prev => !input.events?.some(event => event.id === prev.id))
+    const deletedNoticesIds = prevInfo.notices
+      .filter(prev => !input.notices?.some(notice => notice.id === prev.id))
       .map(({ id }) => id);
-    await db.event.deleteMany({ where: { id: { in: deletedEventIds } } });
+    await db.notice.deleteMany({ where: { id: { in: deletedNoticesIds } } });
 
-    input.notices.filter(notices => prevInfo.events.some(prev => prev.id === notices.id)).forEach(async (notice) => {
+    input.notices.filter(notices => prevInfo.notices.some(prev => prev.id === notices.id)).forEach(async (notice) => {
       if (!objectEquals(notice, prevInfo.notices.find(prev => prev.id === notice.id))) {
         await db.notice.updateMany({
           where: { id: notice.id ?? 0 },
