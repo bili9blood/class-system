@@ -82,3 +82,9 @@ watch(tab, () => {
     </q-toolbar>
   </q-header>
 </template>
+
+<style scoped>
+.q-header {
+  background: linear-gradient(90deg, var(--q-primary) 0%, #01fced 100%);
+}
+</style>
