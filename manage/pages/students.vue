@@ -35,15 +35,15 @@ function HandleAddStudentClicked() {
       <q-card-section text="center white">
         点击学生姓名进行更改，滑至下面添加学生
       </q-card-section>
-      <q-card-section>
+      <q-card-section text-black>
         <div grid="~ gap-2 justify-items-center" justify-center class="students-grid">
           <lazy-q-btn
-            v-for="i in info?.students" :key="i.id" flat whitespace-nowrap p-1.5 text-4
+            v-for="i in info?.students" :key="i.id" flat dense whitespace-nowrap text-4
             @click="HandleStudentClicked(i.inclass_id)"
           >
             <span>
               {{ i.inclass_id.toString().padStart(2, "0") }}
-              <strong>{{ i.name }}</strong>
+              {{ i.name }}
             </span>
           </lazy-q-btn>
           <q-btn

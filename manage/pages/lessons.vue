@@ -23,9 +23,9 @@ function HandleInsertLessonLine(idx: number) {
 <template>
   <div>
     <q-card w-full overflow-x-auto bg-secondary>
-      <q-card-section min-w-170>
+      <q-card-section min-w-180>
         <q-markup-table flat justify-center bg-transparent>
-          <thead>
+          <thead font-bold>
             <tr>
               <th>星期一</th>
               <th>星期二</th>
@@ -86,3 +86,10 @@ function HandleInsertLessonLine(idx: number) {
     </q-card>
   </div>
 </template>
+
+<style scoped>
+.q-table th {
+  font-size: unset;
+  font-weight: unset;
+}
+</style>
