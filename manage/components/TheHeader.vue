@@ -18,6 +18,11 @@ const routes = $r.getRoutes().filter(r => r.meta.name).sort(
 
 const tab = ref("/");
 
+watch(tab, () => {
+  if (tab.value === "logout")
+    Logout();
+});
+
 function Logout() {
   const { class_id, password, logined } = storeToRefs(useClassStore());
   class_id.value = 0;
@@ -29,10 +34,7 @@ function Logout() {
   });
 }
 
-watch(tab, () => {
-  if (tab.value === "logout")
-    Logout();
-});
+tab.value = $r.currentRoute.value.path;
 </script>
 
 <template>
