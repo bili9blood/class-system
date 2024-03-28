@@ -40,19 +40,21 @@ function HandleSubmit() {
         编辑学生
       </q-card-section>
       <q-card-section>
-        <q-form @submit="HandleSubmit">
+        <q-form class="q-gutter-md" @submit="HandleSubmit">
           <q-input v-model="editing.inclass_id" label="学号（仅供查看，不可编辑）" disable />
           <q-input v-model="editing.name" label="姓名" />
 
-          <q-btn @click="onDialogCancel">
-            取消
-          </q-btn>
-          <q-btn color="negative" @click="HandleRemove">
-            删除
-          </q-btn>
-          <q-btn type="submit" color="primary">
-            确认
-          </q-btn>
+          <div flex="~ gap-2" justify-end>
+            <q-btn @click="onDialogCancel">
+              取消
+            </q-btn>
+            <q-btn color="negative" @click="HandleRemove">
+              删除
+            </q-btn>
+            <q-btn type="submit" color="primary">
+              确认
+            </q-btn>
+          </div>
         </q-form>
       </q-card-section>
     </q-card>

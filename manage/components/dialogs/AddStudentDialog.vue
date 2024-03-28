@@ -21,7 +21,7 @@ function HandleSubmit() {
         添加学生
       </q-card-section>
       <q-card-section>
-        <q-form @submit="HandleSubmit">
+        <q-form class="q-gutter-md" @submit="HandleSubmit">
           <q-input
             v-model.number="student.inclass_id"
             label="学号"
@@ -38,12 +38,14 @@ function HandleSubmit() {
             ]"
           />
 
-          <q-btn @click="onDialogCancel">
-            取消
-          </q-btn>
-          <q-btn type="submit" color="primary">
-            确认
-          </q-btn>
+          <div flex="~ gap-2" justify-end>
+            <q-btn @click="onDialogCancel">
+              取消
+            </q-btn>
+            <q-btn type="submit" color="primary">
+              确认
+            </q-btn>
+          </div>
         </q-form>
       </q-card-section>
     </q-card>
