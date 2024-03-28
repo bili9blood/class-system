@@ -57,8 +57,8 @@ export async function getInfo(class_id: number) {
   info.weekday_arr = (await db.weekday_arr.findMany({
     where: { class_id },
   })).map(
-    ({ job, mon_student_ids, tue_student_ids, wed_student_ids, thu_student_ids, fri_student_ids }) =>
-      ({ job, student_ids: [mon_student_ids, tue_student_ids, wed_student_ids, thu_student_ids, fri_student_ids] }),
+    ({ id, job, mon_student_ids, tue_student_ids, wed_student_ids, thu_student_ids, fri_student_ids }) =>
+      ({ id, job, student_ids: [mon_student_ids, tue_student_ids, wed_student_ids, thu_student_ids, fri_student_ids] }),
   );
 
   info.sentences = await db.sentence.findMany();
