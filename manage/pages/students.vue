@@ -38,13 +38,10 @@ function HandleAddStudentClicked() {
       <q-card-section text-black>
         <div grid="~ gap-2 justify-items-center" justify-center class="students-grid">
           <lazy-q-btn
-            v-for="i in info?.students" :key="i.id" flat dense whitespace-nowrap text-4
-            @click="HandleStudentClicked(i.inclass_id)"
+            v-for="stu in info?.students" :key="stu.id" flat dense whitespace-nowrap text-4
+            @click="HandleStudentClicked(stu.inclass_id)"
           >
-            <span>
-              {{ i.inclass_id.toString().padStart(2, "0") }}
-              {{ i.name }}
-            </span>
+            {{ StudentDisplayString(stu) }}
           </lazy-q-btn>
           <q-btn
             icon="add"

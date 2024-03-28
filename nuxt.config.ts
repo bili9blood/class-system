@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   ],
 
   imports: {
-    dirs: ["manage/stores", "manage/composables"],
+    dirs: ["manage/stores", "manage/utils"],
     presets: [
       { from: "moment", imports: [{ name: "default", as: "moment" }] },
     ],
