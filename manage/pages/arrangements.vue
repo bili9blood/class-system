@@ -8,7 +8,7 @@ definePageMeta({
   <div>
     <q-card bg-secondary text-black>
       <q-card-section>
-        <week-day-arrangements />
+        <weekday-arrangements />
       </q-card-section>
     </q-card>
   </div>
