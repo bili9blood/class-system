@@ -1,7 +1,9 @@
 # 3rd-party codes
 display/include/*.hpp linguist-vendored
-display/httpclient.* linguist-vendored
-display/flowlayout.* linguist-vendored
+display/httpclient.h linguist-vendored
+display/httpclient.cc linguist-vendored
+display/flowlayout.h linguist-vendored
+display/flowlayout.cc linguist-vendored
 
 # Resources
 resources/* linguist-vendored
