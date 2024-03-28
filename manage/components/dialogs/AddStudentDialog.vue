@@ -9,10 +9,7 @@ const { info } = storeToRefs(useClassStore());
 const student = ref({ id: 0, inclass_id: "", name: "" });
 
 function HandleSubmit() {
-  onDialogOK({
-    ...student.value,
-    inclass_id: Number.parseInt(student.value.inclass_id),
-  });
+  onDialogOK(student.value);
 }
 </script>
 
@@ -26,11 +23,11 @@ function HandleSubmit() {
       <q-card-section>
         <q-form @submit="HandleSubmit">
           <q-input
-            v-model="student.inclass_id"
+            v-model.number="student.inclass_id"
             label="学号"
             :rules="[
               (val) => val > 0 || '请输入大于 0 的学号',
-              (val) => !info?.students.find((s) => s.inclass_id === Number.parseInt(val)) || '该学号已存在',
+              (val) => !info?.students.find((s) => s.inclass_id === val) || '该学号已存在',
             ]"
           />
           <q-input
