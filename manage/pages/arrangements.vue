@@ -6,6 +6,10 @@ definePageMeta({
 
 <template>
   <div>
-    Arr
+    <q-card bg-secondary text-black>
+      <q-card-section>
+        <week-day-arrangements />
+      </q-card-section>
+    </q-card>
   </div>
 </template>
