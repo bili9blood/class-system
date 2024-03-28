@@ -138,10 +138,3 @@ function GetElidedText(text: string, max_len: number) {
     </q-card>
   </div>
 </template>
-
-<style scoped>
-.q-table th {
-  font-size: unset;
-  font-weight: unset;
-}
-</style>

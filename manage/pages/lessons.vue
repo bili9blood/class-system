@@ -87,10 +87,3 @@ function HandleInsertLessonLine(idx: number) {
     </q-card>
   </div>
 </template>
-
-<style scoped>
-.q-table th {
-  font-size: unset;
-  font-weight: unset;
-}
-</style>

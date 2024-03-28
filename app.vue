@@ -38,4 +38,8 @@ body,
 .q-card__section {
   padding: 0.5rem !important;
 }
+.q-table th {
+  font-size: unset;
+  font-weight: unset;
+}
 </style>
