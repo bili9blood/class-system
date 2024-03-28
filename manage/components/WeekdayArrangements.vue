@@ -1,9 +1,20 @@
 <script setup lang="ts">
+import EditWeekdayArr from "~/manage/components/dialogs/EditWeekdayArr.vue";
+
+const $q = useQuasar();
+
 const { info } = storeToRefs(useClassStore());
 
 function HandleRemoveArr(idx: number) { info.value?.weekday_arr.splice(idx, 1); }
 function HandleInsertArr(idx: number) {
   info.value?.weekday_arr.splice(idx + 1, 0, { id: 0, job: "", student_ids: [[], [], [], [], []] });
+}
+
+function HandleEditArr(idx: number) {
+  $q.dialog({
+    component: EditWeekdayArr,
+    componentProps: { idx },
+  });
 }
 </script>
 
@@ -35,7 +46,7 @@ function HandleInsertArr(idx: number) {
 
         <td>
           <div flex justify-center>
-            <q-btn flat dense label="编辑" />
+            <q-btn flat dense label="编辑" @click="HandleEditArr(idx)" />
             <q-btn flat dense label="删除" @click="HandleRemoveArr(idx)" />
             <q-btn flat dense label="插入" @click="HandleInsertArr(idx)" />
           </div>
