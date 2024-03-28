@@ -40,7 +40,7 @@ function HandleSubmit() {
         编辑学生
       </q-card-section>
       <q-card-section>
-        <q-form class="q-gutter-md" @submit="HandleSubmit">
+        <q-form @submit="HandleSubmit">
           <q-input v-model="editing.inclass_id" label="学号（仅供查看，不可编辑）" disable />
           <q-input v-model="editing.name" label="姓名" />
 
