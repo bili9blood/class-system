@@ -141,7 +141,6 @@ void GlobalStore::Start() {
 }
 
 void GlobalStore::HandleResponse(const QString &resp) {
-  qDebug() << "HandleResponse";
   try {
     const auto opt = ParseFromJson(resp);
     if (opt.has_value())
