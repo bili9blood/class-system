@@ -2,7 +2,7 @@
 <RCC version="1.0">
 <qresource>
   <file>fonts/FiraMono-Bold.ttf</file>
-  <file>fonts/JiangxiZhuoKai-min.ttf</file>
+  <file>fonts/ZiHunBianTaoTi-min.ttf</file>
   <file>fonts/qweather-icons.ttf</file>
   <file>fonts/SymbolsNerdFont-Regular.ttf</file>
   <file>images/icon.ico</file>

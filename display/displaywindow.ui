@@ -287,8 +287,7 @@ QLabel.past{
        <widget class="QLabel" name="events_title_label">
         <property name="styleSheet">
          <string notr="true">font-size: 25px;
-font-family: 江西拙楷;
-font-weight: bold;
+font-family: ZiHunBianTaoTi-min;
 </string>
         </property>
         <property name="text">
@@ -303,8 +302,7 @@ font-weight: bold;
        <widget class="QLabel" name="arrangement_title_label">
         <property name="styleSheet">
          <string notr="true">font-size: 25px;
-font-family: 江西拙楷;
-font-weight: bold;
+font-family: ZiHunBianTaoTi-min;
 </string>
         </property>
         <property name="text">
@@ -319,8 +317,7 @@ font-weight: bold;
        <widget class="QLabel" name="lessons_title_label">
         <property name="styleSheet">
          <string notr="true">font-size: 25px;
-font-family: 江西拙楷;
-font-weight: bold;
+font-family: ZiHunBianTaoTi-min;
 </string>
         </property>
         <property name="text">
@@ -335,8 +332,7 @@ font-weight: bold;
        <widget class="QLabel" name="notices_title_label">
         <property name="styleSheet">
          <string notr="true">font-size: 25px;
-font-family: 江西拙楷;
-font-weight: bold;
+font-family: ZiHunBianTaoTi-min;
 </string>
         </property>
         <property name="text">

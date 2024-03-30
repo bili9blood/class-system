@@ -14,7 +14,7 @@ void InitFonts() {
   QApplication::setFont(font);
 
   QFontDatabase::addApplicationFont(":/fonts/FiraMono-Bold.ttf");
-  QFontDatabase::addApplicationFont(":/fonts/JiangxiZhuoKai-min.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/ZiHunBianTaoTi-min.ttf");
   QFontDatabase::addApplicationFont(":/fonts/qweather-icons.ttf");
   QFontDatabase::addApplicationFont(":/fonts/SymbolsNerdFont-Regular.ttf");
 }
