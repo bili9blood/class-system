@@ -1,4 +1,4 @@
-import { app_description } from "./constants/index";
+import { app_description } from "./constants";
 
 export default defineNuxtConfig({
   modules: [
@@ -15,7 +15,6 @@ export default defineNuxtConfig({
     presets: [
       { from: "moment", imports: [{ name: "default", as: "moment" }] },
     ],
-    warn(_) {}, // disable warnings
   },
 
   components: {
