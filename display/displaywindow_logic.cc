@@ -19,9 +19,19 @@
 #endif
 
 static void ClearLayout(QLayout *layout) {
-  if (!layout->count()) return;
-  while (QLayoutItem *item = layout->takeAt(0)) {
-    if (QWidget *child = item->widget()) child->deleteLater();
+  while (layout->count()) {
+    auto *item = layout->takeAt(0);
+    if (!item) break;
+
+    if (auto *child = item->widget()) {
+      child->setParent(nullptr);
+      child->deleteLater();
+    }
+    if (auto *child = item->layout()) {
+      ClearLayout(child);
+      child->deleteLater();
+    }
+
     delete item;
   }
 }
