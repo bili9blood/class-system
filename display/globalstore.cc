@@ -14,9 +14,13 @@ static QTime Str2Time(std::string_view str) {
   return QTime::fromString(str.data(), constants::kTransferTimeFormat);
 }
 
-static GlobalStore::ClassInfo ParseFromJson(const QString &json_str) {
+static std::optional<GlobalStore::ClassInfo> ParseFromJson(const QString &json_str) {
   auto json = nlohmann::json::parse(json_str.toStdString());
-  if (json["code"] != 200) throw std::exception{"Code isn't 200!"};
+
+  if (json["code"] != 200 && json["code"] != 304)
+    throw std::exception{("Unknown Code: " + std::to_string(json["code"].get<int>())).c_str()};
+  if (json["code"] == 304) return {};
+
   json = json["data"];
   GlobalStore::ClassInfo class_info;
 
@@ -113,31 +117,48 @@ static GlobalStore::ClassInfo ParseFromJson(const QString &json_str) {
   return class_info;
 }
 
-GlobalStore::GlobalStore() : QObject(nullptr) {}
+GlobalStore::GlobalStore() : QObject(nullptr) {
+  auto const *base_url{config::Get()["Server"]["url"].as_string()->get().c_str()};
+  class_id_ = (int)config::Get()["Server"]["class_id"].as_integer()->get();
+  cli_      = std::make_unique<HttpClient>(
+      QString{base_url}.replace(QRegExp{"/+$"}, "") + "/api/info/get"
+  );
+}
 
 GlobalStore::~GlobalStore() = default;
 
 void GlobalStore::Start() {
-  const QString        base_url{config::Get()["Server"]["url"].as_string()->get().c_str()};
   const auto           class_id{config::Get()["Server"]["class_id"].as_integer()->get()};
   const nlohmann::json body = {
       {"class_id", class_id},
       {"long", false}
   };
 
-  HttpClient c{base_url + "/api/info/get"};
-  c.json(body.dump().c_str())
+  cli_->json(body.dump().c_str())
       .success(std::bind(&GlobalStore::HandleResponse, this, std::placeholders::_1))
       .fail([](const auto &msg, const auto status) { qDebug() << msg << status; })
       .post();
 }
 
 void GlobalStore::HandleResponse(const QString &resp) {
+  qDebug() << "HandleResponse";
   try {
-    class_info_ = ParseFromJson(resp);
+    const auto opt = ParseFromJson(resp);
+    if (opt.has_value())
+      class_info_ = opt.value();
   } catch (const std::exception &e) {
     Q_EMIT FailedHandleResp(e.what());
     return;
   }
-  Q_EMIT SucceededHandleResp();
+  Q_EMIT               SucceededHandleResp();
+
+  const nlohmann::json body = {
+      {"class_id", class_id_},
+      {"long", true}  // use long poll after the first response
+  };
+
+  cli_->json(body.dump().c_str())
+      .success(std::bind(&GlobalStore::HandleResponse, this, std::placeholders::_1))
+      .fail([](const auto &msg, const auto status) { qDebug() << msg << status; })
+      .post();
 }

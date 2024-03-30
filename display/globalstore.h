@@ -1,5 +1,7 @@
 #pragma once
 
+class HttpClient;
+
 class GlobalStore final : public QObject {
   Q_OBJECT
 
@@ -84,7 +86,6 @@ class GlobalStore final : public QObject {
 
  public slots:
   void Start();
-  void HandleResponse(const QString &resp);
 
  signals:
   void SucceededHandleResp();
@@ -93,5 +94,10 @@ class GlobalStore final : public QObject {
  private:
   explicit GlobalStore();
 
-  ClassInfo class_info_;
+  std::unique_ptr<HttpClient> cli_;
+  int                         class_id_;
+  ClassInfo                   class_info_;
+
+ private slots:
+  void HandleResponse(const QString &resp);
 };
