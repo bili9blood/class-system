@@ -2,7 +2,7 @@ import type { Info } from "~/type";
 
 const parser = z.object({
   class_id: z.number(),
-  long: z.boolean().or(z.undefined()),
+  long: z.boolean().optional(),
 });
 
 export default defineEventHandler(async (e) => {
