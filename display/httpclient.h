@@ -29,7 +29,7 @@ class HttpClientPrivate;
  */
 class HttpClient {
  public:
-  HttpClient(const QString &url);
+  explicit HttpClient(const QString &url);
   ~HttpClient();
   void stop2();
 
@@ -93,7 +93,7 @@ class HttpClient {
    *                   可以使用 {{"name", 1}, {"box", 2}} 的方式创建 QMap 对象
    * @return 返回 HttpClient 的引用，可以用于链式调用
    */
-  HttpClient &headers(const QMap<QString, QString> nameValues);
+  HttpClient &headers(const QMap<QString, QString> &nameValues);
 
   /**
    * @brief 注册请求成功的回调函数

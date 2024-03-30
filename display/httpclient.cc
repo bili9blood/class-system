@@ -6,6 +6,7 @@
 #include <QHttpMultiPart>
 #include <QHttpPart>
 #include <QUrlQuery>
+#include <utility>
 
 /*-----------------------------------------------------------------------------|
 |                              HttpClientPrivate                              |
@@ -43,7 +44,7 @@ class HttpClientPrivateCache {
 class HttpClientPrivate {
   friend class HttpClient;
 
-  HttpClientPrivate(const QString &url);
+  explicit HttpClientPrivate(const QString &url);
   ~HttpClientPrivate();
   void stop1();
 
@@ -101,7 +102,7 @@ class HttpClientPrivate {
    *
    * @param readyRead 有数据可读取时的回调 lambda 函数
    */
-  static void download(HttpClientPrivate *d, std::function<void(const QByteArray &)> readyRead);
+  static void download(HttpClientPrivate *d, const std::function<void(const QByteArray &)> &readyRead);
 
   /**
    * @brief 读取服务器响应的数据
@@ -252,7 +253,7 @@ void HttpClientPrivate::download(HttpClientPrivate *d, const QString &savePath) 
 }
 
 // 使用 GET 进行下载，当有数据可读取时回调 readyRead(), 大多数情况下应该在 readyRead() 里把数据保存到文件
-void HttpClientPrivate::download(HttpClientPrivate *d, std::function<void(const QByteArray &)> readyRead) {
+void HttpClientPrivate::download(HttpClientPrivate *d, const std::function<void(const QByteArray &)> &readyRead) {
   // 1. 缓存需要的变量，在 lambda 中使用 = 捕获进行值传递 (不能使用引用 &，因为 d 已经被析构)
   // 2. 创建请求需要的变量，执行请求
   // 3. 有数据可读取时回调 readyRead()
@@ -304,7 +305,7 @@ void HttpClientPrivate::upload(HttpClientPrivate *d, const QStringList &paths, c
     multiPart->append(textPart);
   }
 
-  if (paths.size() > 0) {
+  if (!paths.empty()) {
     // [3.1] 使用文件创建 File Part
     QString inputName = paths.size() == 1 ? "file" : "files";  // 一个文件时为 file，多个文件时为 files
 
@@ -493,6 +494,7 @@ void HttpClientPrivate::handleFinish(HttpClientPrivateCache cache, QNetworkReply
 |----------------------------------------------------------------------------*/
 
 // 注意: 在异步请求中 HttpClient 的 HttpClientPrivate 成员变量 d 已经被析构，所以需要先缓存相关变量为栈对象，使用 = 以值的方式访问
+// cppcheck-suppress [noCopyConstructor,noOperatorEq]
 HttpClient::HttpClient(const QString &url) : d(new HttpClientPrivate(url)) {}
 
 HttpClient::~HttpClient() {
@@ -550,7 +552,7 @@ HttpClient &HttpClient::header(const QString &name, const QString &value) {
 }
 
 // 添加多个请求头
-HttpClient &HttpClient::headers(const QMap<QString, QString> nameValues) {
+HttpClient &HttpClient::headers(const QMap<QString, QString> &nameValues) {
   for (auto i = nameValues.cbegin(); i != nameValues.cend(); ++i) {
     d->headers[i.key()] = i.value();
   }
@@ -560,21 +562,21 @@ HttpClient &HttpClient::headers(const QMap<QString, QString> nameValues) {
 
 // 注册请求成功的回调函数
 HttpClient &HttpClient::success(std::function<void(const QString &)> successHandler) {
-  d->successHandler = successHandler;
+  d->successHandler = std::move(successHandler);
 
   return *this;
 }
 
 // 注册请求失败的回调函数
 HttpClient &HttpClient::fail(std::function<void(const QString &, int)> failHandler) {
-  d->failHandler = failHandler;
+  d->failHandler = std::move(failHandler);
 
   return *this;
 }
 
 // 注册请求结束的回调函数，不管成功还是失败都会执行
 HttpClient &HttpClient::complete(std::function<void()> completeHandler) {
-  d->completeHandler = completeHandler;
+  d->completeHandler = std::move(completeHandler);
 
   return *this;
 }
