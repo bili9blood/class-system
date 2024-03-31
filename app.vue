@@ -14,11 +14,14 @@ useHead({
 });
 
 watch(logined, () => {
+  if ($r.currentRoute.value.path.startsWith("/docs"))
+    return;
+
   if (logined.value === false)
     $r.push("/auth/login");
   else if (logined.value === true && $r.currentRoute.value.path === "/auth/login")
     $r.push("/");
-}, { immediate: true });
+});
 </script>
 
 <template>

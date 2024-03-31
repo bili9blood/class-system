@@ -2,7 +2,8 @@
 import { app_name } from "~/constants";
 import IconIco from "~/resources/images/icon.ico";
 
-defineProps<{ nav: boolean }>();
+defineProps<{ nav: boolean;title?: string }>();
+defineSlots<{ tabs?: () => any }>();
 
 const $r = useRouter();
 const $q = useQuasar();
@@ -49,10 +50,10 @@ tab.value = $r.currentRoute.value.path;
           <img :src="IconIco" :draggable="false">
         </q-avatar>
         &nbsp;
-        <span font-btt select-text text-6>{{ app_name }}</span>
+        <span font-btt select-text text-6>{{ $props.title ?? app_name }}</span>
       </q-toolbar-title>
 
-      <q-tabs v-if="$props.nav" v-model="tab" align="right" hidden sm:block>
+      <q-tabs v-if="$props.nav && !$slots.tabs" v-model="tab" align="right" hidden sm:block>
         <q-route-tab
           v-for="route in routes"
           :key="route.path" :to="route.path" :name="route.path"
@@ -62,10 +63,16 @@ tab.value = $r.currentRoute.value.path;
 
         <q-separator vertical />
 
+        <q-route-tab to="/docs">
+          使用文档
+        </q-route-tab>
         <q-tab name="logout">
           退出登录
         </q-tab>
       </q-tabs>
+      <template v-else>
+        <slot name="tabs" />
+      </template>
 
       <q-btn v-if="$props.nav" flat icon="menu" round flex sm:hidden>
         <q-menu auto-close>

@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "nuxt-module-eslint-config",
     "nuxt-quasar-ui",
     "@pinia-plugin-persistedstate/nuxt",
+    "@nuxt/content",
   ],
 
   imports: {
@@ -90,6 +91,27 @@ export default defineNuxtConfig({
     },
     lang: "zh-CN",
     plugins: ["Dialog", "Notify"],
+  },
+
+  content: {
+    sources: {
+      docs: {
+        driver: "fs",
+        base: "docs",
+        prefix: "/docs",
+      },
+    },
+    highlight: {
+      langs: ["javascript", "typescript", "json", "yaml", "c++", "python"],
+    },
+    markdown: {
+      anchorLinks: false,
+      remarkPlugins: {
+        "remark-toc": {
+          heading: "structure",
+        },
+      },
+    },
   },
 
 });
