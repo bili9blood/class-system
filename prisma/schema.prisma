@@ -102,3 +102,8 @@ model weekday_arr {
 
   @@index([class_id], map: "idx_class_id")
 }
+
+model key_value {
+  key   String @id @db.VarChar(64)
+  value String @db.Text
+}
