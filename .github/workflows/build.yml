@@ -49,10 +49,10 @@ jobs:
       - name: Compress
         run: |
           Compress-Archive -Path build/rel/* -DestinationPath build/class-system-display_windows-x86_64.zip
-      # - name: Publish to server
-      #   if: github.event_name == 'push'
-      #   run: |
-      #     curl ${{ secrets.SERVER_BASE_URL }}/api/version/publish -F "${{ github.ref_name }}=@build/class-system-display_windows-x86_64.zip"
+      - name: Upload to server
+        if: github.event_name == 'push'
+        run: |
+          curl ${{ secrets.KSTORE_ACCESS_TOKEN }} -F "file=@build/class-system-display_windows-x86_64.zip"
       - name: Release
         uses: softprops/action-gh-release@v1
         if: github.event_name == 'push'
