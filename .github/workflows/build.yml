@@ -52,7 +52,7 @@ jobs:
       - name: Upload to server
         if: github.event_name == 'push'
         run: |
-          curl ${{ secrets.KSTORE_ACCESS_TOKEN }} -F "file=@build/class-system-display_windows-x86_64.zip"
+          curl https://upload.kstore.space/upload/0?access_token=${{ secrets.KSTORE_ACCESS_TOKEN }} -F "file=@build/class-system-display_windows-x86_64.zip"
       - name: Release
         uses: softprops/action-gh-release@v1
         if: github.event_name == 'push'
