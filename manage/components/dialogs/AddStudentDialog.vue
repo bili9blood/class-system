@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Student } from "~/type";
-
 defineEmits([...useDialogPluginComponent.emits]);
 
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent();

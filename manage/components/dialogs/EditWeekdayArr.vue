@@ -26,17 +26,17 @@ function HandleSubmit() {
             <span font-bold>{{ weekday_map[wd] }}&nbsp;</span>
             <div inline-flex="~" flex-wrap>
               <q-badge
-                v-for="id, idx in ids"
+                v-for="id, id_idx in ids"
                 :key="id" m-0.5
                 color="primary"
               >
                 <q-select
-                  v-model="ids[idx]"
+                  v-model="ids[id_idx]"
                   :options="info?.students.map((s) => s.inclass_id)"
                   :option-label="(id) => StudentDisplayString(info?.students.find((s) => s.inclass_id === id))"
                   dense flat bg-transparent
                 />
-                <q-btn icon="close" flat dense round @click="ids.splice(idx, 1)" />
+                <q-btn icon="close" flat dense round @click="ids.splice(id_idx, 1)" />
               </q-badge>
               <q-btn icon="add" dense outline @click="ids.push(0)" />
             </div>

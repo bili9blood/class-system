@@ -69,7 +69,7 @@ function GetElidedText(text: string, max_len: number) {
               <td>
                 <q-btn flat dense icon="edit" w-full>
                   <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                    <q-input v-model="notice.text" autogrow outlined dense />
+                    <q-input v-model="notice.text" outlined dense autogrow />
                   </q-popup-proxy>
                   <div>{{ GetElidedText(notice.text, 10) }}</div>
                 </q-btn>

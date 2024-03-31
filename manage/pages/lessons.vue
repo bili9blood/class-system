@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Lesson } from "~/type";
-
 definePageMeta({
   name: "课程",
 });
