@@ -57,5 +57,4 @@ jobs:
       - name: Upload to server
         if: github.event_name == 'push'
         run: |
-          curl ${{secrets.SERVER_BASE_URL}}/api/version/publish ^
-          -d "{`"token`":`"${{ secrets.KSTORE_ACCESS_TOKEN }}`",`"version`":`"${{ github.ref }}`"}"
+          curl ${{secrets.SERVER_BASE_URL}}/api/version/publish -d "{`"token`":`"${{ secrets.KSTORE_ACCESS_TOKEN }}`",`"version`":`"${{ github.ref }}`"}"
