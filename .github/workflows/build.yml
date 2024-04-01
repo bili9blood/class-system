@@ -54,7 +54,3 @@ jobs:
         if: github.event_name == 'push'
         with:
           files: build/class-system-display_windows-x86_64.zip
-      - name: Upload to server
-        if: github.event_name == 'push'
-        run: |
-          curl ${{ secrets.SERVER_BASE_URL }}/api/version/publish -X Post -H "Content-Type:application/json" -d "{`"token`":`"${{ secrets.KSTORE_ACCESS_TOKEN }}`",`"version`":`"${{  github.ref_name }}`"}"
