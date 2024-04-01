@@ -22,7 +22,7 @@ export default defineEventHandler(async (e) => {
     {
       repository: "bili9blood/class-system",
       package: file_name,
-      destination: "",
+      destination: ".",
       version,
       extract: false,
     },
