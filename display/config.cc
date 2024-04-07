@@ -43,7 +43,7 @@ void Save() {
   std::stringstream ss;
   ss << toml::toml_formatter{*cfg};
 
-  file.write(ss.str().c_str());
+  file.write(QString{ss.str().c_str()}.replace("\n", "\r\n").toLocal8Bit());
   file.commit();
 }
 
