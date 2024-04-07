@@ -1,6 +1,7 @@
 #include "extrawindow.h"
 
 #include <qevent.h>
+#include <qscreen.h>
 
 #include "config.h"
 #include "constants/constants.h"
@@ -46,6 +47,21 @@ void ExtraWindow::moveEvent(QMoveEvent *event) {
     config::Get()["ExtraWindow"].as_table()->insert_or_assign("x", x());
     config::Get()["ExtraWindow"].as_table()->insert_or_assign("y", y());
   }
+
+  static std::unique_ptr<QTimer> move_back_timer;
+  if (!move_back_timer) {
+    move_back_timer = std::make_unique<QTimer>();
+    move_back_timer->setInterval(100);
+    move_back_timer->setSingleShot(true);
+    connect(move_back_timer.get(), &QTimer::timeout, [this] {
+      move(
+          qBound(0, x(), QApplication::primaryScreen()->availableSize().width() - width()),
+          qBound(0, y(), QApplication::primaryScreen()->availableSize().height() - height())
+      );
+    });
+  }
+
+  move_back_timer->start();
 }
 
 void ExtraWindow::resizeEvent(QResizeEvent *event) {
