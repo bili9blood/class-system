@@ -75,8 +75,8 @@ class FlowLayout : public QLayout {
   QLayoutItem                   *takeAt(int index) override;
 
  private:
-  [[nodiscard]] int    doLayout(const QRect &rect, bool testOnly) const;
-  [[nodiscard]] int    smartSpacing(QStyle::PixelMetric pm) const;
+  [[nodiscard]] int doLayout(const QRect &rect, bool testOnly) const;
+  [[nodiscard]] int smartSpacing(QStyle::PixelMetric pm) const;
 
   QList<QLayoutItem *> itemList;
   int                  m_hSpace;

@@ -38,7 +38,7 @@ bool IconWindow::eventFilter(QObject* object, QEvent* event) {
 
   if (object == ui_->left_label || object == ui_->right_label) {
     if (event->type() == QEvent::MouseButtonPress) {
-      prev_y_                 = y();
+      prev_y_ = y();
 
       auto* const mouse_event = dynamic_cast<QMouseEvent*>(event);
       mouse_start_pos_        = mouse_event->pos();

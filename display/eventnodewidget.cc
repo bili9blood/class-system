@@ -12,7 +12,6 @@ EventNodeWidget::EventNodeWidget(
     : QWidget{parent}, ui_{new Ui::EventNodeWidget} {
   ui_->setupUi(this);
 
-
   if (event.date != QDate::currentDate())
     ui_->days_left_label->setText(ui_->days_left_label->text().arg(QDate::currentDate().daysTo(event.date)));
   else

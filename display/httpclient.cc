@@ -124,15 +124,15 @@ class HttpClientPrivate {
   static void handleFinish(HttpClientPrivateCache cache, QNetworkReply *reply, const QString &successMessage, const QString &failMessage);
 
   /////////////////////////////////////////////////// 成员变量 //////////////////////////////////////////////
-  QString                                   url;                        // 请求的 URL
-  QString                                   json;                       // 请求的参数使用 Json 格式
-  QUrlQuery                                 params;                     // 请求的参数使用 Form 格式
-  QString                                   charset = "UTF-8";          // 请求响应的字符集
-  QHash<QString, QString>                   headers;                    // 请求头
-  QNetworkAccessManager                    *manager         = nullptr;  // 执行 HTTP 请求的 QNetworkAccessManager 对象
-  bool                                      useJson         = false;    // 为 true 时请求使用 Json 格式传递参数，否则使用 Form 格式传递参数
-  bool                                      debug           = false;    // 为 true 时输出请求的 URL 和参数
-  bool                                      internal        = true;     // 是否使用自动创建的 manager
+  QString                 url;                 // 请求的 URL
+  QString                 json;                // 请求的参数使用 Json 格式
+  QUrlQuery               params;              // 请求的参数使用 Form 格式
+  QString                 charset = "UTF-8";   // 请求响应的字符集
+  QHash<QString, QString> headers;             // 请求头
+  QNetworkAccessManager  *manager  = nullptr;  // 执行 HTTP 请求的 QNetworkAccessManager 对象
+  bool                    useJson  = false;    // 为 true 时请求使用 Json 格式传递参数，否则使用 Form 格式传递参数
+  bool                    debug    = false;    // 为 true 时输出请求的 URL 和参数
+  bool                    internal = true;     // 是否使用自动创建的 manager
 
   std::function<void(const QString &)>      successHandler  = nullptr;  // 成功的回调函数，参数为响应的字符串
   std::function<void(const QString &, int)> failHandler     = nullptr;  // 失败的回调函数，参数为失败原因和 HTTP status code
@@ -296,8 +296,8 @@ void HttpClientPrivate::upload(HttpClientPrivate *d, const QStringList &paths, c
   QHttpMultiPart                 *multiPart  = new QHttpMultiPart(QHttpMultiPart::FormDataType);
   QList<QPair<QString, QString> > paramItems = d->params.queryItems();
   for (int i = 0; i < paramItems.size(); ++i) {
-    QString   name  = paramItems.at(i).first;
-    QString   value = paramItems.at(i).second;
+    QString name  = paramItems.at(i).first;
+    QString value = paramItems.at(i).second;
 
     QHttpPart textPart;
     textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QString("form-data; name=\"%1\"").arg(name));

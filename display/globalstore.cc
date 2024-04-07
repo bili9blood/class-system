@@ -149,7 +149,7 @@ void GlobalStore::HandleResponse(const QString &resp) {
     Q_EMIT FailedHandleResp(e.what());
     return;
   }
-  Q_EMIT               SucceededHandleResp();
+  Q_EMIT SucceededHandleResp();
 
   const nlohmann::json body = {
       {"class_id", class_id_},

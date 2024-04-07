@@ -21,14 +21,14 @@ class ExtraWindow final : public QWidget {
  private:
   std::unique_ptr<Ui::ExtraWindow> ui_;
 
-  QTimer                           rollcall_timer_;
+  QTimer rollcall_timer_;
 
-  void                             paintEvent(QPaintEvent* event) final;
-  void                             moveEvent(QMoveEvent* event) final;
-  void                             resizeEvent(QResizeEvent* event) final;
-  void                             closeEvent(QCloseEvent* event) final;
+  void paintEvent(QPaintEvent* event) final;
+  void moveEvent(QMoveEvent* event) final;
+  void resizeEvent(QResizeEvent* event) final;
+  void closeEvent(QCloseEvent* event) final;
 
-  void                             RollCallOne();
+  void RollCallOne();
 
  private slots:
   void HandleSuccessfulResp();

@@ -17,7 +17,7 @@ AutoSaveConfig::~AutoSaveConfig() {
 toml::table&                AutoSaveConfig::operator->() { return *cfg; }
 toml::node_view<toml::node> AutoSaveConfig::operator[](const char* k) { return (*cfg)[k]; }
 
-AutoSaveConfig              Get() {
+AutoSaveConfig Get() {
   if (!cfg) {
     cfg = toml::parse_file(GetPath().toStdString());
 

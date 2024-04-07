@@ -118,9 +118,9 @@ void DisplayWindow::DisplayLessons() {
 
   // add new lesson labels
   for (const auto &l : GlobalStore::GetClassInfo().lessons) {
-    const auto  lesson_today = l.lessons[(QDate::currentDate().dayOfWeek() - 1) % 5];
+    const auto lesson_today = l.lessons[(QDate::currentDate().dayOfWeek() - 1) % 5];
 
-    auto *const lbl          = new QLabel{
+    auto *const lbl = new QLabel{
         QString{constants::kLessonFormat}
             .arg(lesson_today)
             .arg(l.start_tm.toString("HH:mm"))
@@ -137,10 +137,10 @@ void DisplayWindow::DisplayWeather() {
   const auto *const key      = config::Get()["QWeather"]["key"].value_or("");
   const auto *const location = config::Get()["QWeather"]["location"].value_or("");
 
-  QString           res;
-  QEventLoop        loop;
+  QString    res;
+  QEventLoop loop;
 
-  HttpClient        cli{QString{constants::kQweatherApiUrl}.arg(key).arg(location)};
+  HttpClient cli{QString{constants::kQweatherApiUrl}.arg(key).arg(location)};
   cli.success([&](const auto &_res) {
     res = _res;
     loop.quit();
@@ -194,7 +194,7 @@ void DisplayWindow::UpdateLessonsStatus() {
 void DisplayWindow::UpdateWindowStatus() {
   static QPoint old_pos;
 
-  const auto    during_lesson = std::any_of(
+  const auto during_lesson = std::any_of(
       GlobalStore::GetClassInfo().lessons.cbegin(), GlobalStore::GetClassInfo().lessons.cend(),
       [](const auto &l) {
         const auto cur_time = QTime::currentTime();

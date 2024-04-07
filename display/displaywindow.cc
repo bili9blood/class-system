@@ -86,7 +86,7 @@ bool DisplayWindow::nativeEvent(const QByteArray &event_type, void *message, lon
 }
 
 void DisplayWindow::paintEvent(QPaintEvent *event) {
-  QPainter                 painter{this};
+  QPainter painter{this};
 
   QLinearGradient          ling{{0, 0}, rect().bottomRight()};
   constexpr unsigned short kAlpha{154};

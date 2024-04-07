@@ -29,31 +29,31 @@ class DisplayWindow final : public QMainWindow {
   std::unique_ptr<Ui::DisplayWindow> ui_;
   QPoint                             mouse_start_pos_;
 
-  std::queue<GlobalStore::Sentence>  sentences_;
+  std::queue<GlobalStore::Sentence> sentences_;
 
-  QTimer                             clock_timer_;
-  QTimer                             sentences_notices_switch_timer_;
+  QTimer clock_timer_;
+  QTimer sentences_notices_switch_timer_;
 
-  bool                               is_layer_front_{true};
+  bool is_layer_front_{true};
 
-  void                               InitSentences(const QList<GlobalStore::Sentence> &sentences);
-  QList<DailyArrangement>            GetDailyArrangement();
-  void                               DisplayEvents();
-  void                               DisplayArrangement();
-  void                               DisplayLessons();
-  void                               DisplayWeather();
-  void                               UpdateLessonsStatus();
-  void                               UpdateWindowStatus();
-  void                               MoveCenter();
+  void                    InitSentences(const QList<GlobalStore::Sentence> &sentences);
+  QList<DailyArrangement> GetDailyArrangement();
+  void                    DisplayEvents();
+  void                    DisplayArrangement();
+  void                    DisplayLessons();
+  void                    DisplayWeather();
+  void                    UpdateLessonsStatus();
+  void                    UpdateWindowStatus();
+  void                    MoveCenter();
 
-  void                               mousePressEvent(QMouseEvent *event) final;
-  void                               mouseMoveEvent(QMouseEvent *event) final;
-  void                               mouseReleaseEvent(QMouseEvent *event) final;
-  bool                               nativeEvent(const QByteArray &event_type, void *message, long *result) final;
-  void                               paintEvent(QPaintEvent *event) final;
-  void                               moveEvent(QMoveEvent *event) final;
-  void                               resizeEvent(QResizeEvent *event) final;
-  void                               closeEvent(QCloseEvent *event) final;
+  void mousePressEvent(QMouseEvent *event) final;
+  void mouseMoveEvent(QMouseEvent *event) final;
+  void mouseReleaseEvent(QMouseEvent *event) final;
+  bool nativeEvent(const QByteArray &event_type, void *message, long *result) final;
+  void paintEvent(QPaintEvent *event) final;
+  void moveEvent(QMoveEvent *event) final;
+  void resizeEvent(QResizeEvent *event) final;
+  void closeEvent(QCloseEvent *event) final;
 
  private slots:
   void HandleClockTick();

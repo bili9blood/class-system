@@ -7,8 +7,8 @@ class GlobalStore final : public QObject {
 
  public:
   struct Student {
-    QString            name;
-    int                id{};
+    QString name;
+    int     id{};
 
     [[nodiscard]] auto GetDisplayStr() const {
       return QString::asprintf("%02d%s", id, name.toStdString().c_str());
@@ -61,18 +61,18 @@ class GlobalStore final : public QObject {
   };
 
   struct ClassInfo {
-    QString                    class_name;
+    QString class_name;
 
-    QList<Student>             students;
-    QList<Event>               events;
-    QList<Notice>              notices;
-    QList<Lesson>              lessons;
+    QList<Student> students;
+    QList<Event>   events;
+    QList<Notice>  notices;
+    QList<Lesson>  lessons;
 
     QList<CompleteArrangement> complete_arr;
     QList<PartialArrangement>  partial_arr;
     QList<WeekdayArrangement>  weekday_arr;
 
-    QList<Sentence>            sentences;
+    QList<Sentence> sentences;
   };
 
   static GlobalStore *Get() {
