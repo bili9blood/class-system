@@ -48,7 +48,7 @@ void ExtraWindow::moveEvent(QMoveEvent *event) {
     config::Get()["ExtraWindow"].as_table()->insert_or_assign("y", y());
   }
 
-  static std::unique_ptr<QTimer> move_back_timer;
+  static std::unique_ptr<QTimer> move_back_timer;  // for debounce
   if (!move_back_timer) {
     move_back_timer = std::make_unique<QTimer>();
     move_back_timer->setInterval(100);
