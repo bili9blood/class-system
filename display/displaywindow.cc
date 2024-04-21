@@ -58,7 +58,7 @@ void DisplayWindow::mouseReleaseEvent(QMouseEvent *event) {
 bool DisplayWindow::nativeEvent(const QByteArray &event_type, void *message, long *result) {
 #ifdef WIN32
   const auto *msg = static_cast<MSG *>(message);
-  if (msg->message == WM_NCHITTEST && is_layer_front_) {
+  if (msg->message == WM_NCHITTEST) {
     *result                = 0l;
     constexpr int kPadding = 14;
     const auto    x        = GET_X_LPARAM(msg->lParam);
@@ -79,6 +79,9 @@ bool DisplayWindow::nativeEvent(const QByteArray &event_type, void *message, lon
     else if (x > rect.right - kPadding) *result = HTRIGHT;
     else return false;
     // clang-format on
+
+    if (!is_layer_front_) MoveCenter();
+
     return true;
   }
 #endif
