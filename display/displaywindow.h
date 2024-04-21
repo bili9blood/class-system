@@ -34,7 +34,7 @@ class DisplayWindow final : public QMainWindow {
   QTimer clock_timer_;
   QTimer sentences_notices_switch_timer_;
 
-  bool is_layer_front_{true};
+  bool movable_{true};
 
   void                    InitSentences(const QList<GlobalStore::Sentence> &sentences);
   QList<DailyArrangement> GetDailyArrangement();

@@ -201,15 +201,15 @@ void DisplayWindow::UpdateWindowStatus() {
         return cur_time >= l.start_tm && cur_time < l.end_tm;
       }
   );
-  if (is_layer_front_ && during_lesson) {
+  if (movable_ && during_lesson) {
     old_pos = pos();
     MoveCenter();
     setWindowOpacity(0.85);
-    is_layer_front_ = false;
-  } else if (!is_layer_front_ && !during_lesson) {
+    movable_ = false;
+  } else if (!movable_ && !during_lesson) {
     move(old_pos);
     setWindowOpacity(1.0);
-    is_layer_front_ = true;
+    movable_ = true;
   }
 }
 
@@ -224,7 +224,7 @@ void DisplayWindow::HandleClassInfo() {
 
   DisplayLessons();
 
-  is_layer_front_ = true;
+  movable_ = true;
   show();
 }
 

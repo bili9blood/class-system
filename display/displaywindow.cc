@@ -41,11 +41,11 @@ DisplayWindow::DisplayWindow(QWidget *parent) : QMainWindow{parent}, ui_{new Ui:
 DisplayWindow::~DisplayWindow() = default;
 
 void DisplayWindow::mousePressEvent(QMouseEvent *event) {
-  if (is_layer_front_) mouse_start_pos_ = event->pos();
+  if (movable_) mouse_start_pos_ = event->pos();
 }
 
 void DisplayWindow::mouseMoveEvent(QMouseEvent *event) {
-  if (is_layer_front_) move(event->globalPos() - mouse_start_pos_);
+  if (movable_) move(event->globalPos() - mouse_start_pos_);
 }
 
 void DisplayWindow::mouseReleaseEvent(QMouseEvent *event) {
@@ -80,7 +80,7 @@ bool DisplayWindow::nativeEvent(const QByteArray &event_type, void *message, lon
     else return false;
     // clang-format on
 
-    if (!is_layer_front_) MoveCenter();
+    if (!movable_) MoveCenter();
 
     return true;
   }
