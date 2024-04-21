@@ -125,7 +125,7 @@ font-family: Microsoft Yahei;
      </widget>
     </item>
     <item>
-     <layout class="QGridLayout" name="body_layout" rowstretch="0,1,0,0,3" columnstretch="2,0,3,0,2">
+     <layout class="QGridLayout" name="body_layout" rowstretch="0,1,0,0,3" columnstretch="1,0,2,0,1">
       <item row="0" column="3" rowspan="5">
        <widget class="Line" name="arrangement_lessons_line">
         <property name="styleSheet">
