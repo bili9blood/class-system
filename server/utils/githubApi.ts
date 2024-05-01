@@ -1,4 +1,3 @@
-import process from "node:process";
 import type { NitroFetchOptions, NitroFetchRequest } from "nitropack";
 
 export async function requestGithubApi<T>(url: string, opts?: NitroFetchOptions<NitroFetchRequest>) {

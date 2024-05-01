@@ -1,4 +1,4 @@
-import { access, unlink, writeFile } from "node:fs/promises";
+import { access, unlink } from "node:fs/promises";
 import { constants as fsConstants } from "node:fs";
 import { execSync } from "node:child_process";
 import { gt as semverGreaterThan } from "semver";
