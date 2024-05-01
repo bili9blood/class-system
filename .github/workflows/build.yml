@@ -85,3 +85,8 @@ jobs:
         if: github.event_name == 'push'
         with:
           files: .output/class-system-server_linux-amd64.tar.gz
+  post-to-server:
+    runs-on: ubuntu-latest
+    needs: [build-display-windows]
+    steps:
+      - run: curl ${{secrets.SERVER_BASE_URL}}/api/version/check_from_github
