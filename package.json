@@ -1,10 +1,8 @@
 {
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@8.15.5",
   "scripts": {
     "build": "nuxi build",
-    "dev:pwa": "VITE_PLUGIN_PWA=true nuxi dev",
     "dev": "nuxi dev",
     "generate": "nuxi generate",
     "postinstall": "nuxi prepare && prisma generate",
@@ -34,9 +32,11 @@
     "eslint-ts-patch": "^8.56.0-0",
     "h3-compression": "^0.3.2",
     "moment": "^2.30.1",
+    "nuxi": "^3.11.1",
     "nuxt": "^3.11.1",
     "nuxt-module-eslint-config": "^0.1.1",
     "nuxt-quasar-ui": "^2.0.8",
+    "ofetch": "^1.3.4",
     "pinia": "^2.1.7",
     "pinia-undo": "^0.2.4",
     "prisma": "^5.11.0",
