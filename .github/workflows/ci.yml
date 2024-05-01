@@ -9,14 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install pnpm
-        run: npm install -g pnpm
-      - uses: actions/setup-node@v3
-        with:
-          node-version: lts/*
-          cache: pnpm
 
-      - name: Install
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+      - name: Install pnpm
         run: pnpm install
 
       - name: Lint
