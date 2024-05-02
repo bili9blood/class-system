@@ -5,7 +5,7 @@ import { gt as semverGreaterThan } from "semver";
 
 const LATEST_RELEASE_API_URL = "/repos/bili9blood/class-system/releases/latest";
 const LATEST_DOWNLOAD_URL = `${import.meta.env.GITHUB_MIRROR ?? ""}https://github.com/bili9blood/class-system/releases/latest/download/class-system-display_windows-x86_64.zip`;
-const CACHE_FILE = "__latest_cache.zip";
+const CACHE_FILE = "/var/tmp/class-system-display_windows-x86_64.zip";
 
 export default defineEventHandler(async () => {
   const current = await getCurrentVersion();
@@ -44,7 +44,7 @@ async function getLatestVersion() {
 
 async function downloadLatestFromGithub() {
   try {
-    execSync(`curl -o ${CACHE_FILE} ${LATEST_DOWNLOAD_URL}`);
+    execSync(`wget -O ${CACHE_FILE} ${LATEST_DOWNLOAD_URL}`);
     return true;
   }
   catch (e) { console.error(e); return false; }
