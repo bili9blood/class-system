@@ -57,6 +57,8 @@ jobs:
 
   build-server-linux:
     runs-on: ubuntu-latest
+    env:
+      PRISMA_CLI_BINARY_TARGETS: debian-openssl-3.0.x
     permissions:
       contents: write
     steps:
