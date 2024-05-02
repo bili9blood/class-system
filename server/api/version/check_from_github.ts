@@ -56,7 +56,7 @@ async function uploadLatestToKStore() {
 
     const kstoreToken = import.meta.env.KSTORE_TOKEN;
 
-    const { id: fileId, downloadUrl } = (await $fetch<{ data: { id: number;downloadUrl: string } }>(
+    const { downloadUrl } = (await $fetch<{ data: { downloadUrl: string } }>(
       "https://api.kstore.space/api/v1/file/search/path",
       {
         method: "POST",
@@ -65,7 +65,7 @@ async function uploadLatestToKStore() {
       },
     )).data;
 
-    execSync(`curl https://upload.kstore.space/upload/${fileId}?access_token=${kstoreToken} -F "file=@${CACHE_FILE}"`);
+    execSync(`curl https://upload.kstore.space/upload/0?access_token=${kstoreToken} -F "file=@${CACHE_FILE}"`);
     return downloadUrl;
   }
   catch (e) { console.error(e); return; }
