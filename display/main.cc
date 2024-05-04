@@ -33,9 +33,9 @@ auto main(int argc, char **argv) -> int {
   IconWindow    icon_window;
   icon_window.show();
 
-  GlobalStore::Get()->Start();
+  GlobalStore::Get().Start();
 
-  QObject::connect(GlobalStore::Get(), &GlobalStore::FailedHandleResp, [](const QString &error_msg) {
+  QObject::connect(&GlobalStore::Get(), &GlobalStore::FailedHandleResp, [](const QString &error_msg) {
     QMessageBox::critical(nullptr, "错误", "服务器数据响应错误：" + error_msg);
     QApplication::quit();
   });

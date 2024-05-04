@@ -75,12 +75,12 @@ class GlobalStore final : public QObject {
     QList<Sentence> sentences;
   };
 
-  static GlobalStore *Get() {
+  static GlobalStore &Get() {
     static GlobalStore store;
-    return &store;
+    return store;
   }
 
-  [[nodiscard]] static auto GetClassInfo() { return Get()->class_info_; }
+  [[nodiscard]] static auto GetClassInfo() { return Get().class_info_; }
 
   ~GlobalStore() final;
 
