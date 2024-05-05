@@ -143,13 +143,14 @@ void GlobalStore::Start() {
 void GlobalStore::HandleResponse(const QString &resp) {
   try {
     const auto opt = ParseFromJson(resp);
-    if (opt.has_value())
+    if (opt.has_value()) {
       class_info_ = opt.value();
+      Q_EMIT SucceededHandleResp();
+    }
   } catch (const std::exception &e) {
     Q_EMIT FailedHandleResp(e.what());
     return;
   }
-  Q_EMIT SucceededHandleResp();
 
   const nlohmann::json body = {
       {"class_id", class_id_},
