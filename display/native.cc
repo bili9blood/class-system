@@ -38,6 +38,7 @@ bool KillProcesss(qint64 pid) {
   if (!process) return false;
   if (!::TerminateProcess(process, 0)) return false;
   ::CloseHandle(process);
+  ::Sleep(500);
 #endif
   return true;
 }
