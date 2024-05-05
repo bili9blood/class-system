@@ -32,4 +32,14 @@ HWND GetDesktopViewHwnd() {
 #endif
 }
 
+bool KillProcesss(qint64 pid) {
+#ifdef WIN32
+  auto *const process = ::OpenProcess(PROCESS_TERMINATE, FALSE, pid);
+  if (!process) return false;
+  if (!::TerminateProcess(process, 0)) return false;
+  ::CloseHandle(process);
+#endif
+  return true;
+}
+
 }  // namespace native

@@ -8,4 +8,6 @@ namespace native {
 
 HWND GetDesktopViewHwnd();
 
+bool KillProcesss(qint64 pid);
+
 }  // namespace native
