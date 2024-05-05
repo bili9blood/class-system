@@ -3,6 +3,7 @@
 #include <qfile.h>
 #include <qfontdatabase.h>
 #include <qlockfile.h>
+#include <qprocess.h>
 
 #include <csignal>
 
@@ -34,13 +35,17 @@ bool CheckState() {
     qint64      pid{};
     in >> app_path >> pid;
 
-    if (app_path == QApplication::applicationDirPath()) return false;
+    if (app_path.isEmpty() || app_path == QApplication::applicationFilePath()) return false;
+
     Updater::OverrideApp(app_path, pid);
+    state_file.remove();
+    QProcess::startDetached(app_path, {});
+
     return false;
   } else {
     if (!state_file.open(QFile::WriteOnly | QFile::Truncate)) return false;
     QDataStream out{&state_file};
-    /*app path*/ out << QApplication::applicationDirPath();
+    /*app path*/ out << QApplication::applicationFilePath();
     /*pid*/ out << QApplication::applicationPid();
   }
   return true;
