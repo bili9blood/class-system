@@ -1,0 +1,3 @@
+#pragma once
+
+constexpr const char kVersion[] = "v@PROJECT_VERSION@";

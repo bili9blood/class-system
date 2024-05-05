@@ -22,6 +22,8 @@ set(CMAKE_AUTOUIC ON)
 
 qt5_wrap_ui(FORM_SOURCES ${FORMS})
 
+configure_file(display/version.h.in version.h)
+
 add_executable(
   class-system-display
   ${SOURCES} ${FORM_SOURCES} resources/display.qrc resources/win.rc
@@ -34,6 +36,7 @@ target_link_libraries(
 )
 
 target_include_directories(class-system-display PRIVATE display/include)
+
 
 target_precompile_headers(
   class-system-display PRIVATE display/common.h

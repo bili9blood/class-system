@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>170</width>
-    <height>58</height>
+    <height>67</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TitleWidget</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2">
+  <layout class="QHBoxLayout" name="main_layout" stretch="1,2">
    <property name="spacing">
     <number>8</number>
    </property>
@@ -62,7 +62,11 @@ font-family: ZiHunBianTaoTi-min;
 color: white;</string>
      </property>
      <property name="text">
-      <string>班级系统</string>
+      <string>班级系统
+V%s</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
