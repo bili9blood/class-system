@@ -9,7 +9,7 @@ if(NOT ${CMAKE_BUILD_TYPE} STREQUAL Debug)
   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
-project(class-system-display LANGUAGES CXX VERSION 1.6.1)
+project(class-system-display LANGUAGES CXX VERSION 1.6.2)
 
 find_package(Qt5 COMPONENTS Core Widgets Network CONFIG REQUIRED)
 
