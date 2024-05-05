@@ -35,12 +35,12 @@ void Updater::OverrideApp(const QString &app_path, const qint64 &pid) {
     QFile::copy(info.absoluteFilePath(), target_file_path);
   });
 
+  const auto copied_exe_path = target_dir.filePath(QFileInfo{QApplication::applicationFilePath()}.fileName());
   const auto target_exe_path = target_dir.filePath(QFileInfo{app_path}.fileName());
-  if (QFile::exists(target_exe_path)) QFile::remove(target_exe_path);
-  QFile::rename(
-      target_dir.filePath(QFileInfo{QApplication::applicationFilePath()}.fileName()),
-      target_exe_path
-  );
+  if (copied_exe_path != target_exe_path) {
+    if (QFile::exists(target_exe_path)) QFile::remove(target_exe_path);
+    QFile::rename(copied_exe_path, target_exe_path);
+  }
 }
 
 void Updater::CheckForUpdates() {
